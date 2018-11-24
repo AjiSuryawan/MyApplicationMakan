@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import static android.provider.BaseColumns._ID;
 import static com.example.user1.myapplication.Database.DatabaseContract.MahasiswaColumns.NAMA;
 import static com.example.user1.myapplication.Database.DatabaseContract.MahasiswaColumns.NIM;
+import static com.example.user1.myapplication.Database.DatabaseContract.MahasiswaColumns.URI;
 import static com.example.user1.myapplication.Database.DatabaseContract.TABLE_NAME;
 
 /**
@@ -58,6 +59,7 @@ public class MahasiswaHelper {
                 mahasiswaModel.setId(cursor.getInt(cursor.getColumnIndexOrThrow(_ID)));
                 mahasiswaModel.setName(cursor.getString(cursor.getColumnIndexOrThrow(NAMA)));
                 mahasiswaModel.setNim(cursor.getString(cursor.getColumnIndexOrThrow(NIM)));
+                mahasiswaModel.setUriImage(cursor.getString(cursor.getColumnIndexOrThrow(URI)));
                 arrayList.add(mahasiswaModel);
                 cursor.moveToNext();
 
@@ -83,6 +85,7 @@ public class MahasiswaHelper {
                 mahasiswaModel.setId(cursor.getInt(cursor.getColumnIndexOrThrow(_ID)));
                 mahasiswaModel.setName(cursor.getString(cursor.getColumnIndexOrThrow(NAMA)));
                 mahasiswaModel.setNim(cursor.getString(cursor.getColumnIndexOrThrow(NIM)));
+                mahasiswaModel.setUriImage(cursor.getString(cursor.getColumnIndexOrThrow(URI)));
                 arrayList.add(mahasiswaModel);
                 cursor.moveToNext();
 
@@ -120,10 +123,11 @@ public class MahasiswaHelper {
      * @param mahasiswaModel inputan model mahasiswa
      */
     public void insertTransaction(ModelDatabase mahasiswaModel){
-        String sql = "INSERT INTO "+TABLE_NAME+" ("+NAMA+", "+NIM+") VALUES (?, ? )";
+        String sql = "INSERT INTO "+TABLE_NAME+" ("+NAMA+", "+NIM+", "+URI+") VALUES (?, ?, ? )";
         SQLiteStatement stmt = database.compileStatement(sql);
         stmt.bindString(1, mahasiswaModel.getName());
         stmt.bindString(2, mahasiswaModel.getNim());
+        stmt.bindString(3, mahasiswaModel.getUriImage());
         stmt.execute();
         stmt.clearBindings();
         Log.d("sukses", "insertTransaction: ");

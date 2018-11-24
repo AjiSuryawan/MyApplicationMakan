@@ -55,6 +55,10 @@
                         android:text="Deskripsi Produk"
                         android:textSize="12sp"
                         android:layout_marginTop="3dp"/>
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp" />
 
                 </LinearLayout>
             </LinearLayout>

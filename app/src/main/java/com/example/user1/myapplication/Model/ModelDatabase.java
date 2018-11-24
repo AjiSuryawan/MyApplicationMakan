@@ -11,19 +11,27 @@ public class ModelDatabase implements Parcelable {
     private int id;
     private String name;
     private String nim;
-
+    private String uriImage;
 
     public ModelDatabase(){
 
     }
 
 
-    public ModelDatabase(String name, String nim){
+    public ModelDatabase(String name, String nim, String uriImage) {
         this.name = name;
         this.nim = nim;
+        this.uriImage = uriImage;
+    }
+
+    public String getUriImage() {
+        return uriImage;
     }
 
 
+    public void setUriImage(String uriImage) {
+        this.uriImage = uriImage;
+    }
 
     public String getNim() {
         return nim;
@@ -49,6 +57,7 @@ public class ModelDatabase implements Parcelable {
     public void setId(int id) {
         this.id = id;
     }
+
 
     @Override
     public int describeContents() {

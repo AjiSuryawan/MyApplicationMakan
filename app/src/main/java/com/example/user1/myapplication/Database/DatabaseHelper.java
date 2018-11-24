@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import static android.provider.BaseColumns._ID;
 import static com.example.user1.myapplication.Database.DatabaseContract.MahasiswaColumns.NAMA;
 import static com.example.user1.myapplication.Database.DatabaseContract.MahasiswaColumns.NIM;
+import static com.example.user1.myapplication.Database.DatabaseContract.MahasiswaColumns.URI;
 import static com.example.user1.myapplication.Database.DatabaseContract.TABLE_NAME;
 
 /**
@@ -22,7 +23,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static String CREATE_TABLE_MAHASISWA = "create table "+TABLE_NAME+
             " ("+_ID+" integer primary key autoincrement, " +
             NAMA+" text not null, " +
-            NIM+" text not null);";
+            NIM+" text not null," +
+            URI+" text not null);";
 
 
 

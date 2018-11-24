@@ -3,6 +3,9 @@ package com.example.user1.myapplication;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -43,7 +46,13 @@ public class SectionListDataAdapter3 extends RecyclerView.Adapter<SectionListDat
         final ModelDatabase singleItem = articleFilm.get(position);
         holder.tvTitle.setText(singleItem.getName());
         holder.tvdesc.setText(singleItem.getNim());
+        Uri image = Uri.parse(singleItem.getUriImage());
 
+        try {
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), image);
+            holder.imageView.setImageBitmap(bitmap);
+            holder.imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        } catch (Exception e)  {}
 
 
 
@@ -64,11 +73,13 @@ public class SectionListDataAdapter3 extends RecyclerView.Adapter<SectionListDat
 
         private TextView tvTitle;
         private TextView tvdesc;
+        private ImageView imageView;
+
         private SingleItemRowHolder(final View view) {
             super(view);
             this.tvTitle = (TextView)view.findViewById(R.id.tvjudul);
             this.tvdesc = (TextView)view.findViewById(R.id.tvdesc);
-
+            this.imageView = view.findViewById(R.id.imageView);
         }
 
     }
