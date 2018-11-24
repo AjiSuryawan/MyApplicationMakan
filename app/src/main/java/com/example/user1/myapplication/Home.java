@@ -53,13 +53,19 @@ public class Home extends AppCompatActivity {
             public void onClick(View v) {
                 mahasiswaHelper.open();
                 mahasiswaHelper.beginTransaction();
-
                 data = new ModelDatabase(txtdata1.getText().toString(), txtdata2.getText().toString());
-
-                mahasiswaHelper.insertTransaction(data);
+                boolean insertreturn=mahasiswaHelper.insertTransaction(data);
                 mahasiswaHelper.setTransactionSuccess();
                 mahasiswaHelper.endTransaction();
                 mahasiswaHelper.close();
+                if (insertreturn){
+                    Toast.makeText(getApplicationContext(),"sukses input",Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(getApplicationContext(),"sukses input",Toast.LENGTH_SHORT).show();
+
+                }
+
+
             }
         });
     }

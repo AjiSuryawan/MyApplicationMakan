@@ -119,13 +119,18 @@ public class MahasiswaHelper {
      * Gunakan method ini untuk query insert di dalam transaction
      * @param mahasiswaModel inputan model mahasiswa
      */
-    public void insertTransaction(ModelDatabase mahasiswaModel){
-        String sql = "INSERT INTO "+TABLE_NAME+" ("+NAMA+", "+NIM+") VALUES (?, ? )";
-        SQLiteStatement stmt = database.compileStatement(sql);
-        stmt.bindString(1, mahasiswaModel.getName());
-        stmt.bindString(2, mahasiswaModel.getNim());
-        stmt.execute();
-        stmt.clearBindings();
-        Log.d("sukses", "insertTransaction: ");
+    public boolean insertTransaction(ModelDatabase mahasiswaModel){
+        try {
+            String sql = "INSERT INTO "+TABLE_NAME+" ("+NAMA+", "+NIM+") VALUES (?, ? )";
+            SQLiteStatement stmt = database.compileStatement(sql);
+            stmt.bindString(1, mahasiswaModel.getName());
+            stmt.bindString(2, mahasiswaModel.getNim());
+            stmt.execute();
+            stmt.clearBindings();
+            Log.d("sukses", "insertTransaction: ");
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 }

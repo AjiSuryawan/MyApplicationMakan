@@ -61,9 +61,16 @@ public class ListData extends AppCompatActivity {
     }
 
     @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_data);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         recycler_view_list_film = (RecyclerView) findViewById(R.id.recycler_view_list_film);
         mahasiswaHelper = new MahasiswaHelper(getApplicationContext());
         mahasiswaHelper.open();
