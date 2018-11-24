@@ -11,28 +11,39 @@
     <TextView
         android:textStyle="bold"
         android:textSize="20sp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:layout_gravity="center"
         android:text="Input data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <EditText
-        android:layout_margin="20dp"
         android:hint="data 1"
         android:id="@+id/txtdata1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <EditText
-        android:layout_margin="20dp"
         android:hint="data 2"
         android:id="@+id/txtdata2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <Button
-        android:layout_margin="20dp"
+        android:layout_gravity="center"
+        android:id="@+id/btnfoto"
+        android:text="pilih foto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:layout_gravity="center"
+        android:src="@mipmap/ic_launcher"
+        android:id="@+id/ivgambar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
         android:text="save"
         android:id="@+id/btnsave"
         android:layout_width="match_parent"
