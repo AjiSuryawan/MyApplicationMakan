@@ -3,6 +3,7 @@ package com.example.user1.myapplication;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ public class SlideActivity extends AppCompatActivity {
     private ArrayList<Survey> surveyList = new ArrayList<>();
     private Button previousBtn;
     private Button nextBtn;
+    private SlideAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,9 +26,7 @@ public class SlideActivity extends AppCompatActivity {
         setContentView(R.layout.activity_slide);
         viewPager = findViewById(R.id.viewpager);
         initData();
-        final SlideAdapter adapter = new SlideAdapter(this, surveyList, this);
-        viewPager.setAdapter(adapter);
-
+        initFragment(surveyList);
         previousBtn = findViewById(R.id.previous_btn);
         previousBtn.setVisibility(View.GONE);
         previousBtn.setOnClickListener(new View.OnClickListener() {
@@ -40,14 +40,23 @@ public class SlideActivity extends AppCompatActivity {
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (viewPager.getCurrentItem() == surveyList.size() - 1) {
+                if (viewPager.getCurrentItem() == surveyList.size()) {
                     Toast.makeText(SlideActivity.this, "last page", Toast.LENGTH_SHORT).show();
                 } else {
-                    viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+                    final int position = viewPager.getCurrentItem();
+                    SlideFragment fragment = (SlideFragment) adapter.getItem(position);
+                    final Survey survey = surveyList.get(position);
+                    final String answer = fragment.getAnswer();
+                    if(answer.equals("") || answer.isEmpty())
+                        Toast.makeText(SlideActivity.this, "answer the question", Toast.LENGTH_SHORT).show();
+                    else {
+                        survey.setAnswer(answer);
+                        Log.e("answer", "onClick: " + answer);
+                        viewPager.setCurrentItem(position + 1);
+                    }
                 }
             }
         });
-
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
@@ -56,8 +65,11 @@ public class SlideActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int i) {
-                if (i == surveyList.size() - 1) {
+                if (i == surveyList.size()) {
                     nextBtn.setText("Finish");
+                    for (Survey survey: surveyList) {
+                        Log.e("SlideActivity", "onPageSelected: " + survey.getAnswer());
+                    }
                 } else {
                     nextBtn.setText("Next");
                 }
@@ -82,6 +94,27 @@ public class SlideActivity extends AppCompatActivity {
         surveyList.add(new Survey("question", "lorem?"));
         surveyList.add(new Survey("question", "lorem ips?"));
         surveyList.add(new Survey("question", "ipsum?"));
+        surveyList.add(new Survey("question", "dde?"));
+    }
+
+    void initFragment(ArrayList<Survey> surveyList) {
+        adapter = new SlideAdapter(getSupportFragmentManager());
+        Log.e("SlideActivity", "initFragment: " + surveyList.size() );
+        for (int i = 0; i <= surveyList.size(); i++) {
+            if(i == surveyList.size()) {
+                adapter.initFragment(SlideFragment.newInstance(R.layout.preview, surveyList));
+            }
+            else {
+                Survey survey = surveyList.get(i);
+                adapter.initFragment(SlideFragment.newInstance(survey.getQuestion(), i + 1, surveyList.size(), R.layout.survey));
+            }
+            Log.e("SlideActivity", "initFragment: " + i );
+        }
+        viewPager.setAdapter(adapter);
+    }
+
+    public void changeToDesiredQuestion(int position){
+        viewPager.setCurrentItem(position);
     }
 
 }
