@@ -109,4 +109,8 @@ public class SlideFragment extends Fragment {
     public String getAnswer() {
         return inputAnswer.getText().toString().isEmpty() ? "" : inputAnswer.getText().toString();
     }
+
+    public void notifyDataSetChanged(){
+        adapter.notifyDataSetChanged();
+    }
 }

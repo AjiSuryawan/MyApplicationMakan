@@ -3,6 +3,7 @@ package com.example.user1.myapplication;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Slide;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -42,18 +43,23 @@ public class SlideActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (viewPager.getCurrentItem() == surveyList.size()) {
                     Toast.makeText(SlideActivity.this, "last page", Toast.LENGTH_SHORT).show();
-                } else {
+                }
+                else if(viewPager.getCurrentItem() == surveyList.size() - 1 ){
+                    int position = viewPager.getCurrentItem();
+                    SlideFragment previewFragment = (SlideFragment) adapter.getItem(surveyList.size());
+                    SlideFragment fragment = (SlideFragment) adapter.getItem(position);
+                    surveyList.get(position).setAnswer(fragment.getAnswer());
+                    previewFragment.notifyDataSetChanged();
+                    viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+                }
+                else {
                     final int position = viewPager.getCurrentItem();
                     SlideFragment fragment = (SlideFragment) adapter.getItem(position);
                     final Survey survey = surveyList.get(position);
                     final String answer = fragment.getAnswer();
-                    if(answer.equals("") || answer.isEmpty())
-                        Toast.makeText(SlideActivity.this, "answer the question", Toast.LENGTH_SHORT).show();
-                    else {
-                        survey.setAnswer(answer);
-                        Log.e("answer", "onClick: " + answer);
-                        viewPager.setCurrentItem(position + 1);
-                    }
+                    survey.setAnswer(answer);
+                    Log.e("answer", "onClick: " + answer);
+                    viewPager.setCurrentItem(position + 1);
                 }
             }
         });
@@ -116,9 +122,4 @@ public class SlideActivity extends AppCompatActivity {
     public void changeToDesiredQuestion(int position){
         viewPager.setCurrentItem(position);
     }
-
-    public void getAllAnswer(){
-
-    }
-
 }
