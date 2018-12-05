@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.user1.myapplication.Model.Survey;
@@ -23,6 +25,7 @@ public class SlideFragment extends Fragment {
     private TextView tvPageIndicator;
     private TextView tvQuestion;
     private EditText inputAnswer;
+    private RadioGroup radioGroup;
     private String question = "";
     private int totalQuestion = 0;
     private int questNo = 0;
@@ -73,7 +76,7 @@ public class SlideFragment extends Fragment {
         }
         View view = inflater.inflate(layout, container, false);
 
-        if (layout == R.layout.survey) {
+        if (layout == R.layout.survey_default) {
             tvPageIndicator = view.findViewById(R.id.page_indicator);
             tvQuestion = view.findViewById(R.id.tv_question);
             inputAnswer = view.findViewById(R.id.input_answer);
@@ -92,6 +95,21 @@ public class SlideFragment extends Fragment {
             });
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             recyclerView.setAdapter(adapter);
+        }
+
+        if(layout == R.layout.survey_singleanswer){
+            tvPageIndicator = view.findViewById(R.id.page_indicator);
+            tvQuestion = view.findViewById(R.id.tv_question);
+            tvQuestion.setText(question);
+            tvPageIndicator.setText(questNo + "/" + totalQuestion);
+            radioGroup = view.findViewById(R.id.radio_group);
+            final RadioButton[] rb = new RadioButton[5];
+            for(int i = 0; i < 5; i++){
+                rb[i]  = new RadioButton(getActivity());
+                rb[i].setText("lorem ipsum " + i);
+                rb[i].setId(i);
+                radioGroup.addView(rb[i]);
+            }
         }
         return view;
     }
