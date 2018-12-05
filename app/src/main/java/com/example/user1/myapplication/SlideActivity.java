@@ -74,14 +74,18 @@ public class SlideActivity extends AppCompatActivity {
 
             }
         });
-    }
 
+    }
 
     private void initData() {
         surveyList.add(new Survey("question", "lorem ipsum?"));
         surveyList.add(new Survey("question", "lorem?"));
         surveyList.add(new Survey("question", "lorem ips?"));
         surveyList.add(new Survey("question", "ipsum?"));
+    }
+
+    public void getAllAnswer(){
+
     }
 
 }

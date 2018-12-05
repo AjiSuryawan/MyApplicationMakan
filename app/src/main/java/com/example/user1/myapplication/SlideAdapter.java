@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,19 +39,28 @@ public class SlideAdapter extends PagerAdapter {
 
         TextView tvPageIndicator = viewGroup.findViewById(R.id.page_indicator);
         tvPageIndicator.setText(position + 1 + "/" + surveyList.size());
-        TextView tvQuestion = viewGroup.findViewById(R.id.tv_question);
+        TextView tvQuestion = viewGroup.findViewById(R.id.tv_question);g
         tvQuestion.setText(survey.getQuestion());
 
         inputAnswer = viewGroup.findViewById(R.id.input_answer);
 
+        if(position == surveyList.size() - 1 ){
+            for (Survey surv : surveyList) {
+                Log.e("SlideAdapter", "instantiateItem: " + surv.getAnswer() );
+            }
+        }
+
         container.addView(viewGroup);
+
         return viewGroup;
     }
+
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         Survey survey = surveyList.get(position);
         String answer = inputAnswer.getText().toString();
+        Log.e("SlideAdapter", "destroyItem: " + answer );
         survey.setAnswer(answer);
         container.removeView((View) object);
     }
