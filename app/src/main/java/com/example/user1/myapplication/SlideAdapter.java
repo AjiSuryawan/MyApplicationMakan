@@ -39,7 +39,7 @@ public class SlideAdapter extends PagerAdapter {
 
         TextView tvPageIndicator = viewGroup.findViewById(R.id.page_indicator);
         tvPageIndicator.setText(position + 1 + "/" + surveyList.size());
-        TextView tvQuestion = viewGroup.findViewById(R.id.tv_question);g
+        TextView tvQuestion = viewGroup.findViewById(R.id.tv_question);
         tvQuestion.setText(survey.getQuestion());
 
         inputAnswer = viewGroup.findViewById(R.id.input_answer);
