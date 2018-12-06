@@ -12,13 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" />
-        <activity android:name=".Home" />
-        <activity android:name=".ListData" />
-        <activity android:name=".SlideActivity"></activity>
-        <activity android:name=".MainMenu">
-
-        </activity>
+        <activity android:name=".SlideActivity" />
+        <activity android:name=".MainMenu" />
         <activity android:name=".login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,6 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ListData" />
+        <activity android:name=".ListUserSurvey" />
+        <activity android:name=".DetailQuesioner"></activity>
     </application>
 
 </manifest>

@@ -3,30 +3,42 @@ package com.example.user1.myapplication;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.transition.Slide;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
+import com.example.user1.myapplication.Database.MahasiswaHelper;
 import com.example.user1.myapplication.Model.Survey;
 
 import java.util.ArrayList;
 
 public class SlideActivity extends AppCompatActivity {
 
+    Bundle extras;
+    int id;
+
     private CustomViewPager viewPager;
     private ArrayList<Survey> surveyList = new ArrayList<>();
     private Button previousBtn;
     private Button nextBtn;
     private SlideAdapter adapter;
+    MahasiswaHelper mahasiswaHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slide);
         viewPager = findViewById(R.id.viewpager);
+
+        extras = getIntent().getExtras();
+        if (extras != null) {
+            id = extras.getInt("id");
+            Log.e("Mahasiswa", "onCreate: " + id );
+            // and get whatever type user account id is
+        }
+
         initData();
+        mahasiswaHelper = new MahasiswaHelper(SlideActivity.this);
         initFragment(surveyList);
         previousBtn = findViewById(R.id.previous_btn);
         previousBtn.setVisibility(View.GONE);
@@ -42,7 +54,17 @@ public class SlideActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (viewPager.getCurrentItem() == surveyList.size()) {
-                    Toast.makeText(SlideActivity.this, "last page", Toast.LENGTH_SHORT).show();
+                    mahasiswaHelper.open();
+                    mahasiswaHelper.beginTransaction();
+                    for (int i = 0; i <surveyList.size() ; i++) {
+                        Log.e("Mahasiswa", "id: " + surveyList.get(i).getIdguru() );
+                        mahasiswaHelper.insertTransaction(surveyList.get(i));
+                    }
+                    mahasiswaHelper.setTransactionSuccess();
+                    mahasiswaHelper.endTransaction();
+                    mahasiswaHelper.close();
+                    finish();
+
                 }
                 else if(viewPager.getCurrentItem() == surveyList.size() - 1 ){
                     int position = viewPager.getCurrentItem();
@@ -96,11 +118,11 @@ public class SlideActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        surveyList.add(new Survey("question", "lorem ipsum?"));
-        surveyList.add(new Survey("question", "lorem?"));
-        surveyList.add(new Survey("question", "lorem ips?"));
-        surveyList.add(new Survey("question", "ipsum?"));
-        surveyList.add(new Survey("question", "dde?"));
+        surveyList.add(new Survey(id,"question", "Sekolah dimana ?","a"));
+        surveyList.add(new Survey(id,"question", "sudah makan ?","a"));
+        surveyList.add(new Survey(id,"question", "uang saku berapa ?","a"));
+        surveyList.add(new Survey(id,"question", "tinggal dimana ?","a"));
+        surveyList.add(new Survey(id,"question", "apa makanan favorit ?","a"));
     }
 
     void initFragment(ArrayList<Survey> surveyList) {

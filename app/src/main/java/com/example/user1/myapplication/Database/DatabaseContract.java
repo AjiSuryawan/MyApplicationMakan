@@ -9,14 +9,16 @@ import android.provider.BaseColumns;
 public class DatabaseContract {
 
     static String TABLE_NAME = "tb_makanan";
+    static String TABLE_NAME2 = "tbuser";
 
     static final class MahasiswaColumns implements BaseColumns {
 
-        // Mahasiswa nama
-        static String NAMA = "nama";
-        // Mahasiswa nim
-        static String NIM = "nim";
+        static String NAMAGURU = "NAMA";
 
-        static String URI = "uri";
+        static String PERTANYAAN = "pertanyaan";
+
+        static String JAWAWAN = "jawaban";
+
+        static String TIPE = "tipe";
     }
 }
