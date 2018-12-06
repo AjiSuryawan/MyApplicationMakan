@@ -114,6 +114,10 @@ public class SlideActivity extends AppCompatActivity {
                 Survey survey = surveyList.get(i);
                 adapter.initFragment(SlideFragment.newInstance(survey.getQuestion(), i + 1, surveyList.size(), R.layout.survey_singleanswer));
             }
+            else if (i == 1){
+                Survey survey = surveyList.get(i);
+                adapter.initFragment(SlideFragment.newInstance(survey.getQuestion(), i + 1, surveyList.size(), R.layout.survey_multipleanswer));
+            }
             else {
                 Survey survey = surveyList.get(i);
                 adapter.initFragment(SlideFragment.newInstance(survey.getQuestion(), i + 1, surveyList.size(), R.layout.survey_default));

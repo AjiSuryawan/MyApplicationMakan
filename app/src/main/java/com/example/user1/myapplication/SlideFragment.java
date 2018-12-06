@@ -10,7 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -26,6 +28,7 @@ public class SlideFragment extends Fragment {
     private TextView tvQuestion;
     private EditText inputAnswer;
     private RadioGroup radioGroup;
+    private ViewGroup checkboxLayout;
     private String question = "";
     private int totalQuestion = 0;
     private int questNo = 0;
@@ -111,6 +114,22 @@ public class SlideFragment extends Fragment {
                 radioGroup.addView(rb[i]);
             }
         }
+
+        if(layout == R.layout.survey_multipleanswer){
+            tvPageIndicator = view.findViewById(R.id.page_indicator);
+            tvQuestion = view.findViewById(R.id.tv_question);
+            tvQuestion.setText(question);
+            tvPageIndicator.setText(questNo + "/" + totalQuestion);
+            checkboxLayout = view.findViewById(R.id.checkbox_layout);
+            final CheckBox[] cb = new CheckBox[5];
+            for(int i = 0; i < 5; i++){
+                cb[i] = new CheckBox(getActivity());
+                cb[i].setText("checkbox + 1");
+                cb[i].setId(i);
+                checkboxLayout.addView(cb[i]);
+            }
+        }
+
         return view;
     }
 
