@@ -28,7 +28,9 @@ public class SlideFragment extends Fragment {
     private TextView tvQuestion;
     private EditText inputAnswer;
     private RadioGroup radioGroup;
+    private RadioButton[] radioButtons;
     private ViewGroup checkboxLayout;
+    private CheckBox[] checkBoxes;
     private String question = "";
     private int totalQuestion = 0;
     private int questNo = 0;
@@ -106,12 +108,12 @@ public class SlideFragment extends Fragment {
             tvQuestion.setText(question);
             tvPageIndicator.setText(questNo + "/" + totalQuestion);
             radioGroup = view.findViewById(R.id.radio_group);
-            final RadioButton[] rb = new RadioButton[5];
+            radioButtons = new RadioButton[5];
             for(int i = 0; i < 5; i++){
-                rb[i]  = new RadioButton(getActivity());
-                rb[i].setText("lorem ipsum " + i);
-                rb[i].setId(i);
-                radioGroup.addView(rb[i]);
+                radioButtons[i]  = new RadioButton(getActivity());
+                radioButtons[i].setText("lorem ipsum " + i);
+                radioButtons[i].setId(i);
+                radioGroup.addView(radioButtons[i]);
             }
         }
 
@@ -121,30 +123,43 @@ public class SlideFragment extends Fragment {
             tvQuestion.setText(question);
             tvPageIndicator.setText(questNo + "/" + totalQuestion);
             checkboxLayout = view.findViewById(R.id.checkbox_layout);
-            final CheckBox[] cb = new CheckBox[5];
+            checkBoxes = new CheckBox[5];
             for(int i = 0; i < 5; i++){
-                cb[i] = new CheckBox(getActivity());
-                cb[i].setText("checkbox + 1");
-                cb[i].setId(i);
-                checkboxLayout.addView(cb[i]);
+                checkBoxes[i] = new CheckBox(getActivity());
+                checkBoxes[i].setText("checkbox " + i);
+                checkBoxes[i].setId(i);
+                checkboxLayout.addView(checkBoxes[i]);
             }
         }
-
         return view;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        if (surveyList != null) {
-            for (Survey survey : surveyList) {
-                Log.e(TAG, "onViewCreated: " + survey.getAnswer());
-            }
+    public String getAnswer() {
+        switch (layout){
+            case R.layout.survey_default:
+                return inputAnswer.getText().toString().isEmpty() ? "" : inputAnswer.getText().toString();
+            case R.layout.survey_singleanswer:
+                String answer = "";
+                for (RadioButton radioButton : radioButtons) {
+                    if(radioButton.getId() == radioGroup.getCheckedRadioButtonId()){
+                        answer = radioButton.getText().toString();
+                    }
+                }
+                return answer;
+                default:
+                    return "";
         }
     }
 
-    public String getAnswer() {
-        return inputAnswer.getText().toString().isEmpty() ? "" : inputAnswer.getText().toString();
+    public ArrayList<String> getAnswers(){
+        ArrayList<String> answers = new ArrayList<>();
+        for (CheckBox checkbox : checkBoxes) {
+            if(checkbox.isChecked()){
+                answers.add(checkbox.getText().toString());
+                Log.e(TAG, "getAnswers: " + checkbox.getText().toString() );
+            }
+        }
+        return answers;
     }
 
     public void notifyDataSetChanged(){

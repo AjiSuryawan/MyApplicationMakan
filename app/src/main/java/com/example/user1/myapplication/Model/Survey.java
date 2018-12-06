@@ -3,10 +3,12 @@ package com.example.user1.myapplication.Model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 public class Survey implements Parcelable {
     private String type;
     private String question;
-    private String answer;
+    private ArrayList<String> answers = new ArrayList<>();
 
     public Survey(String type, String question) {
         this.type = type;
@@ -16,7 +18,7 @@ public class Survey implements Parcelable {
     protected Survey(Parcel in) {
         type = in.readString();
         question = in.readString();
-        answer = in.readString();
+        answers = in.createStringArrayList();
     }
 
     public static final Creator<Survey> CREATOR = new Creator<Survey>() {
@@ -39,12 +41,18 @@ public class Survey implements Parcelable {
         return question;
     }
 
-    public void setAnswer(String answer) {
-        this.answer = answer;
+    public ArrayList<String> getAnswers() {
+        return answers;
     }
 
-    public String getAnswer() {
-        return answer;
+    public void addAnswer(String answer) {
+        answers.clear();
+        this.answers.add(answer);
+    }
+
+    public void addAnswer(ArrayList<String> answers){
+        this.answers.clear();
+        this.answers.addAll(answers);
     }
 
     @Override
@@ -56,6 +64,6 @@ public class Survey implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(type);
         dest.writeString(question);
-        dest.writeString(answer);
+        dest.writeStringList(answers);
     }
 }

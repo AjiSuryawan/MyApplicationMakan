@@ -48,16 +48,23 @@ public class SlideActivity extends AppCompatActivity {
                     int position = viewPager.getCurrentItem();
                     SlideFragment previewFragment = (SlideFragment) adapter.getItem(surveyList.size());
                     SlideFragment fragment = (SlideFragment) adapter.getItem(position);
-                    surveyList.get(position).setAnswer(fragment.getAnswer());
+                    surveyList.get(position).addAnswer(fragment.getAnswer());
                     previewFragment.notifyDataSetChanged();
                     viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+                }
+                else if(viewPager.getCurrentItem() == 1){
+                    final int position = viewPager.getCurrentItem();
+                    SlideFragment fragment = (SlideFragment) adapter.getItem(position);
+                    final Survey survey = surveyList.get(position);
+                    survey.addAnswer(fragment.getAnswers());
+                    viewPager.setCurrentItem(position + 1);
                 }
                 else {
                     final int position = viewPager.getCurrentItem();
                     SlideFragment fragment = (SlideFragment) adapter.getItem(position);
                     final Survey survey = surveyList.get(position);
                     final String answer = fragment.getAnswer();
-                    survey.setAnswer(answer);
+                    survey.addAnswer(answer);
                     Log.e("answer", "onClick: " + answer);
                     viewPager.setCurrentItem(position + 1);
                 }
@@ -73,9 +80,6 @@ public class SlideActivity extends AppCompatActivity {
             public void onPageSelected(int i) {
                 if (i == surveyList.size()) {
                     nextBtn.setText("Finish");
-                    for (Survey survey: surveyList) {
-                        Log.e("SlideActivity", "onPageSelected: " + survey.getAnswer());
-                    }
                 } else {
                     nextBtn.setText("Next");
                 }

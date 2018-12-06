@@ -23,7 +23,7 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.MyViewHo
         this.context = context;
     }
 
-    public void setListener(onItemClickListener listener){
+    public void setListener(onItemClickListener listener) {
         this.listener = listener;
     }
 
@@ -68,7 +68,16 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.MyViewHo
 
         void updateUI(Survey survey, int position) {
             tvQuestion.setText(survey.getQuestion());
-            tvAnswer.setText(survey.getAnswer());
+            StringBuilder answers = new StringBuilder();
+            for (int i = 0; i < survey.getAnswers().size(); i++) {
+                String answer = survey.getAnswers().get(i);
+                if (i == survey.getAnswers().size() - 1 )
+                    answers.append(answer);
+                else
+                    answers.append(answer+ ", ");
+
+            }
+            tvAnswer.setText(answers.toString());
             tvNo.setText(position + ") ");
         }
     }
