@@ -6,19 +6,35 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 
 public class Survey implements Parcelable {
+    private int id;
     private String type;
     private String question;
     private ArrayList<String> answers = new ArrayList<>();
+    private String namaguru;
+    private int idguru;
 
-    public Survey(String type, String question) {
-        this.type = type;
-        this.question = question;
+    public Survey(int namaguru, String type, String question, String answer) {
+        this.setType(type);
+        this.setQuestion(question);
+        this.setIdguru(namaguru);
+    }
+
+    public Survey(String namaguru){
+        this.setNamaguru(namaguru);
+    }
+
+    public Survey(){
+
     }
 
     protected Survey(Parcel in) {
         type = in.readString();
         question = in.readString();
         answers = in.createStringArrayList();
+        setId(in.readInt());
+        setQuestion(in.readString());
+        setType(in.readString());
+        setIdguru(in.readInt());
     }
 
     public static final Creator<Survey> CREATOR = new Creator<Survey>() {
@@ -65,5 +81,42 @@ public class Survey implements Parcelable {
         dest.writeString(type);
         dest.writeString(question);
         dest.writeStringList(answers);
+        dest.writeInt(getId());
+        dest.writeString(getQuestion());
+        dest.writeString(getType());
+        dest.writeInt(getIdguru());
+
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public int getIdguru() {
+        return idguru;
+    }
+
+    public void setIdguru(int idguru) {
+        this.idguru = idguru;
+    }
+
+    public String getNamaguru() {
+        return namaguru;
+    }
+
+    public void setNamaguru(String namaguru) {
+        this.namaguru = namaguru;
     }
 }

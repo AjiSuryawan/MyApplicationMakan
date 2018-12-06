@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/about"
-        android:title="list data" />
+        android:id="@+id/dataku"
+        android:title="List data" />
+
+    <item
+        android:id="@+id/dataku2"
+        android:title="History data" />
 </menu>
