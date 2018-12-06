@@ -13,6 +13,10 @@ public class Survey implements Parcelable {
     private String namaguru;
     private int idguru;
 
+
+    private String answer;
+
+
     public Survey(int namaguru, String type, String question, String answer) {
         this.setType(type);
         this.setQuestion(question);
@@ -118,5 +122,13 @@ public class Survey implements Parcelable {
 
     public void setNamaguru(String namaguru) {
         this.namaguru = namaguru;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 }
