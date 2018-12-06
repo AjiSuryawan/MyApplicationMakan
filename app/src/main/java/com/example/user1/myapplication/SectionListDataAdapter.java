@@ -43,7 +43,10 @@ public class SectionListDataAdapter extends RecyclerView.Adapter<SectionListData
         holder.tvTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                view.getContext().startActivity(new Intent(view.getContext(),DetailQuesioner.class));
+                Intent in=new Intent(view.getContext(),DetailQuesioner.class);
+                in.putExtra("idguru",singleItem.getIdguru());
+                Log.d("idguru", "onClick: "+singleItem.getIdguru());
+                view.getContext().startActivity(in);
             }
         });
     }

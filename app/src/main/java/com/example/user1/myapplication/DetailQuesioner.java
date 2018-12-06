@@ -14,6 +14,11 @@ import java.util.ArrayList;
 
 public class DetailQuesioner extends AppCompatActivity {
 
+    Bundle extras;
+    int userName;
+
+
+
     public RecyclerView recycler_view_list_film;
     public ArrayList<Survey> listFilm = new ArrayList<>();
     MahasiswaHelper mahasiswaHelper;
@@ -23,10 +28,16 @@ public class DetailQuesioner extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_quesioner);
+        extras = getIntent().getExtras();
+        if (extras != null) {
+            userName = extras.getInt("idguru");
+            // and get whatever type user account id is
+        }
+
         recycler_view_list_film = (RecyclerView) findViewById(R.id.recycler_view_list_film2);
         mahasiswaHelper = new MahasiswaHelper(DetailQuesioner.this); //2
         mahasiswaHelper.open(); //3
-        listFilm = mahasiswaHelper.getAllData();
+        listFilm = mahasiswaHelper.getDataByName(userName);
         Log.d("ambil", "onCreate: "+listFilm.size());
         adapterAllTipe = new SectionListDataAdapter2(DetailQuesioner.this, listFilm);
         recycler_view_list_film.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));

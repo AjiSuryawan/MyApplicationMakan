@@ -57,7 +57,6 @@ public class SlideActivity extends AppCompatActivity {
                     mahasiswaHelper.open();
                     mahasiswaHelper.beginTransaction();
                     for (int i = 0; i <surveyList.size() ; i++) {
-                        Log.e("Mahasiswa", "id: " + surveyList.get(i).getIdguru() );
                         mahasiswaHelper.insertTransaction(surveyList.get(i));
                     }
                     mahasiswaHelper.setTransactionSuccess();

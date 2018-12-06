@@ -39,9 +39,9 @@ public class MahasiswaHelper {
     public void close(){
         dataBaseHelper.close();
     }
-    public ArrayList<Survey> getDataByName(String nama){
+    public ArrayList<Survey> getDataByName(int nama){
         String result = "";
-        Cursor cursor = database.query(TABLE_NAME,null, NAMAGURU +" LIKE ?",new String[]{nama+ "%"},null,null,_ID + " ASC",null);
+        Cursor cursor = database.query(TABLE_NAME,null, NAMAGURU +" = "+nama,null,null,null,_ID + " ASC",null);
         cursor.moveToFirst();
         ArrayList<Survey> arrayList = new ArrayList<>();
         Survey mahasiswaModel;
@@ -92,7 +92,7 @@ public class MahasiswaHelper {
         if (cursor.getCount()>0) {
             do {
                 mahasiswaModel = new Survey();
-                mahasiswaModel.setId(cursor.getInt(cursor.getColumnIndexOrThrow(_ID)));
+                mahasiswaModel.setIdguru(cursor.getInt(cursor.getColumnIndexOrThrow(_ID)));
                 mahasiswaModel.setNamaguru(cursor.getString(cursor.getColumnIndexOrThrow(NAMAGURU)));
                 arrayList.add(mahasiswaModel);
                 cursor.moveToNext();
@@ -117,7 +117,16 @@ public class MahasiswaHelper {
         String sql = "INSERT INTO "+TABLE_NAME+" ("+ PERTANYAAN +", "+ JAWAWAN +", "+ TIPE +" , "+ NAMAGURU+" ) VALUES (?, ?, ? , ? )";
         SQLiteStatement stmt = database.compileStatement(sql);
         stmt.bindString(1, mahasiswaModel.getQuestion());
-        stmt.bindString(2, mahasiswaModel.getAnswer());
+        StringBuilder answers = new StringBuilder();
+        for (int i = 0; i < mahasiswaModel.getAnswers().size(); i++) {
+            String answer = mahasiswaModel.getAnswers().get(i);
+            if (i == mahasiswaModel.getAnswers().size() - 1 )
+                answers.append(answer);
+            else
+                answers.append(answer+ ", ");
+
+        }
+        stmt.bindString(2, answers.toString());
         stmt.bindString(3, mahasiswaModel.getType());
         stmt.bindLong(4, mahasiswaModel.getIdguru());
         stmt.execute();
