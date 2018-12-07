@@ -40,12 +40,8 @@ public class SectionListDataAdapter2 extends RecyclerView.Adapter<SectionListDat
 
         Log.d("di adapter", "SectionListDataAdapter: "+singleItem.getNamaguru());
         holder.tvTitle.setText(singleItem.getQuestion());
-        holder.tvTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                view.getContext().startActivity(new Intent(view.getContext(),DetailQuesioner.class));
-            }
-        });
+        holder.tv_answer.setText(singleItem.getAnswer());
+
     }
 
     @Override
@@ -61,9 +57,11 @@ public class SectionListDataAdapter2 extends RecyclerView.Adapter<SectionListDat
     public class SingleItemRowHolder extends RecyclerView.ViewHolder {
 
         private TextView tvTitle;
+        private TextView tv_answer;
         private SingleItemRowHolder(final View view) {
             super(view);
             this.tvTitle = (TextView)view.findViewById(R.id.tv_question);
+            this.tv_answer = (TextView)view.findViewById(R.id.tv_answer);
 
 
         }
