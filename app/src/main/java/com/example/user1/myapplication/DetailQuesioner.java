@@ -25,9 +25,18 @@ public class DetailQuesioner extends AppCompatActivity {
     public SectionListDataAdapter2 adapterAllTipe;
 
     @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_quesioner);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         extras = getIntent().getExtras();
         if (extras != null) {
             userName = extras.getInt("idguru");

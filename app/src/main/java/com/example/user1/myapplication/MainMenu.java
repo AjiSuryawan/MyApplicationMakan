@@ -52,7 +52,7 @@ public class MainMenu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainMenu.this);
-                builder.setTitle("Title");
+                builder.setTitle("Input name");
                 final EditText input = new EditText(MainMenu.this);
                 input.setInputType(InputType.TYPE_CLASS_TEXT);
                 builder.setView(input);

@@ -1,5 +1,7 @@
 package com.example.user1.myapplication;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -55,15 +57,35 @@ public class SlideActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //finish
                 if (viewPager.getCurrentItem() == surveyList.size()) {
-                    mahasiswaHelper.open();
-                    mahasiswaHelper.beginTransaction();
-                    for (int i = 0; i <surveyList.size() ; i++) {
-                        mahasiswaHelper.insertTransaction(surveyList.get(i));
-                    }
-                    mahasiswaHelper.setTransactionSuccess();
-                    mahasiswaHelper.endTransaction();
-                    mahasiswaHelper.close();
-                    finish();
+
+                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which){
+                                case DialogInterface.BUTTON_POSITIVE:
+                                    mahasiswaHelper.open();
+                                    mahasiswaHelper.beginTransaction();
+                                    for (int i = 0; i <surveyList.size() ; i++) {
+                                        mahasiswaHelper.insertTransaction(surveyList.get(i));
+                                    }
+                                    mahasiswaHelper.setTransactionSuccess();
+                                    mahasiswaHelper.endTransaction();
+                                    mahasiswaHelper.close();
+                                    finish();
+                                    //Yes button clicked
+                                    break;
+
+                                case DialogInterface.BUTTON_NEGATIVE:
+                                    //No button clicked
+                                    break;
+                            }
+                        }
+                    };
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SlideActivity.this);
+                    builder.setTitle("save data").setMessage("Are you sure want to save data").setPositiveButton("Yes", dialogClickListener)
+                            .setNegativeButton("No", dialogClickListener).show();
+                    //
 
                 }
                 //preview
