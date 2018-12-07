@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,7 +30,7 @@ public class SectionListDataAdapter extends RecyclerView.Adapter<SectionListData
     @SuppressLint("InflateParams")
     @Override
     public SingleItemRowHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_single_card, null);
+        view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_single_card, viewGroup , false);
         SingleItemRowHolder rowHolder = new SingleItemRowHolder(view);
         return rowHolder;
     }
@@ -40,7 +41,7 @@ public class SectionListDataAdapter extends RecyclerView.Adapter<SectionListData
 
         Log.d("di adapter", "SectionListDataAdapter: "+singleItem.getNamaguru());
         holder.tvTitle.setText(singleItem.getNamaguru());
-        holder.tvTitle.setOnClickListener(new View.OnClickListener() {
+        holder.cardku.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent in=new Intent(view.getContext(),DetailQuesioner.class);
@@ -64,9 +65,11 @@ public class SectionListDataAdapter extends RecyclerView.Adapter<SectionListData
     public class SingleItemRowHolder extends RecyclerView.ViewHolder {
 
         private TextView tvTitle;
+        private CardView cardku;
         private SingleItemRowHolder(final View view) {
             super(view);
             this.tvTitle = (TextView)view.findViewById(R.id.tvjudul);
+            this.cardku = (CardView) view.findViewById(R.id.cardku);
 
 
         }
