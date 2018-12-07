@@ -121,11 +121,11 @@ public class SlideActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        surveyList.add(new Survey(id,"question", "Sekolah dimana ?","a"));
-        surveyList.add(new Survey(id,"question", "sudah makan ?","a"));
-        surveyList.add(new Survey(id,"question", "uang saku berapa ?","a"));
-        surveyList.add(new Survey(id,"question", "tinggal dimana ?","a"));
-        surveyList.add(new Survey(id,"question", "apa makanan favorit ?","a"));
+        surveyList.add(new Survey(id,"question", "Sekolah dimana ?"));
+        surveyList.add(new Survey(id,"question", "sudah makan ?"));
+        surveyList.add(new Survey(id,"question", "uang saku berapa ?"));
+        surveyList.add(new Survey(id,"question", "tinggal dimana ?"));
+        surveyList.add(new Survey(id,"question", "apa makanan favorit ?"));
     }
 
     void initFragment(ArrayList<Survey> surveyList) {

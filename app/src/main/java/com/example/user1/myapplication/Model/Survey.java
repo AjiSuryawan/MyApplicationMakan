@@ -17,7 +17,7 @@ public class Survey implements Parcelable {
     private String answer;
 
 
-    public Survey(int namaguru, String type, String question, String answer) {
+    public Survey(int namaguru, String type, String question) {
         this.setType(type);
         this.setQuestion(question);
         this.setIdguru(namaguru);
