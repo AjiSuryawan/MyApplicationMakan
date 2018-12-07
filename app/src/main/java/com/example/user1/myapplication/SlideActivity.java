@@ -53,6 +53,7 @@ public class SlideActivity extends AppCompatActivity {
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //finish
                 if (viewPager.getCurrentItem() == surveyList.size()) {
                     mahasiswaHelper.open();
                     mahasiswaHelper.beginTransaction();
@@ -65,6 +66,7 @@ public class SlideActivity extends AppCompatActivity {
                     finish();
 
                 }
+                //preview
                 else if(viewPager.getCurrentItem() == surveyList.size() - 1 ){
                     int position = viewPager.getCurrentItem();
                     SlideFragment previewFragment = (SlideFragment) adapter.getItem(surveyList.size());
@@ -73,7 +75,8 @@ public class SlideActivity extends AppCompatActivity {
                     previewFragment.notifyDataSetChanged();
                     viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
                 }
-                else if(viewPager.getCurrentItem() == 1){
+                //ma
+                else if(surveyList.get(viewPager.getCurrentItem()).getType().equals("ma")){
                     final int position = viewPager.getCurrentItem();
                     SlideFragment fragment = (SlideFragment) adapter.getItem(position);
                     final Survey survey = surveyList.get(position);
@@ -121,11 +124,18 @@ public class SlideActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        surveyList.add(new Survey(id,"question", "Sekolah dimana ?"));
-        surveyList.add(new Survey(id,"question", "sudah makan ?"));
-        surveyList.add(new Survey(id,"question", "uang saku berapa ?"));
-        surveyList.add(new Survey(id,"question", "tinggal dimana ?"));
-        surveyList.add(new Survey(id,"question", "apa makanan favorit ?"));
+        ArrayList<String> answers2 = new ArrayList<>();
+        answers2.add("Motorik");
+        answers2.add("Bahasa dan literasi");
+        answers2.add("Moral dan spiritual");
+
+        ArrayList<String> answers3 = new ArrayList<>();
+        answers3.add("Ya");
+        answers3.add("Tidak");
+        surveyList.add(new Survey(id,"ketik", "Apa pemahaman anda tentang Pendidikan Anak Usia Dini (PAUD) ?",  new ArrayList<String>()));
+        surveyList.add(new Survey(id,"ma", "Perkembangan apa saja yang dibutuhkan anak untuk dipelajari di PAUD",answers2));
+        surveyList.add(new Survey(id,"sa", "Menurut Anda, apakah lembaga PAUD di desa ini telah mengajarkan perkembangan yang sesuai dibutuhkan anak anak di desa ini ?", answers3));
+        surveyList.add(new Survey(id,"ketik", "Apakah pemahaman anda tentang layanan PAUD HI",new ArrayList<String>()));
     }
 
     void initFragment(ArrayList<Survey> surveyList) {
@@ -135,15 +145,15 @@ public class SlideActivity extends AppCompatActivity {
             if(i == surveyList.size()) {
                 adapter.initFragment(SlideFragment.newInstance(R.layout.preview, surveyList));
             }
-            else if (i == 2){
+            else if (surveyList.get(i).getType().equals("sa")){
                 Survey survey = surveyList.get(i);
-                adapter.initFragment(SlideFragment.newInstance(survey.getQuestion(), i + 1, surveyList.size(), R.layout.survey_singleanswer));
+                adapter.initFragment(SlideFragment.newInstance(survey.getQuestion(), i + 1, surveyList.size(), surveyList.get(i).getAnswers(), R.layout.survey_singleanswer));
             }
-            else if (i == 1){
+            else if (surveyList.get(i).getType().equals("ma")){
                 Survey survey = surveyList.get(i);
-                adapter.initFragment(SlideFragment.newInstance(survey.getQuestion(), i + 1, surveyList.size(), R.layout.survey_multipleanswer));
+                adapter.initFragment(SlideFragment.newInstance(survey.getQuestion(), i + 1, surveyList.size(), surveyList.get(i).getAnswers(), R.layout.survey_multipleanswer));
             }
-            else {
+            else if(surveyList.get(i).getType().equals("ketik")){
                 Survey survey = surveyList.get(i);
                 adapter.initFragment(SlideFragment.newInstance(survey.getQuestion(), i + 1, surveyList.size(), R.layout.survey_default));
             }

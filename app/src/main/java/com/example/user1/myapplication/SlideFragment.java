@@ -1,6 +1,7 @@
 package com.example.user1.myapplication;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 
 import com.example.user1.myapplication.Model.Survey;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class SlideFragment extends Fragment {
@@ -39,6 +41,7 @@ public class SlideFragment extends Fragment {
     private PreviewAdapter adapter;
     private RecyclerView recyclerView;
     private ArrayList<Survey> surveyList = new ArrayList<>();
+    private ArrayList<String> answers = new ArrayList<>();
 
     public SlideFragment() {
         //empty constructor
@@ -52,6 +55,21 @@ public class SlideFragment extends Fragment {
         args.putInt("quest_no", questNo);
         args.putInt("total_question", totalQuestion);
         args.putInt("layout", layout);
+
+        slideFragment.setArguments(args);
+
+        return slideFragment;
+    }
+
+    public static SlideFragment newInstance(String question, int questNo, int totalQuestion, ArrayList<String> answers, int layout) {
+        SlideFragment slideFragment = new SlideFragment();
+
+        Bundle args = new Bundle();
+        args.putString("question", question);
+        args.putInt("quest_no", questNo);
+        args.putInt("total_question", totalQuestion);
+        args.putInt("layout", layout);
+        args.putStringArrayList("answers", answers);
 
         slideFragment.setArguments(args);
 
@@ -78,6 +96,7 @@ public class SlideFragment extends Fragment {
             questNo = getArguments().getInt("quest_no");
             totalQuestion = getArguments().getInt("total_question");
             surveyList = getArguments().getParcelableArrayList("survey_list");
+            answers = getArguments().getStringArrayList("answers");
         }
         View view = inflater.inflate(layout, container, false);
 
@@ -108,10 +127,10 @@ public class SlideFragment extends Fragment {
             tvQuestion.setText(question);
             tvPageIndicator.setText(questNo + "/" + totalQuestion);
             radioGroup = view.findViewById(R.id.radio_group);
-            radioButtons = new RadioButton[5];
-            for(int i = 0; i < 5; i++){
+            radioButtons = new RadioButton[answers.size()];
+            for(int i = 0; i < answers.size(); i++){
                 radioButtons[i]  = new RadioButton(getActivity());
-                radioButtons[i].setText("lorem ipsum " + i);
+                radioButtons[i].setText(answers.get(i));
                 radioButtons[i].setId(i);
                 radioGroup.addView(radioButtons[i]);
             }
@@ -123,10 +142,10 @@ public class SlideFragment extends Fragment {
             tvQuestion.setText(question);
             tvPageIndicator.setText(questNo + "/" + totalQuestion);
             checkboxLayout = view.findViewById(R.id.checkbox_layout);
-            checkBoxes = new CheckBox[5];
-            for(int i = 0; i < 5; i++){
+            checkBoxes = new CheckBox[answers.size()];
+            for(int i = 0; i < answers.size(); i++){
                 checkBoxes[i] = new CheckBox(getActivity());
-                checkBoxes[i].setText("checkbox " + i);
+                checkBoxes[i].setText(answers.get(i));
                 checkBoxes[i].setId(i);
                 checkboxLayout.addView(checkBoxes[i]);
             }
