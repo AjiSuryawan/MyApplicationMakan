@@ -49,8 +49,8 @@ public class MahasiswaHelper {
             do {
                 mahasiswaModel = new Survey();
                 mahasiswaModel.setId(cursor.getInt(cursor.getColumnIndexOrThrow(_ID)));
-                mahasiswaModel.setAnswer(cursor.getString(cursor.getColumnIndexOrThrow(PERTANYAAN)));
-                mahasiswaModel.setQuestion(cursor.getString(cursor.getColumnIndexOrThrow(JAWAWAN)));
+                mahasiswaModel.setAnswer(cursor.getString(cursor.getColumnIndexOrThrow(JAWAWAN)));
+                mahasiswaModel.setQuestion(cursor.getString(cursor.getColumnIndexOrThrow(PERTANYAAN)));
                 mahasiswaModel.setType(cursor.getString(cursor.getColumnIndexOrThrow(TIPE)));
                 arrayList.add(mahasiswaModel);
                 cursor.moveToNext();
