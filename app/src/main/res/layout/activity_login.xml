@@ -13,7 +13,11 @@
         android:layout_width="match_parent"
         android:id="@+id/txtusername"
         android:layout_height="wrap_content" />
-
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="userpassword"
+        android:id="@+id/et_userpassword"/>
     <EditText
         android:inputType="textPassword"
         android:hint="password"
