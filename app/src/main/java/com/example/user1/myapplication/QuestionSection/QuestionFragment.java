@@ -1,7 +1,6 @@
-package com.example.user1.myapplication;
+package com.example.user1.myapplication.QuestionSection;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,19 +12,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.example.user1.myapplication.Model.Survey;
+import com.example.user1.myapplication.Model.QuestionResponse;
+import com.example.user1.myapplication.R;
+import com.example.user1.myapplication.onItemClickListener;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
-public class SlideFragment extends Fragment {
+public class QuestionFragment extends Fragment {
 
-    private String TAG = SlideFragment.class.getSimpleName();
+    private String TAG = QuestionFragment.class.getSimpleName();
+
     private TextView tvPageIndicator;
     private TextView tvQuestion;
     private EditText inputAnswer;
@@ -40,15 +40,15 @@ public class SlideFragment extends Fragment {
 
     private PreviewAdapter adapter;
     private RecyclerView recyclerView;
-    private ArrayList<Survey> surveyList = new ArrayList<>();
+    private ArrayList<QuestionResponse> questionsModel = new ArrayList<>();
     private ArrayList<String> answers = new ArrayList<>();
 
-    public SlideFragment() {
+    public QuestionFragment() {
         //empty constructor
     }
 
-    public static SlideFragment newInstance(String question, int questNo, int totalQuestion, int layout) {
-        SlideFragment slideFragment = new SlideFragment();
+    public static QuestionFragment newInstance(String question, int questNo, int totalQuestion, int layout) {
+        QuestionFragment questionFragment = new QuestionFragment();
 
         Bundle args = new Bundle();
         args.putString("question", question);
@@ -56,13 +56,13 @@ public class SlideFragment extends Fragment {
         args.putInt("total_question", totalQuestion);
         args.putInt("layout", layout);
 
-        slideFragment.setArguments(args);
+        questionFragment.setArguments(args);
 
-        return slideFragment;
+        return questionFragment;
     }
 
-    public static SlideFragment newInstance(String question, int questNo, int totalQuestion, ArrayList<String> answers, int layout) {
-        SlideFragment slideFragment = new SlideFragment();
+    public static QuestionFragment newInstance(String question, int questNo, int totalQuestion, ArrayList<String> answers, int layout) {
+        QuestionFragment questionFragment = new QuestionFragment();
 
         Bundle args = new Bundle();
         args.putString("question", question);
@@ -71,20 +71,20 @@ public class SlideFragment extends Fragment {
         args.putInt("layout", layout);
         args.putStringArrayList("answers", answers);
 
-        slideFragment.setArguments(args);
+        questionFragment.setArguments(args);
 
-        return slideFragment;
+        return questionFragment;
     }
 
-    public static SlideFragment newInstance(int layout, ArrayList<Survey> surveys) {
-        SlideFragment slideFragment = new SlideFragment();
+    public static QuestionFragment newInstance(int layout, ArrayList<QuestionResponse> questionsModel) {
+        QuestionFragment questionFragment = new QuestionFragment();
 
         Bundle args = new Bundle();
-        args.putParcelableArrayList("survey_list", surveys);
+        args.putParcelableArrayList("survey_list", questionsModel);
         args.putInt("layout", layout);
 
-        slideFragment.setArguments(args);
-        return slideFragment;
+        questionFragment.setArguments(args);
+        return questionFragment;
     }
 
     @Nullable
@@ -95,33 +95,35 @@ public class SlideFragment extends Fragment {
             question = getArguments().getString("question");
             questNo = getArguments().getInt("quest_no");
             totalQuestion = getArguments().getInt("total_question");
-            surveyList = getArguments().getParcelableArrayList("survey_list");
+            questionsModel = getArguments().getParcelableArrayList("survey_list");
             answers = getArguments().getStringArrayList("answers");
         }
+
         View view = inflater.inflate(layout, container, false);
 
-        if (layout == R.layout.survey_default) {
+        //ketik
+        if (layout == R.layout.question_default) {
             tvPageIndicator = view.findViewById(R.id.page_indicator);
             tvQuestion = view.findViewById(R.id.tv_question);
             inputAnswer = view.findViewById(R.id.input_answer);
             tvQuestion.setText(question);
             tvPageIndicator.setText(questNo + "/" + totalQuestion);
-        }
+        } //preview
         if (layout == R.layout.preview) {
             recyclerView = view.findViewById(R.id.rv);
-            adapter = new PreviewAdapter(surveyList, getActivity());
+            adapter = new PreviewAdapter(questionsModel, getActivity());
             adapter.setListener(new onItemClickListener() {
                 @Override
                 public void onItemClick(int position) {
-                    SlideActivity slideActivity = (SlideActivity) getActivity();
+                    QuestionActivity slideActivity = (QuestionActivity) getActivity();
                     slideActivity.changeToDesiredQuestion(position);
                 }
             });
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             recyclerView.setAdapter(adapter);
         }
-
-        if(layout == R.layout.survey_singleanswer){
+        //sa
+        if(layout == R.layout.question_singleanswer){
             tvPageIndicator = view.findViewById(R.id.page_indicator);
             tvQuestion = view.findViewById(R.id.tv_question);
             tvQuestion.setText(question);
@@ -135,8 +137,8 @@ public class SlideFragment extends Fragment {
                 radioGroup.addView(radioButtons[i]);
             }
         }
-
-        if(layout == R.layout.survey_multipleanswer){
+        //ma
+        if(layout == R.layout.question_multipleanswer){
             tvPageIndicator = view.findViewById(R.id.page_indicator);
             tvQuestion = view.findViewById(R.id.tv_question);
             tvQuestion.setText(question);
@@ -155,9 +157,9 @@ public class SlideFragment extends Fragment {
 
     public String getAnswer() {
         switch (layout){
-            case R.layout.survey_default:
+            case R.layout.question_default:
                 return inputAnswer.getText().toString().isEmpty() ? "" : inputAnswer.getText().toString();
-            case R.layout.survey_singleanswer:
+            case R.layout.question_singleanswer:
                 String answer = "";
                 for (RadioButton radioButton : radioButtons) {
                     if(radioButton.getId() == radioGroup.getCheckedRadioButtonId()){
@@ -175,7 +177,7 @@ public class SlideFragment extends Fragment {
         for (CheckBox checkbox : checkBoxes) {
             if(checkbox.isChecked()){
                 answers.add(checkbox.getText().toString());
-                Log.e(TAG, "getAnswers: " + checkbox.getText().toString() );
+                Log.e("Answer", "getAnswers: " + checkbox.getText().toString() );
             }
         }
         return answers;

@@ -1,5 +1,7 @@
 package com.example.user1.myapplication.Network;
 
+import android.content.SharedPreferences;
+
 import com.example.user1.myapplication.BuildConfig;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -15,8 +17,6 @@ public class SurveyClient {
     public static final String BASE_URL = "http://www.unicef-schoolprofiling.com/";
     private static final HttpLoggingInterceptor logging = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
     private static OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
-
-
     public static Retrofit getRetrofit(){
         if(retrofit == null){
             if(BuildConfig.DEBUG){

@@ -1,4 +1,4 @@
-package com.example.user1.myapplication;
+package com.example.user1.myapplication.Utility;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
