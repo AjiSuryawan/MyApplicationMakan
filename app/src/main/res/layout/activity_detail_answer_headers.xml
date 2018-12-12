@@ -4,12 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AnswerHeadersSection.AnswerHeadersActivity">
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/item_answer_header"/>
+    tools:context=".AnswerHeadersSection.DetailAnswerHeadersActivity">
 
 </android.support.constraint.ConstraintLayout>

@@ -3,19 +3,24 @@ package com.example.user1.myapplication.QuestionSection;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.user1.myapplication.AnswerHeadersSection.AnswerHeadersActivity;
 import com.example.user1.myapplication.Model.QuestionResponse;
 import com.example.user1.myapplication.R;
 import com.example.user1.myapplication.onItemClickListener;
 
 import java.util.ArrayList;
 
+import static android.support.constraint.Constraints.TAG;
+
 public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.MyViewHolder> {
 
+    private static final String TAG = AnswerHeadersActivity.class.getSimpleName();
     private ArrayList<QuestionResponse> questionsModel;
     private Context context;
     private onItemClickListener listener;
@@ -60,17 +65,17 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.MyViewHo
             tvQuestion = itemView.findViewById(R.id.tv_question);
             tvAnswer = itemView.findViewById(R.id.tv_answer);
 
-            tvAnswer.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onItemClick(getAdapterPosition());
-                }
+            tvAnswer.setOnClickListener(v -> {
+                if(listener != null) listener.onItemClick(getAdapterPosition());
             });
         }
 
         void updateUI(QuestionResponse questionsModel, int position) {
             tvQuestion.setText(questionsModel.getPertanyaan());
             StringBuilder answers = new StringBuilder();
+
+            Log.e(TAG, "updateUI: " + questionsModel.getPertanyaan());
+            Log.e(TAG, "updateUI: " + questionsModel.getJawabanUser() );
             for (int i = 0; i < questionsModel.getJawabanUser().size(); i++) {
                 String answer = questionsModel.getJawabanUser().get(i);
                 if (i == questionsModel.getJawabanUser().size() - 1 )

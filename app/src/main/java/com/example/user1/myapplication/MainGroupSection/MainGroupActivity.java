@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -112,6 +113,7 @@ public class MainGroupActivity extends AppCompatActivity implements onItemClickL
             intent.putExtra("extra_maingroup_id", mainGroups.get(position).getId());
             startActivity(intent);
         } else {
+            Log.e("MainGroupActivity", "onItemClick: ");
             Intent intent = new Intent(this, AnswerHeadersActivity.class);
             startActivity(intent);
         }

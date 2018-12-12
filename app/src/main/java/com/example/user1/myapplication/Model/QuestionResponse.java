@@ -8,7 +8,12 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class QuestionResponse implements Parcelable {
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
+
+public class QuestionResponse extends RealmObject implements Parcelable {
+
     @SerializedName("id")
     @Expose
     private String id;
@@ -17,21 +22,27 @@ public class QuestionResponse implements Parcelable {
     private String pertanyaan;
     @SerializedName("tipe")
     @Expose
+    @Ignore
     private String tipe;
     @SerializedName("domain_id")
     @Expose
+    @Ignore
     private String domainId;
     @SerializedName("domain")
     @Expose
+    @Ignore
     private String domain;
     @SerializedName("notes")
     @Expose
     private String notes;
     @SerializedName("jawaban")
     @Expose
+    @Ignore
     private ArrayList<String> jawabanAwal;
+    private RealmList<String> jawabanUser = null;
 
-    private ArrayList<String> jawabanUser = null;
+    public QuestionResponse() {
+    }
 
     public QuestionResponse(String id, String pertanyaan, String tipe, String domainId, String domain, String notes, ArrayList<String> jawabanAwal) {
         this.id = id;
@@ -51,6 +62,8 @@ public class QuestionResponse implements Parcelable {
         domain = in.readString();
         notes = in.readString();
         jawabanAwal = in.createStringArrayList();
+        jawabanUser = new RealmList<>();
+        jawabanUser.addAll(in.createStringArrayList());
     }
 
     public static final Creator<QuestionResponse> CREATOR = new Creator<QuestionResponse>() {
@@ -69,49 +82,51 @@ public class QuestionResponse implements Parcelable {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getPertanyaan() {
         return pertanyaan;
     }
 
-    public String getTipe() {
-        return tipe;
-    }
-
-    public String getDomainId() {
-        return domainId;
-    }
-
-    public String getDomain() {
-        return domain;
-    }
-
-    public String getNotes() {
-        return notes;
+    public void setPertanyaan(String pertanyaan) {
+        this.pertanyaan = pertanyaan;
     }
 
     public ArrayList<String> getJawabanAwal() {
         return jawabanAwal;
     }
 
+    public String getTipe() {
+        return tipe;
+    }
+
     public void setJawabanUser(ArrayList<String> jawabanUser) {
-        if(this.jawabanUser == null)
-            this.jawabanUser = new ArrayList<>();
+        if (this.jawabanUser == null)
+            this.jawabanUser = new RealmList<>();
         this.jawabanUser.clear();
         this.jawabanUser.addAll(jawabanUser);
     }
 
-    public void setJawabanUser(String jawaban){
-        if(this.jawabanUser == null)
-            this.jawabanUser = new ArrayList<>();
+    public void setJawabanUser(String jawaban) {
+        if (this.jawabanUser == null)
+            this.jawabanUser = new RealmList<>();
         this.jawabanUser.clear();
         this.jawabanUser.add(jawaban);
     }
 
-    public ArrayList<String> getJawabanUser() {
-        if(this.jawabanUser == null)
-            jawabanUser = new ArrayList<>();
+    public void setJawabanUser(RealmList<String> jawabanUser) {
+        this.jawabanUser = jawabanUser;
+    }
+
+    public RealmList<String> getJawabanUser() {
+        if (this.jawabanUser == null)
+            jawabanUser = new RealmList<>();
         return jawabanUser;
     }
+
+
 
     @Override
     public int describeContents() {
@@ -127,5 +142,6 @@ public class QuestionResponse implements Parcelable {
         dest.writeString(domain);
         dest.writeString(notes);
         dest.writeStringList(jawabanAwal);
+        dest.writeStringList(this.jawabanUser);
     }
 }

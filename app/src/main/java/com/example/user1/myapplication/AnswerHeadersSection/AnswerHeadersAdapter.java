@@ -3,6 +3,7 @@ package com.example.user1.myapplication.AnswerHeadersSection;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.user1.myapplication.Database.ObjectSurvey;
 import com.example.user1.myapplication.R;
+import com.example.user1.myapplication.onItemClickListener;
 
 import java.util.ArrayList;
 
@@ -17,10 +19,15 @@ public class AnswerHeadersAdapter extends RecyclerView.Adapter<AnswerHeadersAdap
 
     private Context context;
     private ArrayList<ObjectSurvey> objectSurveys;
+    private onItemClickListener listener;
 
     public AnswerHeadersAdapter(Context context, ArrayList<ObjectSurvey> objectSurveys) {
         this.context = context;
         this.objectSurveys = objectSurveys;
+    }
+
+    public void setListener(onItemClickListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -37,7 +44,7 @@ public class AnswerHeadersAdapter extends RecyclerView.Adapter<AnswerHeadersAdap
 
     @Override
     public int getItemCount() {
-        return 0;
+        return objectSurveys.size();
     }
 
     class AHViewHolder extends RecyclerView.ViewHolder {
@@ -45,6 +52,9 @@ public class AnswerHeadersAdapter extends RecyclerView.Adapter<AnswerHeadersAdap
         public AHViewHolder(@NonNull View itemView) {
             super(itemView);
             tvIdUser = itemView.findViewById(R.id.tv_id);
+
+            itemView.setOnClickListener( view -> listener.onItemClick(getAdapterPosition()));
+
         }
 
         public void setText(ObjectSurvey objectSurvey){
