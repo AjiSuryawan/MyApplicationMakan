@@ -2,6 +2,8 @@ package com.example.user1.myapplication.Database;
 
 import android.util.Log;
 
+import com.example.user1.myapplication.Model.QuestionResponse;
+
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -24,18 +26,22 @@ public class DatabaseProvider {
         return instance;
     }
 
-    public void insert(String question, RealmList<String> answers, String idKategori) {
+    public void insert(ArrayList<QuestionResponse> questionModels) {
         realm.executeTransactionAsync(realm -> {
-//            final String primaryKey = UUID.randomUUID().toString();
-            ObjectSurvey objectSurvey = realm.createObject(ObjectSurvey.class);
-            AnsweredQuestionByObject answeredQuestion = realm.createObject(AnsweredQuestionByObject.class);
-            answeredQuestion.setQuestion(question);
-            answeredQuestion.setAnswers(answers);
-            answeredQuestion.setIdKategori(idKategori);
+            ObjectSurvey objectSurvey = realm.createObject(ObjectSurvey.class, UUID.randomUUID().toString());
+            for (QuestionResponse questionModel: questionModels) {
+                AnsweredQuestionByObject answeredQuestion = realm.createObject(AnsweredQuestionByObject.class);
+                RealmList<String> listJawabanUser = new RealmList<>();
+                listJawabanUser.addAll(questionModel.getJawabanUser());
+                answeredQuestion.setQuestion(questionModel.getPertanyaan());
+                answeredQuestion.setAnswers(listJawabanUser);
+                objectSurvey.addAnsweredQuestion(answeredQuestion);
+            }
         }, () -> Log.e(TAG, "onSuccess: success"), error -> Log.e(TAG, "onError: " + error.getMessage()));
     }
 
     public ArrayList<ObjectSurvey> fetchAllObjectSurvey() {
+        //masih error
         return new ArrayList<>(realm.where(ObjectSurvey.class).findAll());
     }
 }

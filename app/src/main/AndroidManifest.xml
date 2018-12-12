@@ -14,8 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".QuestionSection.QuestionActivity" />
-        <activity android:name=".MainGroupSection.MainGroupActivity"></activity>
+        <activity android:name=".QuestionSection.QuestionActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name=".MainGroupSection.MainGroupActivity"
+            android:launchMode="singleTask"></activity>
         <activity android:name=".LoginSection.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

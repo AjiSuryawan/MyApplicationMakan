@@ -4,34 +4,23 @@ import java.util.UUID;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
-import io.realm.annotations.Required;
+import io.realm.annotations.PrimaryKey;
 
 public class ObjectSurvey extends RealmObject {
 
-//    @PrimaryKey
-//    private String idUser;
-
-    @Required
-    private String name = UUID.randomUUID().toString();
+    @PrimaryKey
+    private String id;
     private RealmList<AnsweredQuestionByObject> answeredQuestions;
 
     public ObjectSurvey() {
 
     }
 
-//    public String getIdUser() {
-//        return idUser;
-//    }
-
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
 
-    public RealmList<AnsweredQuestionByObject> getAnsweredQuestions() {
-        return answeredQuestions;
-    }
-
-    public void setAnsweredQuestions(RealmList<AnsweredQuestionByObject> answeredQuestions) {
-        this.answeredQuestions = answeredQuestions;
+    public void addAnsweredQuestion(AnsweredQuestionByObject answeredQuestionByObject) {
+        this.answeredQuestions.add(answeredQuestionByObject);
     }
 }

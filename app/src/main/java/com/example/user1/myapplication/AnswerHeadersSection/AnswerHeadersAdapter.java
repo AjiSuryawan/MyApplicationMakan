@@ -48,7 +48,7 @@ public class AnswerHeadersAdapter extends RecyclerView.Adapter<AnswerHeadersAdap
         }
 
         public void setText(ObjectSurvey objectSurvey){
-            tvIdUser.setText(objectSurvey.getName());
+            tvIdUser.setText(objectSurvey.getId());
         }
     }
 }

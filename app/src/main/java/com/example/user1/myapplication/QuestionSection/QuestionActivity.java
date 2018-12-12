@@ -38,7 +38,6 @@ public class QuestionActivity extends AppCompatActivity {
     private Button previousBtn;
     private Button nextBtn;
     private QuestionAdapter adapter;
-//    private MahasiswaHelper mahasiswaHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,62 +50,46 @@ public class QuestionActivity extends AppCompatActivity {
             categoryMainGroup = extras.getString("extra_maingroup_id", "");
         }
 
-//        mahasiswaHelper = new MahasiswaHelper(QuestionActivity.this);
-
         fetchQuestions(categoryMainGroup, ServicePassword.getPassword(this));
 
         previousBtn = findViewById(R.id.previous_btn);
         previousBtn.setVisibility(View.GONE);
-        previousBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
-            }
-        });
+        previousBtn.setOnClickListener(v -> viewPager.setCurrentItem(viewPager.getCurrentItem() - 1));
 
         nextBtn = findViewById(R.id.next_btn);
-        nextBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //finish
-                if (viewPager.getCurrentItem() == questions.size()) {
-                    DatabaseProvider dbProvider = DatabaseProvider.getInstance();
-                    for (QuestionResponse questionResponse : questions) {
-                        RealmList<String> jawabanUser = new RealmList<>();
-                        jawabanUser.clear();
-                        jawabanUser.addAll(questionResponse.getJawabanUser());
-//                        AnsweredQuestionByObject answeredQuestion = new AnsweredQuestionByObject(questionResponse.getPertanyaan(), jawabanUser, questionResponse.getId());
-                        dbProvider.insert(questionResponse.getPertanyaan(), jawabanUser, questionResponse.getId());
-                    }
-                    Toast.makeText(QuestionActivity.this, "done", Toast.LENGTH_SHORT).show();
-                }
-                //to preview
-                else if (viewPager.getCurrentItem() == questions.size() - 1) {
-                    int position = viewPager.getCurrentItem();
-                    QuestionFragment previewFragment = (QuestionFragment) adapter.getItem(questions.size());
-                    QuestionFragment fragment = (QuestionFragment) adapter.getItem(position);
-                    questions.get(position).setJawabanUser(fragment.getAnswer());
-                    previewFragment.notifyDataSetChanged();
-                    viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
-                }
-                //to ma
-                else if (questions.get(viewPager.getCurrentItem()).getTipe().equalsIgnoreCase("ma")) {
-                    final int position = viewPager.getCurrentItem();
-                    QuestionFragment fragment = (QuestionFragment) adapter.getItem(position);
-                    final QuestionResponse questionModel = questions.get(position);
-                    questionModel.setJawabanUser(fragment.getAnswers());
-                    Log.e(TAG, "onClick: " + questionModel.getJawabanUser() );
-                    viewPager.setCurrentItem(position + 1);
-                }
-                else {
-                    final int position = viewPager.getCurrentItem();
-                    QuestionFragment fragment = (QuestionFragment) adapter.getItem(position);
-                    final QuestionResponse questionModel = questions.get(position);
-                    final String answer = fragment.getAnswer();
-                    questionModel.setJawabanUser(answer);
-                    Log.e("answer", "onClick: " + answer);
-                    viewPager.setCurrentItem(position + 1);
-                }
+        nextBtn.setOnClickListener(v -> {
+            //finish
+            if (viewPager.getCurrentItem() == questions.size()) {
+                DatabaseProvider dbProvider = DatabaseProvider.getInstance();
+                dbProvider.insert(questions);
+                finish();
+            }
+            //to preview
+            else if (viewPager.getCurrentItem() == questions.size() - 1) {
+                int position = viewPager.getCurrentItem();
+                QuestionFragment previewFragment = (QuestionFragment) adapter.getItem(questions.size());
+                QuestionFragment fragment = (QuestionFragment) adapter.getItem(position);
+                questions.get(position).setJawabanUser(fragment.getAnswer());
+                previewFragment.notifyDataSetChanged();
+                viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+            }
+            //to ma
+            else if (questions.get(viewPager.getCurrentItem()).getTipe().equalsIgnoreCase("ma")) {
+                final int position = viewPager.getCurrentItem();
+                QuestionFragment fragment = (QuestionFragment) adapter.getItem(position);
+                final QuestionResponse questionModel = questions.get(position);
+                questionModel.setJawabanUser(fragment.getAnswers());
+                Log.e(TAG, "onClick: " + questionModel.getJawabanUser() );
+                viewPager.setCurrentItem(position + 1);
+            }
+            else {
+                final int position = viewPager.getCurrentItem();
+                QuestionFragment fragment = (QuestionFragment) adapter.getItem(position);
+                final QuestionResponse questionModel = questions.get(position);
+                final String answer = fragment.getAnswer();
+                questionModel.setJawabanUser(answer);
+                Log.e("answer", "onClick: " + answer);
+                viewPager.setCurrentItem(position + 1);
             }
         });
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
