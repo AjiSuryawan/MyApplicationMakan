@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import io.realm.Realm;
 import io.realm.RealmList;
+import io.realm.RealmResults;
 
 public class DatabaseProvider {
 
@@ -30,18 +31,17 @@ public class DatabaseProvider {
         realm.executeTransactionAsync(realm -> {
             ObjectSurvey objectSurvey = realm.createObject(ObjectSurvey.class, UUID.randomUUID().toString());
             for (QuestionResponse questionModel: questionModels) {
-                AnsweredQuestionByObject answeredQuestion = realm.createObject(AnsweredQuestionByObject.class);
-                RealmList<String> listJawabanUser = new RealmList<>();
-                listJawabanUser.addAll(questionModel.getJawabanUser());
-                answeredQuestion.setQuestion(questionModel.getPertanyaan());
-                answeredQuestion.setAnswers(listJawabanUser);
+                QuestionResponse answeredQuestion = realm.createObject(QuestionResponse.class);
+                answeredQuestion.setId(questionModel.getId());
+                answeredQuestion.setPertanyaan(questionModel.getPertanyaan());
+                answeredQuestion.setJawabanUser(questionModel.getJawabanUser());
+                Log.e(TAG, "getJawabanUser: " + answeredQuestion.getJawabanUser());
                 objectSurvey.addAnsweredQuestion(answeredQuestion);
             }
         }, () -> Log.e(TAG, "onSuccess: success"), error -> Log.e(TAG, "onError: " + error.getMessage()));
     }
 
-    public ArrayList<ObjectSurvey> fetchAllObjectSurvey() {
-        //masih error
-        return new ArrayList<>(realm.where(ObjectSurvey.class).findAll());
+    public RealmResults<ObjectSurvey> fetchAllObjectSurvey() {
+        return realm.where(ObjectSurvey.class).findAll();
     }
 }

@@ -14,10 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".QuestionSection.QuestionActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name=".MainGroupSection.MainGroupActivity"
-            android:launchMode="singleTask"></activity>
+        <activity
+            android:name=".QuestionSection.QuestionActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".MainGroupSection.MainGroupActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".LoginSection.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,7 +27,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AnswerHeadersSection.AnswerHeadersActivity"></activity>
+        <activity android:name=".AnswerHeadersSection.AnswerHeadersActivity" />
+        <activity android:name=".AnswerHeadersSection.DetailAnswerHeadersActivity"></activity>
     </application>
 
 </manifest>
