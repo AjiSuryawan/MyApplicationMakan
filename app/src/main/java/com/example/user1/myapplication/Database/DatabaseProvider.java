@@ -2,9 +2,11 @@ package com.example.user1.myapplication.Database;
 
 import android.util.Log;
 
+import com.example.user1.myapplication.Model.MainGroupResponse;
 import com.example.user1.myapplication.Model.QuestionResponse;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import io.realm.Realm;
@@ -39,6 +41,13 @@ public class DatabaseProvider {
                 objectSurvey.addAnsweredQuestion(answeredQuestion);
             }
         }, () -> Log.e(TAG, "onSuccess: success"), error -> Log.e(TAG, "onError: " + error.getMessage()));
+    }
+
+    public void insert(String mainGroup){
+        realm.executeTransactionAsync(realm -> {
+            MainGroupResponse respone = realm.createObject(MainGroupResponse.class);
+
+        });
     }
 
     public RealmResults<ObjectSurvey> fetchAllObjectSurvey() {

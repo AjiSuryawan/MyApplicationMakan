@@ -1,5 +1,6 @@
 package com.example.user1.myapplication.MainGroupSection;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.user1.myapplication.AnswerHeadersSection.AnswerHeadersActivity;
+import com.example.user1.myapplication.LoginSection.LoginActivity;
 import com.example.user1.myapplication.Model.MainGroupResponse;
 import com.example.user1.myapplication.Network.SurveyClient;
 import com.example.user1.myapplication.Network.SurveyService;
@@ -32,10 +34,12 @@ import retrofit2.Response;
 public class MainGroupActivity extends AppCompatActivity implements onItemClickListener {
 
     private SharedPreferences preferences;
-    private MainGroupAdapter adapter;
     private RecyclerView recyclerView;
     private boolean isVisibilityOn = false;
-    private ArrayList<MainGroupResponse> mainGroups = new ArrayList<>();
+    private String password;
+    public ArrayList<MainGroupResponse> mainGroups = new ArrayList<>();
+    public MainGroupAdapter adapter = new MainGroupAdapter( this, mainGroups);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,16 +47,23 @@ public class MainGroupActivity extends AppCompatActivity implements onItemClickL
 
         recyclerView = findViewById(R.id.recycler_view);
         preferences = getSharedPreferences("pref_user", MODE_PRIVATE);
-        final String password = preferences.getString("user_password", "");
 
-        adapter = new MainGroupAdapter(this, mainGroups);
+        password = preferences.getString("user_password", "");
+
         adapter.setListener(this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        getMainGroups(password);
+        if(preferences.getInt("pernah_login", 0) == 1) {
+            mainGroups = getIntent().getParcelableExtra("data");
+            adapter.notifyDataSetChanged();
+        }else {
+            getMainGroups(password);
+        }
+
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -70,6 +81,9 @@ public class MainGroupActivity extends AppCompatActivity implements onItemClickL
                     item.setIcon(R.drawable.ic_action_visibility_on);
                 else
                     item.setIcon(R.drawable.ic_action_visibility_off);
+                return true;
+            case R.id.sync:
+                getMainGroups(password);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -90,18 +104,22 @@ public class MainGroupActivity extends AppCompatActivity implements onItemClickL
                         mainGroups.clear();
                         mainGroups.addAll(response.body());
                         adapter.notifyDataSetChanged();
+                        Toast.makeText(MainGroupActivity.this, "success maingroup", Toast.LENGTH_SHORT).show();
                     } catch (Exception e){
-                        Toast.makeText(MainGroupActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainGroupActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                        Log.d("1234567", "onResponse: " + e.getMessage());
                     }
                 }
 
                 @Override
                 public void onFailure(Call<ArrayList<MainGroupResponse>> call, Throwable t) {
-                    Toast.makeText(MainGroupActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainGroupActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+                    Log.d("1234567", "onFailure: " + t.getMessage());
                 }
             });
         } catch (JSONException e){
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            Log.d("1234567", "exception main: " + e.getMessage());
         }
     }
 

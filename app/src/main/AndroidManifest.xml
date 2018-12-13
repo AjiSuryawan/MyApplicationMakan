@@ -28,7 +28,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".AnswerHeadersSection.AnswerHeadersActivity" />
-        <activity android:name=".AnswerHeadersSection.DetailAnswerHeadersActivity"></activity>
+        <activity android:name=".AnswerHeadersSection.DetailAnswerHeadersActivity" />
+        <activity android:name=".SplashActivity"></activity>
     </application>
 
 </manifest>

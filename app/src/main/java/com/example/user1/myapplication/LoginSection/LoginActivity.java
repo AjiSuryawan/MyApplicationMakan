@@ -11,13 +11,17 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.user1.myapplication.MainGroupSection.MainGroupActivity;
+import com.example.user1.myapplication.MainGroupSection.MainGroupAdapter;
 import com.example.user1.myapplication.Model.LoginResponse;
+import com.example.user1.myapplication.Model.MainGroupResponse;
 import com.example.user1.myapplication.Network.SurveyClient;
 import com.example.user1.myapplication.Network.SurveyService;
 import com.example.user1.myapplication.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -33,6 +37,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+
+    public ArrayList<MainGroupResponse> mainGroups = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,15 +86,17 @@ public class LoginActivity extends AppCompatActivity {
                                     editor.putString("user_password", password);
                                     editor.putString("user_email", response.body().getEmail());
                                     editor.putString("user_status", response.body().getStatus());
+                                    editor.putInt("pernah_login", 1);
                                     editor.apply();
-                                    Toast.makeText(LoginActivity.this, "success", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, "success login", Toast.LENGTH_SHORT).show();
                                     Log.e("success", "onResponse: " + response.body().getEmail());
 
-                                    Intent intent = new Intent(LoginActivity.this, MainGroupActivity.class);
-                                    startActivity(intent);
+                                    MainGroupActivity m = new MainGroupActivity();
+                                    getData(password, m.adapter);
 
                                 } catch (Exception e){
                                     Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Log.d("1234567", "login: " + e.getMessage());
                                 }
                             }
 
@@ -104,4 +113,38 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void getData(String password, MainGroupAdapter adapter){
+        try{
+            JSONObject body = new JSONObject();
+            body.put("password", password);
+            SurveyService service = SurveyClient.getRetrofit().create(SurveyService.class);
+            Call<ArrayList<MainGroupResponse>> getMainGroupService = service.getMainGroups(body.toString());
+            getMainGroupService.enqueue(new Callback<ArrayList<MainGroupResponse>>() {
+                @Override
+                public void onResponse(Call<ArrayList<MainGroupResponse>> call, Response<ArrayList<MainGroupResponse>> response) {
+                    try{
+                        mainGroups.clear();
+                        mainGroups.addAll(response.body());
+                        adapter.notifyDataSetChanged();
+                        Toast.makeText(LoginActivity.this, "success maingroup", Toast.LENGTH_SHORT).show();
+
+                    } catch (Exception e){
+                        Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                        Log.d("1234567", "onResponse: " + e.getMessage());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ArrayList<MainGroupResponse>> call, Throwable t) {
+                    Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+                    Log.d("1234567", "onFailure: " + t.getMessage());
+                }
+            });
+        } catch (JSONException e){
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            Log.d("1234567", "exception main: " + e.getMessage());
+        }
+    }
+
 }
