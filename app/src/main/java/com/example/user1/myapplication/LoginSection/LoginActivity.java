@@ -85,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                     Intent intent = new Intent(LoginActivity.this, MainGroupActivity.class);
                                     startActivity(intent);
+                                    finish();
 
                                 } catch (Exception e){
                                     Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
