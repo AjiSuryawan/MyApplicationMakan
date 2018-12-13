@@ -1,12 +1,11 @@
 package com.example.user1.myapplication.Network;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.user1.myapplication.Database.DatabaseProvider;
-import com.example.user1.myapplication.LoginSection.LoginActivity;
 import com.example.user1.myapplication.MainGroupSection.MainGroupActivity;
 import com.example.user1.myapplication.MainGroupSection.MainGroupAdapter;
 import com.example.user1.myapplication.Model.LoginResponse;
@@ -26,12 +25,12 @@ import retrofit2.Response;
 public class SurveyHelper {
 
     private static SurveyHelper instance;
-    private static Context context;
+    private static Activity sActivity;
 
     private SurveyHelper(){}
 
-    public static SurveyHelper getInstance(Context mContext){
-        context = mContext;
+    public static SurveyHelper getInstance(Activity activity){
+        sActivity = activity;
         if (instance == null) instance = new SurveyHelper();
         return instance;
     }
@@ -60,26 +59,26 @@ public class SurveyHelper {
                         editor.putString("user_status", response.body().getStatus());
                         editor.putInt("pernah_login", 1);
                         editor.apply();*/
-                        Toast.makeText(context, "success login", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(sActivity, "success login", Toast.LENGTH_SHORT).show();
                         Log.e("success", "onResponse: " + response.body().getEmail());
 
                         MainGroupActivity m = new MainGroupActivity();
                         getMainGroup(password, m.adapter);
 
                     } catch (Exception e){
-                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(sActivity, e.getMessage(), Toast.LENGTH_SHORT).show();
                         Log.d("1234567", "login: " + e.getMessage());
                     }
                 }
 
                 @Override
                 public void onFailure(Call<LoginResponse> call, Throwable t) {
-                    Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(sActivity, t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (JSONException e){
             e.printStackTrace();
-            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(sActivity, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -100,23 +99,23 @@ public class SurveyHelper {
                         db.insert(jsonArray);
                         Log.e("TAG GAN", "onResponse: " + jsonArray );
                         adapter.notifyDataSetChanged();
-                        Toast.makeText(context, "success maingroup", Toast.LENGTH_SHORT).show();
-                        context.startActivity(new Intent(context, MainGroupActivity.class));
-
+                        Toast.makeText(sActivity, "success maingroup", Toast.LENGTH_SHORT).show();
+                        sActivity.startActivity(new Intent(sActivity, MainGroupActivity.class));
+                        sActivity.finish();
                     } catch (Exception e){
-                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(sActivity, e.getMessage(), Toast.LENGTH_LONG).show();
                         Log.d("1234567", "onResponse: " + e.getMessage());
                     }
                 }
 
                 @Override
                 public void onFailure(Call<ArrayList<MainGroupResponse>> call, Throwable t) {
-                    Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(sActivity, t.getMessage(), Toast.LENGTH_LONG).show();
                     Log.d("1234567", "onFailure: " + t.getMessage());
                 }
             });
         } catch (JSONException e){
-            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(sActivity, e.getMessage(), Toast.LENGTH_LONG).show();
             Log.d("1234567", "exception main: " + e.getMessage());
         }
     }
