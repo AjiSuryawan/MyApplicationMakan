@@ -1,16 +1,17 @@
-package com.example.user1.myapplication;
+package com.example.user1.myapplication.QuestionSection;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
 
 import java.util.ArrayList;
 
-public class SlideAdapter extends FragmentStatePagerAdapter {
+public class QuestionAdapter extends FragmentStatePagerAdapter {
 
     private final ArrayList<Fragment> fragments = new ArrayList<>();
 
-    public SlideAdapter(FragmentManager fm) {
+    public QuestionAdapter(FragmentManager fm) {
         super(fm);
     }
 
