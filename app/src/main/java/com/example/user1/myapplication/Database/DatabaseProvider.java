@@ -2,8 +2,11 @@ package com.example.user1.myapplication.Database;
 
 import android.util.Log;
 
+import com.example.user1.myapplication.MainGroupSection.MainGroupActivity;
 import com.example.user1.myapplication.Model.MainGroupResponse;
 import com.example.user1.myapplication.Model.QuestionResponse;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +35,7 @@ public class DatabaseProvider {
     public void insert(ArrayList<QuestionResponse> questionModels) {
         realm.executeTransactionAsync(realm -> {
             ObjectSurvey objectSurvey = realm.createObject(ObjectSurvey.class, UUID.randomUUID().toString());
-            for (QuestionResponse questionModel: questionModels) {
+            for (QuestionResponse questionModel : questionModels) {
                 QuestionResponse answeredQuestion = realm.createObject(QuestionResponse.class);
                 answeredQuestion.setId(questionModel.getId());
                 answeredQuestion.setPertanyaan(questionModel.getPertanyaan());
@@ -43,14 +46,18 @@ public class DatabaseProvider {
         }, () -> Log.e(TAG, "onSuccess: success"), error -> Log.e(TAG, "onError: " + error.getMessage()));
     }
 
-    public void insert(String mainGroup){
-        realm.executeTransactionAsync(realm -> {
-            MainGroupResponse respone = realm.createObject(MainGroupResponse.class);
-
-        });
+    public void insert(JSONArray json) {
+        realm.executeTransactionAsync(realm ->
+                realm.createAllFromJson(MainGroupResponse.class, json),
+                () -> Log.e(TAG, "onSuccess: success"),
+                error -> Log.e(TAG, "onError: " + error.getMessage()));
     }
 
     public RealmResults<ObjectSurvey> fetchAllObjectSurvey() {
         return realm.where(ObjectSurvey.class).findAll();
+    }
+
+    public RealmResults<MainGroupResponse> fetchAllMainGroup(){
+        return realm.where(MainGroupResponse.class).findAll();
     }
 }

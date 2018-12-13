@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.user1.myapplication.AnswerHeadersSection.AnswerHeadersActivity;
+import com.example.user1.myapplication.Database.DatabaseProvider;
 import com.example.user1.myapplication.LoginSection.LoginActivity;
 import com.example.user1.myapplication.Model.MainGroupResponse;
 import com.example.user1.myapplication.Network.SurveyClient;
@@ -50,17 +51,15 @@ public class MainGroupActivity extends AppCompatActivity implements onItemClickL
 
         password = preferences.getString("user_password", "");
 
+        DatabaseProvider db = DatabaseProvider.getInstance();
+
+        mainGroups.addAll(db.fetchAllMainGroup());
+
         adapter.setListener(this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-
-        if(preferences.getInt("pernah_login", 0) == 1) {
-            mainGroups = getIntent().getParcelableExtra("data");
-            adapter.notifyDataSetChanged();
-        }else {
-            getMainGroups(password);
-        }
+        adapter.notifyDataSetChanged();
 
     }
 
