@@ -67,8 +67,6 @@ public class SectionListDataAdapter extends RecyclerView.Adapter<SectionListData
         private SingleItemRowHolder(final View view) {
             super(view);
             this.tvTitle = (TextView)view.findViewById(R.id.tvjudul);
-
-
         }
 
     }
