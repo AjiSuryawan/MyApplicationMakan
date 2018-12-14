@@ -1,7 +1,10 @@
 package com.example.user1.myapplication.QuestionSection;
 
+import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -38,6 +41,7 @@ public class QuestionActivity extends AppCompatActivity {
     private Button previousBtn;
     private Button nextBtn;
     private QuestionAdapter adapter;
+    private AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +64,22 @@ public class QuestionActivity extends AppCompatActivity {
         nextBtn.setOnClickListener(v -> {
             //finish
             if (viewPager.getCurrentItem() == questions.size()) {
-                DatabaseProvider dbProvider = DatabaseProvider.getInstance();
-                dbProvider.insert(questions);
-                finish();
+                //dialog
+
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+                    builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+                } else {
+                    builder = new AlertDialog.Builder(this);
+                }
+
+                builder.setTitle("Simpan Data")
+                        .setMessage("Apakah Anda Yakin untuk menyimpan data anda ? ")
+                        .setPositiveButton("Ya", (dialog, which) -> {
+                            DatabaseProvider dbProvider = DatabaseProvider.getInstance();
+                            dbProvider.insert(questions);
+                            finish();
+                        }).setNegativeButton("Tidak", (dialog, which) -> dialog.cancel()).
+                        show();
             }
             //to preview
             else if (viewPager.getCurrentItem() == questions.size() - 1) {

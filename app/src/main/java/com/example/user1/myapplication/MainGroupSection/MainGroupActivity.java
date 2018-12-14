@@ -16,6 +16,7 @@ import com.example.user1.myapplication.Database.DatabaseProvider;
 import com.example.user1.myapplication.Model.MainGroupResponse;
 import com.example.user1.myapplication.QuestionSection.QuestionActivity;
 import com.example.user1.myapplication.R;
+import com.example.user1.myapplication.ShowDataSection.ShowDataActivity;
 import com.example.user1.myapplication.onItemClickListener;
 
 import java.util.ArrayList;
@@ -62,9 +63,12 @@ public class MainGroupActivity extends AppCompatActivity implements onItemClickL
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.showData:
-                Intent intent = new Intent(this, MainGroupActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                intent.putExtra("show_data", "show_data");
+                //Intent intent = new Intent(this, MainGroupActivity.class);
+                //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                /*intent.putExtra("show_data", "show_data");
+                finish();
+                startActivity(intent);*/
+                Intent intent = new Intent(this, ShowDataActivity.class);
                 startActivity(intent);
             case R.id.sync:
 //                getMainGroups(password);

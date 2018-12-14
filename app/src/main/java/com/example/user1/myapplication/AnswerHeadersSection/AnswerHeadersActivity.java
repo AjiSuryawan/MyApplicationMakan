@@ -28,6 +28,7 @@ public class AnswerHeadersActivity extends AppCompatActivity implements onItemCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answer_headers);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         DatabaseProvider db = DatabaseProvider.getInstance();
         objectSurveys.addAll(db.fetchAllObjectSurvey());

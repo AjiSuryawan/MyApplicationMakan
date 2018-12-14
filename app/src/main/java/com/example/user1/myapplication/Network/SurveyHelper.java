@@ -2,6 +2,7 @@ package com.example.user1.myapplication.Network;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -22,15 +23,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class SurveyHelper {
 
     private static SurveyHelper instance;
     private static Activity sActivity;
-
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
     private SurveyHelper(){}
 
     public static SurveyHelper getInstance(Activity activity){
         sActivity = activity;
+
         if (instance == null) instance = new SurveyHelper();
         return instance;
     }
@@ -39,6 +44,8 @@ public class SurveyHelper {
 
     public void loginService(String username, String userPassword ,String password){
         try {
+            sharedPreferences = sActivity.getSharedPreferences("pref_user", MODE_PRIVATE);
+            editor = sharedPreferences.edit();
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("username", username);
             jsonObject.put("userpassword", userPassword);
@@ -51,14 +58,14 @@ public class SurveyHelper {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                     try {
-                        /*editor.putString("user_id", response.body().getId());
+                        editor.putString("user_id", response.body().getId());
                         editor.putString("user_username", response.body().getUsername());
                         editor.putString("user_name", response.body().getName());
                         editor.putString("user_password", password);
                         editor.putString("user_email", response.body().getEmail());
                         editor.putString("user_status", response.body().getStatus());
                         editor.putInt("pernah_login", 1);
-                        editor.apply();*/
+                        editor.apply();
                         Toast.makeText(sActivity, "success login", Toast.LENGTH_SHORT).show();
                         Log.e("success", "onResponse: " + response.body().getEmail());
 
@@ -119,6 +126,4 @@ public class SurveyHelper {
             Log.d("1234567", "exception main: " + e.getMessage());
         }
     }
-
-
 }
