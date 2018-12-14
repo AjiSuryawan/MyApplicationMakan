@@ -60,10 +60,6 @@ public class LoginActivity extends AppCompatActivity {
         editor = sharedPreferences.edit();
         helper = SurveyHelper.getInstance(this);
 
-        Realm.init(this);
-        RealmConfiguration configuration = new RealmConfiguration.Builder().name("survey.realm").build();
-        Realm.setDefaultConfiguration(configuration);
-
         etInputUsername = findViewById(R.id.txtusername);
         etInputPassword = findViewById(R.id.txtpassword);
         etInputUserpassword = findViewById(R.id.et_userpassword);

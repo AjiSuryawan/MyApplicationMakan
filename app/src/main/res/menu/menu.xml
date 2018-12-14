@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/action_show"
-        android:title="List data"
-        android:icon="@drawable/ic_action_visibility_off"
-        app:showAsAction="always"/>
 
-    <!--<item-->
-        <!--android:id="@+id/dataku2"-->
-        <!--android:title="History data" />-->
-
+    <item android:id="@+id/showData"
+        android:title="Lihat Data Yang Tersimpan"
+        app:showAsAction="never"/>
     <item android:id="@+id/sync"
         android:title="Perbarui Data Online"
         app:showAsAction="never"/>

@@ -11,8 +11,18 @@ import io.realm.annotations.PrimaryKey;
 
 public class MainGroupResponse extends RealmObject implements Parcelable {
 
+    public static final Parcelable.Creator<MainGroupResponse> CREATOR = new Parcelable.Creator<MainGroupResponse>() {
+        @Override
+        public MainGroupResponse createFromParcel(Parcel source) {
+            return new MainGroupResponse(source);
+        }
 
-
+        @Override
+        public MainGroupResponse[] newArray(int size) {
+            return new MainGroupResponse[size];
+        }
+    };
+    
     @PrimaryKey
     @SerializedName("id")
     @Expose
@@ -20,6 +30,14 @@ public class MainGroupResponse extends RealmObject implements Parcelable {
     @SerializedName("description")
     @Expose
     private String description;
+
+    public MainGroupResponse() {
+    }
+
+    protected MainGroupResponse(Parcel in) {
+        this.id = in.readString();
+        this.description = in.readString();
+    }
 
     public String getId() {
         return id;
@@ -37,7 +55,6 @@ public class MainGroupResponse extends RealmObject implements Parcelable {
         this.description = description;
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -48,24 +65,4 @@ public class MainGroupResponse extends RealmObject implements Parcelable {
         dest.writeString(this.id);
         dest.writeString(this.description);
     }
-
-    public MainGroupResponse() {
-    }
-
-    protected MainGroupResponse(Parcel in) {
-        this.id = in.readString();
-        this.description = in.readString();
-    }
-
-    public static final Parcelable.Creator<MainGroupResponse> CREATOR = new Parcelable.Creator<MainGroupResponse>() {
-        @Override
-        public MainGroupResponse createFromParcel(Parcel source) {
-            return new MainGroupResponse(source);
-        }
-
-        @Override
-        public MainGroupResponse[] newArray(int size) {
-            return new MainGroupResponse[size];
-        }
-    };
 }
