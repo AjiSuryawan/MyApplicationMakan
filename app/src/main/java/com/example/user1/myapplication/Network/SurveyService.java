@@ -1,5 +1,6 @@
 package com.example.user1.myapplication.Network;
 
+import com.example.user1.myapplication.Model.AllQuestionResponse;
 import com.example.user1.myapplication.Model.LoginResponse;
 import com.example.user1.myapplication.Model.MainGroupResponse;
 import com.example.user1.myapplication.Model.QuestionResponse;
@@ -26,5 +27,9 @@ public interface SurveyService {
     @Headers("Content-Type: text/html")
     @POST("mobileapi/questions")
     Call<ArrayList<QuestionResponse>> getQuestions (@Body String requestBody);
+
+    @Headers("Content-Type: text/html")
+    @POST("mobileapi/allquestions")
+    Call<ArrayList<AllQuestionResponse>> getAllQuestions (@Body String requestBody);
 }
 

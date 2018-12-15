@@ -21,6 +21,7 @@ public class AnswerHeadersActivity extends AppCompatActivity implements onItemCl
 
     private static final String TAG = AnswerHeadersActivity.class.getSimpleName();
     private RecyclerView recyclerView;
+    private String category;
     private ArrayList<ObjectSurvey> objectSurveys = new ArrayList<>();
     private AnswerHeadersAdapter adapter;
 
@@ -30,8 +31,12 @@ public class AnswerHeadersActivity extends AppCompatActivity implements onItemCl
         setContentView(R.layout.activity_answer_headers);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        Bundle extras = getIntent().getExtras();
+        if(extras != null){
+            category = extras.getString("extra_category_mg");
+        }
         DatabaseProvider db = DatabaseProvider.getInstance();
-        objectSurveys.addAll(db.fetchAllObjectSurvey());
+        objectSurveys.addAll(db.fetchAllObjectSurvey(category));
         adapter = new AnswerHeadersAdapter(this, objectSurveys);
         adapter.setListener(this);
         recyclerView = findViewById(R.id.recycler_view);
@@ -39,10 +44,6 @@ public class AnswerHeadersActivity extends AppCompatActivity implements onItemCl
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
-//        for (int i = 0; i < objectSurveys.get(0).getAnsweredQuestions().size(); i++) {
-//            Log.e(TAG, "onCreate: " + objectSurveys.get(0).getAnsweredQuestions().get(i).getPertanyaan() );
-//            Log.e(TAG, "onCreate: " + objectSurveys.get(0).getAnsweredQuestions().get(i).getJawabanUser() );
-//        }
     }
 
     @Override
@@ -50,10 +51,6 @@ public class AnswerHeadersActivity extends AppCompatActivity implements onItemCl
         Intent intent = new Intent(this, DetailAnswerHeadersActivity.class);
         ArrayList<QuestionResponse> questionModels = new ArrayList<>();
         questionModels.addAll(objectSurveys.get(position).getAnsweredQuestions());
-        for (int i = 0; i < questionModels.size(); i++) {
-            Log.e(TAG, "onCreate: " + questionModels.get(i).getPertanyaan() );
-            Log.e(TAG, "onCreate: " + questionModels.get(i).getJawabanUser() );
-        }
         intent.putParcelableArrayListExtra("extra_objectsurvey", questionModels);
         startActivity(intent);
     }

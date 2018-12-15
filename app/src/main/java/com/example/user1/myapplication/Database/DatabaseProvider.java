@@ -2,18 +2,16 @@ package com.example.user1.myapplication.Database;
 
 import android.util.Log;
 
-import com.example.user1.myapplication.MainGroupSection.MainGroupActivity;
+import com.example.user1.myapplication.Model.AllQuestionResponse;
 import com.example.user1.myapplication.Model.MainGroupResponse;
 import com.example.user1.myapplication.Model.QuestionResponse;
-
-import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import io.realm.Realm;
-import io.realm.RealmList;
+import io.realm.RealmObject;
 import io.realm.RealmResults;
 
 public class DatabaseProvider {
@@ -32,9 +30,10 @@ public class DatabaseProvider {
         return instance;
     }
 
-    public void insert(ArrayList<QuestionResponse> questionModels) {
+    public void insert(String category, ArrayList<QuestionResponse> questionModels) {
         realm.executeTransactionAsync(realm -> {
             ObjectSurvey objectSurvey = realm.createObject(ObjectSurvey.class, UUID.randomUUID().toString());
+            objectSurvey.setCategoryMainGroup(category);
             for (QuestionResponse questionModel : questionModels) {
                 QuestionResponse answeredQuestion = realm.createObject(QuestionResponse.class);
                 answeredQuestion.setId(questionModel.getId());
@@ -46,18 +45,23 @@ public class DatabaseProvider {
         }, () -> Log.e(TAG, "onSuccess: success"), error -> Log.e(TAG, "onError: " + error.getMessage()));
     }
 
-    public void insert(JSONArray json) {
+    public void insert(List<? extends RealmObject> response){
         realm.executeTransactionAsync(realm ->
-                realm.createAllFromJson(MainGroupResponse.class, json),
+                realm.copyToRealmOrUpdate(response),
                 () -> Log.e(TAG, "onSuccess: success"),
-                error -> Log.e(TAG, "onError: " + error.getMessage()));
+                error -> Log.e(TAG, "onError: " + error.getMessage() ));
     }
 
-    public RealmResults<ObjectSurvey> fetchAllObjectSurvey() {
-        return realm.where(ObjectSurvey.class).findAll();
+
+    public RealmResults<ObjectSurvey> fetchAllObjectSurvey(String category) {
+        return realm.where(ObjectSurvey.class).equalTo("categoryMainGroup", category).findAll();
     }
 
     public RealmResults<MainGroupResponse> fetchAllMainGroup(){
         return realm.where(MainGroupResponse.class).findAll();
+    }
+
+    public RealmResults<AllQuestionResponse> fetchAllQuestions(){
+        return realm.where(AllQuestionResponse.class).findAll();
     }
 }

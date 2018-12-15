@@ -22,9 +22,9 @@ import com.example.user1.myapplication.onItemClickListener;
 
 import java.util.ArrayList;
 
-public class QuestionFragment extends Fragment {
+import io.realm.RealmList;
 
-    private String TAG = QuestionFragment.class.getSimpleName();
+public class QuestionFragment extends Fragment {
 
     private TextView tvPageIndicator;
     private TextView tvQuestion;
@@ -61,15 +61,16 @@ public class QuestionFragment extends Fragment {
         return questionFragment;
     }
 
-    public static QuestionFragment newInstance(String question, int questNo, int totalQuestion, ArrayList<String> answers, int layout) {
+    public static QuestionFragment newInstance(String question, int questNo, int totalQuestion, RealmList<String> answers, int layout) {
         QuestionFragment questionFragment = new QuestionFragment();
-
+        ArrayList<String> jawabanAwal = new ArrayList<>();
+        jawabanAwal.addAll(answers);
         Bundle args = new Bundle();
         args.putString("question", question);
         args.putInt("quest_no", questNo);
         args.putInt("total_question", totalQuestion);
         args.putInt("layout", layout);
-        args.putStringArrayList("answers", answers);
+        args.putStringArrayList("answers", jawabanAwal);
 
         questionFragment.setArguments(args);
 
@@ -112,12 +113,9 @@ public class QuestionFragment extends Fragment {
         if (layout == R.layout.preview) {
             recyclerView = view.findViewById(R.id.rv);
             adapter = new PreviewAdapter(questionsModel, getActivity());
-            adapter.setListener(new onItemClickListener() {
-                @Override
-                public void onItemClick(int position) {
-                    QuestionActivity slideActivity = (QuestionActivity) getActivity();
-                    slideActivity.changeToDesiredQuestion(position);
-                }
+            adapter.setListener(position -> {
+                QuestionActivity slideActivity = (QuestionActivity) getActivity();
+                slideActivity.changeToDesiredQuestion(position);
             });
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             recyclerView.setAdapter(adapter);
@@ -177,7 +175,7 @@ public class QuestionFragment extends Fragment {
         for (CheckBox checkbox : checkBoxes) {
             if(checkbox.isChecked()){
                 answers.add(checkbox.getText().toString());
-                Log.e("Answer", "getAnswers: " + checkbox.getText().toString() );
+                Log.e("Answer", "CheckBox: " + checkbox.getText().toString() );
             }
         }
         return answers;

@@ -26,7 +26,7 @@ public class ShowDataActivity extends AppCompatActivity implements onItemClickLi
     private RecyclerView recyclerView;
     private ArrayList<MainGroupResponse> objectSurveys;
     private MainGroupAdapter adapter;
-    private DatabaseProvider provider;
+    private DatabaseProvider db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +40,9 @@ public class ShowDataActivity extends AppCompatActivity implements onItemClickLi
         recyclerView = findViewById(R.id.recycler_view);
         objectSurveys = new ArrayList<>();
         adapter = new MainGroupAdapter(this, objectSurveys);
-        provider = DatabaseProvider.getInstance();
+        db = DatabaseProvider.getInstance();
 
-        objectSurveys.addAll(provider.fetchAllMainGroup());
+        objectSurveys.addAll(db.fetchAllMainGroup());
         adapter.setListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
@@ -53,12 +53,8 @@ public class ShowDataActivity extends AppCompatActivity implements onItemClickLi
 
     @Override
     public void onItemClick(int position) {
-        /*Intent intent = new Intent(this, DetailAnswerHeadersActivity.class);
-        ArrayList<QuestionResponse> questionModels = new ArrayList<>();
-        intent.putParcelableArrayListExtra("extra_objectsurvey", questionModels);
-        startActivity(intent);*/
-
         Intent intent = new Intent(this, AnswerHeadersActivity.class);
+        intent.putExtra("extra_category_mg", "mg" + (position + 1));
         startActivity(intent);
     }
 }

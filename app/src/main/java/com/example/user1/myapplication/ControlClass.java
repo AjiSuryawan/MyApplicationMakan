@@ -18,7 +18,10 @@ public class ControlClass extends Activity {
         super.onCreate(savedInstanceState);
 
         Realm.init(this);
-        RealmConfiguration configuration = new RealmConfiguration.Builder().name("survey.realm").build();
+        RealmConfiguration configuration = new RealmConfiguration.Builder()
+                .name("survey.realm")
+                .deleteRealmIfMigrationNeeded()
+                .build();
         Realm.setDefaultConfiguration(configuration);
 
         sharedPreferences = getSharedPreferences("pref_user", Context.MODE_PRIVATE);
@@ -28,7 +31,7 @@ public class ControlClass extends Activity {
             finish();
         }
         else{
-            Intent in=new Intent(getApplicationContext(),MainGroupActivity.class);
+            Intent in = new Intent(this, MainGroupActivity.class);
             startActivity(in);
             finish();
         }

@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.example.user1.myapplication.Database.DatabaseProvider;
 import com.example.user1.myapplication.MainGroupSection.MainGroupActivity;
 import com.example.user1.myapplication.MainGroupSection.MainGroupAdapter;
+import com.example.user1.myapplication.Model.AllQuestionResponse;
 import com.example.user1.myapplication.Model.LoginResponse;
 import com.example.user1.myapplication.Model.MainGroupResponse;
 import com.google.gson.Gson;
@@ -27,22 +28,23 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class SurveyHelper {
 
+    private static final String TAG = SurveyHelper.class.getSimpleName();
     private static SurveyHelper instance;
     private static Activity sActivity;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-    private SurveyHelper(){}
 
-    public static SurveyHelper getInstance(Activity activity){
+    private SurveyHelper() {
+    }
+
+    public static SurveyHelper getInstance(Activity activity) {
         sActivity = activity;
 
         if (instance == null) instance = new SurveyHelper();
         return instance;
     }
 
-    //method
-
-    public void loginService(String username, String userPassword ,String password){
+    public void loginService(String username, String userPassword, String password) {
         try {
             sharedPreferences = sActivity.getSharedPreferences("pref_user", MODE_PRIVATE);
             editor = sharedPreferences.edit();
@@ -51,7 +53,7 @@ public class SurveyHelper {
             jsonObject.put("userpassword", userPassword);
             jsonObject.put("password", password);
 
-            Log.e("jsonobject", "onClick: " + jsonObject.toString() );
+            Log.e("jsonobject", "onClick: " + jsonObject.toString());
             SurveyService service = SurveyClient.getRetrofit().create(SurveyService.class);
             Call<LoginResponse> loginService = service.loginService(jsonObject.toString());
             loginService.enqueue(new Callback<LoginResponse>() {
@@ -70,9 +72,9 @@ public class SurveyHelper {
                         Log.e("success", "onResponse: " + response.body().getEmail());
 
                         MainGroupActivity m = new MainGroupActivity();
-                        getMainGroup(password, m.adapter);
+                        getMainGroups(password, m.adapter);
 
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         Toast.makeText(sActivity, e.getMessage(), Toast.LENGTH_SHORT).show();
                         Log.d("1234567", "login: " + e.getMessage());
                     }
@@ -83,14 +85,15 @@ public class SurveyHelper {
                     Toast.makeText(sActivity, t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
-        } catch (JSONException e){
+
+        } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(sActivity, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void getMainGroup(String password, MainGroupAdapter adapter){
-        try{
+    public void getMainGroups(String password, MainGroupAdapter adapter) {
+        try {
             JSONObject body = new JSONObject();
             body.put("password", password);
             SurveyService service = SurveyClient.getRetrofit().create(SurveyService.class);
@@ -98,18 +101,13 @@ public class SurveyHelper {
             getMainGroupService.enqueue(new Callback<ArrayList<MainGroupResponse>>() {
                 @Override
                 public void onResponse(Call<ArrayList<MainGroupResponse>> call, Response<ArrayList<MainGroupResponse>> response) {
-                    try{
-//                        mainGroups.clear();
-//                        mainGroups.addAll(response.body());
+                    try {
                         DatabaseProvider db = DatabaseProvider.getInstance();
-                        JSONArray jsonArray = new JSONArray(new Gson().toJson(response.body()));
-                        db.insert(jsonArray);
-                        Log.e("TAG GAN", "onResponse: " + jsonArray );
+                        db.insert(response.body());
                         adapter.notifyDataSetChanged();
                         Toast.makeText(sActivity, "success maingroup", Toast.LENGTH_SHORT).show();
-                        sActivity.startActivity(new Intent(sActivity, MainGroupActivity.class));
-                        sActivity.finish();
-                    } catch (Exception e){
+                        getAllQuestions(password);
+                    } catch (Exception e) {
                         Toast.makeText(sActivity, e.getMessage(), Toast.LENGTH_LONG).show();
                         Log.d("1234567", "onResponse: " + e.getMessage());
                     }
@@ -121,9 +119,39 @@ public class SurveyHelper {
                     Log.d("1234567", "onFailure: " + t.getMessage());
                 }
             });
-        } catch (JSONException e){
+        } catch (JSONException e) {
             Toast.makeText(sActivity, e.getMessage(), Toast.LENGTH_LONG).show();
             Log.d("1234567", "exception main: " + e.getMessage());
+        }
+    }
+
+    public void getAllQuestions(String password) {
+        try {
+            JSONObject body = new JSONObject();
+            body.put("period", 1);
+            body.put("password", password);
+            SurveyService service = SurveyClient.getRetrofit().create(SurveyService.class);
+            Call<ArrayList<AllQuestionResponse>> getAllQuestions = service.getAllQuestions(body.toString());
+            getAllQuestions.enqueue(new Callback<ArrayList<AllQuestionResponse>>() {
+                @Override
+                public void onResponse(Call<ArrayList<AllQuestionResponse>> call, Response<ArrayList<AllQuestionResponse>> response) {
+                    try {
+                        DatabaseProvider db = DatabaseProvider.getInstance();
+                        db.insert(response.body());
+                        sActivity.startActivity(new Intent(sActivity, MainGroupActivity.class));
+                        sActivity.finish();
+                    } catch (Exception e){
+                        Log.e(TAG, "onResponse: " + e.getMessage());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ArrayList<AllQuestionResponse>> call, Throwable t) {
+                    Log.e(TAG, "onFailure: " + t.getMessage() );
+                }
+            });
+        } catch (JSONException e) {
+            Log.e(TAG, "getAllQuestions: " + e.getMessage());
         }
     }
 }

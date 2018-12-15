@@ -1,6 +1,5 @@
 package com.example.user1.myapplication.QuestionSection;
 
-import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -9,39 +8,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.example.user1.myapplication.Database.AnsweredQuestionByObject;
 import com.example.user1.myapplication.Database.DatabaseProvider;
-import com.example.user1.myapplication.Database.ObjectSurvey;
 import com.example.user1.myapplication.Model.QuestionResponse;
-import com.example.user1.myapplication.Network.SurveyClient;
-import com.example.user1.myapplication.Network.SurveyService;
 import com.example.user1.myapplication.R;
 import com.example.user1.myapplication.Utility.CustomViewPager;
-import com.example.user1.myapplication.Utility.ServicePassword;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-
-import io.realm.RealmList;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class QuestionActivity extends AppCompatActivity {
 
     private static final String TAG = QuestionActivity.class.getSimpleName();
     private Bundle extras;
-    private String categoryMainGroup;
     private CustomViewPager viewPager;
     private ArrayList<QuestionResponse> questions = new ArrayList<>();
     private Button previousBtn;
     private Button nextBtn;
     private QuestionAdapter adapter;
     private AlertDialog.Builder builder;
+    private String category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +36,10 @@ public class QuestionActivity extends AppCompatActivity {
 
         extras = getIntent().getExtras();
         if (extras != null) {
-            categoryMainGroup = extras.getString("extra_maingroup_id", "");
+            category = extras.getString("extra_category_mg");
+            questions = extras.getParcelableArrayList("extra_questions");
+            initQuestions(questions);
         }
-
-        fetchQuestions(categoryMainGroup, ServicePassword.getPassword(this));
 
         previousBtn = findViewById(R.id.previous_btn);
         previousBtn.setVisibility(View.GONE);
@@ -65,8 +50,7 @@ public class QuestionActivity extends AppCompatActivity {
             //finish
             if (viewPager.getCurrentItem() == questions.size()) {
                 //dialog
-
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
                 } else {
                     builder = new AlertDialog.Builder(this);
@@ -76,7 +60,7 @@ public class QuestionActivity extends AppCompatActivity {
                         .setMessage("Apakah Anda Yakin untuk menyimpan data anda ? ")
                         .setPositiveButton("Ya", (dialog, which) -> {
                             DatabaseProvider dbProvider = DatabaseProvider.getInstance();
-                            dbProvider.insert(questions);
+                            dbProvider.insert(category, questions);
                             finish();
                         }).setNegativeButton("Tidak", (dialog, which) -> dialog.cancel()).
                         show();
@@ -86,7 +70,11 @@ public class QuestionActivity extends AppCompatActivity {
                 int position = viewPager.getCurrentItem();
                 QuestionFragment previewFragment = (QuestionFragment) adapter.getItem(questions.size());
                 QuestionFragment fragment = (QuestionFragment) adapter.getItem(position);
-                questions.get(position).setJawabanUser(fragment.getAnswer());
+                if(questions.get(viewPager.getCurrentItem()).getTipe().equalsIgnoreCase("ma")){
+                    questions.get(position).setJawabanUser(fragment.getAnswers());
+                } else {
+                    questions.get(position).setJawabanUser(fragment.getAnswer());
+                }
                 previewFragment.notifyDataSetChanged();
                 viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
             }
@@ -96,16 +84,13 @@ public class QuestionActivity extends AppCompatActivity {
                 QuestionFragment fragment = (QuestionFragment) adapter.getItem(position);
                 final QuestionResponse questionModel = questions.get(position);
                 questionModel.setJawabanUser(fragment.getAnswers());
-                Log.e(TAG, "onClick: " + questionModel.getJawabanUser() );
                 viewPager.setCurrentItem(position + 1);
-            }
-            else {
+            } else {
                 final int position = viewPager.getCurrentItem();
                 QuestionFragment fragment = (QuestionFragment) adapter.getItem(position);
                 final QuestionResponse questionModel = questions.get(position);
                 final String answer = fragment.getAnswer();
                 questionModel.setJawabanUser(answer);
-                Log.e("answer", "onClick: " + answer);
                 viewPager.setCurrentItem(position + 1);
             }
         });
@@ -136,37 +121,6 @@ public class QuestionActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    private void fetchQuestions(String kategory, String password) {
-        Toast.makeText(this, "fetch questions......", Toast.LENGTH_SHORT).show();
-        try {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("kategori", kategory);
-            jsonObject.put("period", 1);
-            jsonObject.put("password", password);
-            SurveyService service = SurveyClient.getRetrofit().create(SurveyService.class);
-            Call<ArrayList<QuestionResponse>> getQuestions = service.getQuestions(jsonObject.toString());
-            getQuestions.enqueue(new Callback<ArrayList<QuestionResponse>>() {
-                @Override
-                public void onResponse(Call<ArrayList<QuestionResponse>> call, Response<ArrayList<QuestionResponse>> response) {
-                    try {
-                        questions.addAll(response.body());
-                        initQuestions(questions);
-                        Log.e("questions", "onResponse: " + questions.size());
-                    } catch (Exception e) {
-                        Toast.makeText(QuestionActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ArrayList<QuestionResponse>> call, Throwable t) {
-                    Toast.makeText(QuestionActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-        } catch (JSONException e) {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
     }
 
     private void initQuestions(ArrayList<QuestionResponse> questions) {

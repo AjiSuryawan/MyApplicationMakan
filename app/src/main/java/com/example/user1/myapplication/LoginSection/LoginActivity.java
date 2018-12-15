@@ -48,7 +48,6 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private SurveyHelper helper;
 
-    public ArrayList<MainGroupResponse> mainGroups = new ArrayList<>();
 
 
     @Override
@@ -64,18 +63,15 @@ public class LoginActivity extends AppCompatActivity {
         etInputPassword = findViewById(R.id.txtpassword);
         etInputUserpassword = findViewById(R.id.et_userpassword);
 
-        Button btnlogin=(Button)findViewById(R.id.btnlogin);
-        btnlogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final String username = etInputUsername.getText().toString();
-                final String userPassword = etInputUserpassword.getText().toString();
-                final String password = etInputPassword.getText().toString();
-                if(username.isEmpty() || userPassword.isEmpty() || password.isEmpty()){
-                    Toast.makeText(LoginActivity.this, "Form is empty", Toast.LENGTH_SHORT).show();
-                } else {
-                    helper.loginService(username, userPassword, password);
-                }
+        Button btnlogin = findViewById(R.id.btnlogin);
+        btnlogin.setOnClickListener(v -> {
+            final String username = etInputUsername.getText().toString();
+            final String userPassword = etInputUserpassword.getText().toString();
+            final String password = etInputPassword.getText().toString();
+            if(username.isEmpty() || userPassword.isEmpty() || password.isEmpty()){
+                Toast.makeText(LoginActivity.this, "Form is empty", Toast.LENGTH_SHORT).show();
+            } else {
+                helper.loginService(username, userPassword, password);
             }
         });
     }

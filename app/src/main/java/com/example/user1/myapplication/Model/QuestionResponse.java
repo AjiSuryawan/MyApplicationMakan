@@ -22,37 +22,33 @@ public class QuestionResponse extends RealmObject implements Parcelable {
     private String pertanyaan;
     @SerializedName("tipe")
     @Expose
-    @Ignore
     private String tipe;
     @SerializedName("domain_id")
     @Expose
-    @Ignore
     private String domainId;
     @SerializedName("domain")
     @Expose
-    @Ignore
     private String domain;
     @SerializedName("notes")
     @Expose
     private String notes;
     @SerializedName("jawaban")
     @Expose
-    @Ignore
-    private ArrayList<String> jawabanAwal;
+    private RealmList<String> jawabanAwal;
     private RealmList<String> jawabanUser = null;
 
     public QuestionResponse() {
     }
 
-    public QuestionResponse(String id, String pertanyaan, String tipe, String domainId, String domain, String notes, ArrayList<String> jawabanAwal) {
-        this.id = id;
-        this.pertanyaan = pertanyaan;
-        this.tipe = tipe;
-        this.domainId = domainId;
-        this.domain = domain;
-        this.notes = notes;
-        this.jawabanAwal = jawabanAwal;
-    }
+//    public QuestionResponse(String id, String pertanyaan, String tipe, String domainId, String domain, String notes, ArrayList<String> jawabanAwal) {
+//        this.id = id;
+//        this.pertanyaan = pertanyaan;
+//        this.tipe = tipe;
+//        this.domainId = domainId;
+//        this.domain = domain;
+//        this.notes = notes;
+//        this.jawabanAwal = jawabanAwal;
+//    }
 
     protected QuestionResponse(Parcel in) {
         id = in.readString();
@@ -61,7 +57,8 @@ public class QuestionResponse extends RealmObject implements Parcelable {
         domainId = in.readString();
         domain = in.readString();
         notes = in.readString();
-        jawabanAwal = in.createStringArrayList();
+        jawabanAwal = new RealmList<>();
+        jawabanAwal.addAll(in.createStringArrayList());
         jawabanUser = new RealmList<>();
         jawabanUser.addAll(in.createStringArrayList());
     }
@@ -94,7 +91,9 @@ public class QuestionResponse extends RealmObject implements Parcelable {
         this.pertanyaan = pertanyaan;
     }
 
-    public ArrayList<String> getJawabanAwal() {
+    public RealmList<String> getJawabanAwal() {
+        if(jawabanAwal == null)
+            jawabanAwal = new RealmList<>();
         return jawabanAwal;
     }
 

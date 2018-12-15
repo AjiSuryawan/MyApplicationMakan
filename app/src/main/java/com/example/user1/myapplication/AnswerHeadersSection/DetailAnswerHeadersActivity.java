@@ -14,8 +14,6 @@ import java.util.ArrayList;
 
 public class DetailAnswerHeadersActivity extends AppCompatActivity {
 
-    private static final String TAG = AnswerHeadersActivity.class.getSimpleName();
-
     private Bundle extras;
     private PreviewAdapter adapter;
     private RecyclerView recyclerView;
@@ -34,11 +32,6 @@ public class DetailAnswerHeadersActivity extends AppCompatActivity {
         adapter = new PreviewAdapter(questionsModel, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-
-        for (int i = 0; i < questionsModel.size(); i++) {
-            Log.e(TAG, "onCreate: " + questionsModel.get(i).getPertanyaan() );
-            Log.e(TAG, "onCreate: " + questionsModel.get(i).getJawabanUser() );
-        }
 
     }
 }

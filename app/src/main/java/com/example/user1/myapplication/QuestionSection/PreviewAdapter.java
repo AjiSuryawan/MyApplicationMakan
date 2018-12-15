@@ -20,7 +20,6 @@ import static android.support.constraint.Constraints.TAG;
 
 public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.MyViewHolder> {
 
-    private static final String TAG = AnswerHeadersActivity.class.getSimpleName();
     private ArrayList<QuestionResponse> questionsModel;
     private Context context;
     private onItemClickListener listener;
@@ -75,7 +74,6 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.MyViewHo
             StringBuilder answers = new StringBuilder();
 
             Log.e(TAG, "updateUI: " + questionsModel.getPertanyaan());
-            Log.e(TAG, "updateUI: " + questionsModel.getJawabanUser() );
             for (int i = 0; i < questionsModel.getJawabanUser().size(); i++) {
                 String answer = questionsModel.getJawabanUser().get(i);
                 if (i == questionsModel.getJawabanUser().size() - 1 )
