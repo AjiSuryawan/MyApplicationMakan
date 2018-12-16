@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/showData"
+        android:title="Lihat Data Yang Tersimpan"
+        app:showAsAction="never"/>
+    <item android:id="@+id/sync"
+        android:title="Perbarui Data Online"
+        app:showAsAction="never"/>
+</menu>
