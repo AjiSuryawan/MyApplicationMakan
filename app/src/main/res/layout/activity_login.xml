@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginSection.LoginActivity">
+
+    <EditText
+        android:hint="username"
+        android:text="marsel"
+        android:layout_width="match_parent"
+        android:id="@+id/txtusername"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="userpassword"
+        android:text="marsel"
+        android:id="@+id/et_userpassword"/>
+    <EditText
+        android:inputType="textPassword"
+        android:hint="password"
+        android:text="unicef12345"
+        android:layout_width="match_parent"
+        android:id="@+id/txtpassword"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btnlogin"
+        android:text="login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
