@@ -28,6 +28,7 @@ public class QuestionActivity extends AppCompatActivity {
     private QuestionAdapter adapter;
     private AlertDialog.Builder builder;
     private String category;
+    String period;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public class QuestionActivity extends AppCompatActivity {
 
         extras = getIntent().getExtras();
         if (extras != null) {
+            period = extras.getString("period");
             category = extras.getString("extra_category_mg");
             questions = extras.getParcelableArrayList("extra_questions");
             initQuestions(questions);
