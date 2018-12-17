@@ -46,7 +46,6 @@ public class AnswerHeadersActivity extends AppCompatActivity implements onItemCl
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.sinkron:
-
                 //dialog
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                     @Override
@@ -64,12 +63,53 @@ public class AnswerHeadersActivity extends AppCompatActivity implements onItemCl
                 };
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(AnswerHeadersActivity.this);
-                builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+                builder.setMessage("Are you sure want to syncronize data?").setPositiveButton("Yes", dialogClickListener)
                         .setNegativeButton("No", dialogClickListener).show();
+                break;
 
-            default:
-                return super.onOptionsItemSelected(item);
+            case R.id.deletedata:
+                DialogInterface.OnClickListener dialogClickListener2 = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                //Yes button clicked
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder2 = new AlertDialog.Builder(AnswerHeadersActivity.this);
+                builder2.setMessage("Are you sure want to delete syncronized data?").setPositiveButton("Yes", dialogClickListener2)
+                        .setNegativeButton("No", dialogClickListener2).show();
+                break;
+
+            case R.id.deletealldata:
+                DialogInterface.OnClickListener dialogClickListener3 = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                //Yes button clicked
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder3 = new AlertDialog.Builder(AnswerHeadersActivity.this);
+                builder3.setMessage("Are you sure want to delete all data?").setPositiveButton("Yes", dialogClickListener3)
+                        .setNegativeButton("No", dialogClickListener3).show();
+                break;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

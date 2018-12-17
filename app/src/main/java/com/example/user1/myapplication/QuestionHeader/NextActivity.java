@@ -51,7 +51,7 @@ public class NextActivity extends AppCompatActivity {
 
                 alert.setView(edittext);
 
-                alert.setPositiveButton("Yes Option", new DialogInterface.OnClickListener() {
+                alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         period = edittext.getText().toString();
                         if (Integer.parseInt(period)<1 || Integer.parseInt(period)>3){
@@ -67,7 +67,7 @@ public class NextActivity extends AppCompatActivity {
                     }
                 });
 
-                alert.setNegativeButton("No Option", new DialogInterface.OnClickListener() {
+                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         // what ever you want to do with No option.
                     }

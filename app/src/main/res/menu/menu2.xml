@@ -7,4 +7,14 @@
         android:id="@+id/sinkron"
         android:title="sinkron" />
 
+    <item
+        app:showAsAction="never"
+        android:id="@+id/deletedata"
+        android:title="delete synchronized data" />
+
+    <item
+        app:showAsAction="never"
+        android:id="@+id/deletealldata"
+        android:title="delete all data" />
+
 </menu>

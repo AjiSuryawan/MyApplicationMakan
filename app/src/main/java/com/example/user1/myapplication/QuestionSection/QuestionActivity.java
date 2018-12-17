@@ -28,11 +28,11 @@ public class QuestionActivity extends AppCompatActivity {
     private QuestionAdapter adapter;
     private AlertDialog.Builder builder;
     private String category;
-<<<<<<< HEAD
+
     String period;
-=======
+
     private Typeface font;
->>>>>>> 33a77afe90a05c81f09025f2891f74466abae986
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
