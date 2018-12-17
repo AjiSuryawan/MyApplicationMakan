@@ -165,8 +165,7 @@ public class QuestionFragment extends Fragment {
             }
         }
 
-        tvPageIndicator.setTypeface(font);
-        tvQuestion.setTypeface(font);
+
 
         return view;
     }
