@@ -1,5 +1,6 @@
 package com.example.user1.myapplication.AnswerHeadersSection;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.AlertDialog;
@@ -47,18 +48,24 @@ public class AnswerHeadersActivity extends AppCompatActivity implements onItemCl
             case R.id.sinkron:
 
                 //dialog
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
-                } else {
-                    builder = new AlertDialog.Builder(this);
-                }
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                //Yes button clicked
+                                break;
 
-                builder.setTitle("Simpan Data")
-                        .setMessage("Apakah Anda Yakin untuk menyimpan data anda ? ")
-                        .setPositiveButton("Ya", (dialog, which) -> {
-                            Toast.makeText(getApplicationContext(),"sinkron data",Toast.LENGTH_SHORT).show();
-                        }).setNegativeButton("Tidak", (dialog, which) -> dialog.cancel()).
-                        show();
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(AnswerHeadersActivity.this);
+                builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
 
             default:
                 return super.onOptionsItemSelected(item);

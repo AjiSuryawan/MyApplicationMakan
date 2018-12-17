@@ -12,7 +12,7 @@ public class Splashku extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splashku);
-        int SPLASH_TIME_OUT = 3500;
+        int SPLASH_TIME_OUT = 1500;
         new Handler().postDelayed(new Runnable() {
 
             /*
