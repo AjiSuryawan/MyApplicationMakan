@@ -75,5 +75,8 @@ public class LoginActivity extends AppCompatActivity {
                 helper.loginService(username, userPassword, password);
             }
         });
+
+        SurveyHelper helper = SurveyHelper.getInstance(this);
+        helper.sendAnswers();
     }
 }

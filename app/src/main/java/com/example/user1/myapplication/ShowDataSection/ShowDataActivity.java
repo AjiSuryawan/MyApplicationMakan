@@ -1,21 +1,19 @@
 package com.example.user1.myapplication.ShowDataSection;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.example.user1.myapplication.AnswerHeadersSection.AnswerHeadersActivity;
-import com.example.user1.myapplication.AnswerHeadersSection.AnswerHeadersAdapter;
-import com.example.user1.myapplication.AnswerHeadersSection.DetailAnswerHeadersActivity;
 import com.example.user1.myapplication.Database.DatabaseProvider;
-import com.example.user1.myapplication.Database.ObjectSurvey;
 import com.example.user1.myapplication.MainGroupSection.MainGroupAdapter;
 import com.example.user1.myapplication.Model.MainGroupResponse;
-import com.example.user1.myapplication.Model.QuestionResponse;
+import com.example.user1.myapplication.Network.SurveyHelper;
 import com.example.user1.myapplication.R;
 import com.example.user1.myapplication.onItemClickListener;
 
@@ -49,6 +47,24 @@ public class ShowDataActivity extends AppCompatActivity implements onItemClickLi
         adapter.notifyDataSetChanged();
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu2, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.send:
+                SurveyHelper helper = SurveyHelper.getInstance(this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

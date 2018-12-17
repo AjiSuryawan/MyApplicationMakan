@@ -5,7 +5,7 @@
     <item android:id="@+id/showData"
         android:title="Lihat Data Yang Tersimpan"
         app:showAsAction="never"/>
-    <item android:id="@+id/sync"
+    <item android:id="@+id/action_update_data"
         android:title="Perbarui Data Online"
         app:showAsAction="never"/>
 </menu>

@@ -12,6 +12,7 @@ import com.example.user1.myapplication.MainGroupSection.MainGroupAdapter;
 import com.example.user1.myapplication.Model.AllQuestionResponse;
 import com.example.user1.myapplication.Model.LoginResponse;
 import com.example.user1.myapplication.Model.MainGroupResponse;
+import com.example.user1.myapplication.Model.SendAnswersRequest;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -19,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -152,6 +154,36 @@ public class SurveyHelper {
             });
         } catch (JSONException e) {
             Log.e(TAG, "getAllQuestions: " + e.getMessage());
+        }
+    }
+
+    public void sendAnswers(){
+        try {
+            HashMap<String, String> answerHeaderData = new HashMap<>();
+            answerHeaderData.put("consentForm", "Ya");
+            answerHeaderData.put("enumeratorName", "Marsel");
+            ArrayList<HashMap<String, String>> answerLinesData = new ArrayList<>();
+            for (int i = 0; i < 3; i++) {
+                HashMap<String, String> map = new HashMap<>();
+                map.put("question_id", "id1");
+                map.put("answer", "answer");
+                answerLinesData.add(map);
+            }
+            SurveyService service = SurveyClient.getRetrofit().create(SurveyService.class);
+            Call<SendAnswersRequest> call = service.sendAnswers(new SendAnswersRequest(answerHeaderData, answerLinesData, "unicef12345"));
+            call.enqueue(new Callback<SendAnswersRequest>() {
+                @Override
+                public void onResponse(Call<SendAnswersRequest> call, Response<SendAnswersRequest> response) {
+                    Log.e(TAG, "onResponse: success" );
+                }
+
+                @Override
+                public void onFailure(Call<SendAnswersRequest> call, Throwable t) {
+                    Log.e(TAG, "onFailure: " + t.getMessage() );
+                }
+            });
+        } catch (Exception e){
+            Log.e(TAG, "sendAnswers: " + e.getMessage());
         }
     }
 }

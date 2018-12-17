@@ -33,37 +33,36 @@ public class AnswerHeadersActivity extends AppCompatActivity implements onItemCl
     private AnswerHeadersAdapter adapter;
     private AlertDialog.Builder builder;
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu2, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.sinkron:
-
-                //dialog
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
-                } else {
-                    builder = new AlertDialog.Builder(this);
-                }
-
-                builder.setTitle("Simpan Data")
-                        .setMessage("Apakah Anda Yakin untuk menyimpan data anda ? ")
-                        .setPositiveButton("Ya", (dialog, which) -> {
-                            Toast.makeText(getApplicationContext(),"sinkron data",Toast.LENGTH_SHORT).show();
-                        }).setNegativeButton("Tidak", (dialog, which) -> dialog.cancel()).
-                        show();
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.menu2, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle item selection
+//        switch (item.getItemId()) {
+//            case R.id.send:
+//                //dialog
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                    builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+//                } else {
+//                    builder = new AlertDialog.Builder(this);
+//                }
+//
+//                builder.setTitle("Simpan Data")
+//                        .setMessage("Apakah Anda Yakin untuk menyimpan data anda ? ")
+//                        .setPositiveButton("Ya", (dialog, which) -> {
+//                            Toast.makeText(getApplicationContext(),"sinkron data",Toast.LENGTH_SHORT).show();
+//                        }).setNegativeButton("Tidak", (dialog, which) -> dialog.cancel()).
+//                        show();
+//
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
