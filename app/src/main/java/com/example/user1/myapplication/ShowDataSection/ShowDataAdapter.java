@@ -1,4 +1,4 @@
-package com.example.user1.myapplication.MainGroupSection;
+package com.example.user1.myapplication.ShowDataSection;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.user1.myapplication.Model.MainGroupResponse;
@@ -15,13 +17,13 @@ import com.example.user1.myapplication.onItemClickListener;
 
 import java.util.ArrayList;
 
-public class MainGroupAdapter extends RecyclerView.Adapter<MainGroupAdapter.MGViewHolder> {
+public class ShowDataAdapter extends RecyclerView.Adapter<ShowDataAdapter.MGViewHolder> {
 
     private Context context;
     private ArrayList<MainGroupResponse> mainGroups;
     private onItemClickListener listener;
 
-    public MainGroupAdapter(Context context, ArrayList<MainGroupResponse> mainGroups) {
+    public ShowDataAdapter(Context context, ArrayList<MainGroupResponse> mainGroups) {
         this.context = context;
         this.mainGroups = mainGroups;
     }
@@ -33,7 +35,7 @@ public class MainGroupAdapter extends RecyclerView.Adapter<MainGroupAdapter.MGVi
     @NonNull
     @Override
     public MGViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_main_group, viewGroup, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_show_data, viewGroup, false);
         return new MGViewHolder(view);
     }
 
@@ -53,10 +55,12 @@ public class MainGroupAdapter extends RecyclerView.Adapter<MainGroupAdapter.MGVi
 
     class MGViewHolder extends RecyclerView.ViewHolder {
         private TextView tvMainGroupTitle;
+
         public MGViewHolder(@NonNull View itemView) {
             super(itemView);
 
             tvMainGroupTitle = itemView.findViewById(R.id.tv_maingroup_title);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

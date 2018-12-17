@@ -1,13 +1,18 @@
 package com.example.user1.myapplication.QuestionSection;
 
+import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -26,9 +31,9 @@ import io.realm.RealmList;
 
 public class QuestionFragment extends Fragment {
 
-    private TextView tvPageIndicator;
-    private TextView tvQuestion;
+    private TextView tvPageIndicator, tvQuestion;
     private EditText inputAnswer;
+    private TextInputLayout textInputLayout;
     private RadioGroup radioGroup;
     private RadioButton[] radioButtons;
     private ViewGroup checkboxLayout;
@@ -42,6 +47,7 @@ public class QuestionFragment extends Fragment {
     private RecyclerView recyclerView;
     private ArrayList<QuestionResponse> questionsModel = new ArrayList<>();
     private ArrayList<String> answers = new ArrayList<>();
+    private Typeface font;
 
     public QuestionFragment() {
         //empty constructor
@@ -91,6 +97,9 @@ public class QuestionFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/MontserratRegular.ttf");
+
         if (getArguments() != null) {
             layout = getArguments().getInt("layout");
             question = getArguments().getString("question");
@@ -107,6 +116,9 @@ public class QuestionFragment extends Fragment {
             tvPageIndicator = view.findViewById(R.id.page_indicator);
             tvQuestion = view.findViewById(R.id.tv_question);
             inputAnswer = view.findViewById(R.id.input_answer);
+            textInputLayout = view.findViewById(R.id.textInputLayoutAnswer);
+            textInputLayout.setTypeface(font);
+            inputAnswer.setTypeface(font);
             tvQuestion.setText(question);
             tvPageIndicator.setText(questNo + "/" + totalQuestion);
         } //preview
@@ -132,6 +144,7 @@ public class QuestionFragment extends Fragment {
                 radioButtons[i]  = new RadioButton(getActivity());
                 radioButtons[i].setText(answers.get(i));
                 radioButtons[i].setId(i);
+                radioButtons[i].setTypeface(font);
                 radioGroup.addView(radioButtons[i]);
             }
         }
@@ -147,9 +160,14 @@ public class QuestionFragment extends Fragment {
                 checkBoxes[i] = new CheckBox(getActivity());
                 checkBoxes[i].setText(answers.get(i));
                 checkBoxes[i].setId(i);
+                checkBoxes[i].setTypeface(font);
                 checkboxLayout.addView(checkBoxes[i]);
             }
         }
+
+        tvPageIndicator.setTypeface(font);
+        tvQuestion.setTypeface(font);
+
         return view;
     }
 
@@ -183,5 +201,14 @@ public class QuestionFragment extends Fragment {
 
     public void notifyDataSetChanged(){
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home) {
+            Intent back = new Intent(getActivity(), QuestionActivity.class);
+            startActivity(back);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
