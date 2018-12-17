@@ -23,7 +23,7 @@ public class ShowDataActivity extends AppCompatActivity implements onItemClickLi
 
     private RecyclerView recyclerView;
     private ArrayList<MainGroupResponse> objectSurveys;
-    private MainGroupAdapter adapter;
+    private ShowDataAdapter adapter;
     private DatabaseProvider db;
 
     @Override
@@ -37,7 +37,7 @@ public class ShowDataActivity extends AppCompatActivity implements onItemClickLi
 
         recyclerView = findViewById(R.id.recycler_view);
         objectSurveys = new ArrayList<>();
-        adapter = new MainGroupAdapter(this, objectSurveys);
+        adapter = new ShowDataAdapter(this, objectSurveys);
         db = DatabaseProvider.getInstance();
 
         objectSurveys.addAll(db.fetchAllMainGroup());

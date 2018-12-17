@@ -4,15 +4,20 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.example.user1.myapplication.Database.DatabaseProvider;
+import com.example.user1.myapplication.Model.AllQuestionResponse;
 import com.example.user1.myapplication.Model.MainGroupResponse;
 import com.example.user1.myapplication.Model.QuestionResponse;
+import com.example.user1.myapplication.QuestionHeader.QuestionHeader;
 import com.example.user1.myapplication.QuestionSection.QuestionActivity;
 import com.example.user1.myapplication.R;
 import com.example.user1.myapplication.ShowDataSection.ShowDataActivity;
@@ -73,7 +78,8 @@ public class MainGroupActivity extends AppCompatActivity implements onItemClickL
 
     @Override
     public void onItemClick(int position) {
-        Intent intent = new Intent(this, QuestionActivity.class);
+        //Intent intent = new Intent(this, QuestionActivity.class);
+        Intent intent = new Intent(this, QuestionHeader.class);
         ArrayList<QuestionResponse> questionResponses = new ArrayList<>();
         questionResponses.addAll(db.fetchAllQuestions().get(position).getMainGroup(position));
         intent.putExtra("extra_category_mg", "mg" + (position + 1));

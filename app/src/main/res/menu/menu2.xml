@@ -7,4 +7,14 @@
         android:id="@+id/send"
         android:title="send" />
 
+    <item
+        app:showAsAction="never"
+        android:id="@+id/deletedata"
+        android:title="delete synchronized data" />
+
+    <item
+        app:showAsAction="never"
+        android:id="@+id/deletealldata"
+        android:title="delete all data" />
+
 </menu>

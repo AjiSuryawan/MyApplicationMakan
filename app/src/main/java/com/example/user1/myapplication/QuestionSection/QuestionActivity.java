@@ -1,5 +1,7 @@
 package com.example.user1.myapplication.QuestionSection;
 
+import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -22,48 +24,66 @@ public class QuestionActivity extends AppCompatActivity {
     private Bundle extras;
     private CustomViewPager viewPager;
     private ArrayList<QuestionResponse> questions = new ArrayList<>();
-    private Button previousBtn;
-    private Button nextBtn;
+    private Button previousBtn, nextBtn;
     private QuestionAdapter adapter;
     private AlertDialog.Builder builder;
     private String category;
+
+    String period;
+
+    private Typeface font;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
+
         viewPager = findViewById(R.id.viewpager);
+        nextBtn = findViewById(R.id.next_btn);
+        previousBtn = findViewById(R.id.previous_btn);
+        font = Typeface.createFromAsset(getAssets(), "fonts/MontserratRegular.ttf");
+
+        nextBtn.setTypeface(font);
+        previousBtn.setTypeface(font);
 
         extras = getIntent().getExtras();
         if (extras != null) {
+            period = extras.getString("period");
             category = extras.getString("extra_category_mg");
             questions = extras.getParcelableArrayList("extra_questions");
             initQuestions(questions);
         }
 
-        previousBtn = findViewById(R.id.previous_btn);
         previousBtn.setVisibility(View.GONE);
         previousBtn.setOnClickListener(v -> viewPager.setCurrentItem(viewPager.getCurrentItem() - 1));
 
-        nextBtn = findViewById(R.id.next_btn);
         nextBtn.setOnClickListener(v -> {
             //finish
             if (viewPager.getCurrentItem() == questions.size()) {
                 //dialog
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
-                } else {
-                    builder = new AlertDialog.Builder(this);
-                }
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                DatabaseProvider dbProvider = DatabaseProvider.getInstance();
+                                dbProvider.insert(category, questions);
+                                finish();
+                                //Yes button clicked
+                                break;
 
-                builder.setTitle("Simpan Data")
-                        .setMessage("Apakah Anda Yakin untuk menyimpan data anda ? ")
-                        .setPositiveButton("Ya", (dialog, which) -> {
-                            DatabaseProvider dbProvider = DatabaseProvider.getInstance();
-                            dbProvider.insert(category, questions);
-                            finish();
-                        }).setNegativeButton("Tidak", (dialog, which) -> dialog.cancel()).
-                        show();
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(QuestionActivity.this);
+                builder.setMessage("Are you sure want to save data ?").setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
+                //
             }
             //to preview
             else if (viewPager.getCurrentItem() == questions.size() - 1) {

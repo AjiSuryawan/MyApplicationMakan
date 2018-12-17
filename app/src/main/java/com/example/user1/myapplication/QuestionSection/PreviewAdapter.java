@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.user1.myapplication.AnswerHeadersSection.AnswerHeadersActivity;
 import com.example.user1.myapplication.Model.QuestionResponse;
 import com.example.user1.myapplication.R;
 import com.example.user1.myapplication.onItemClickListener;
@@ -79,11 +78,11 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.MyViewHo
                 if (i == questionsModel.getJawabanUser().size() - 1 )
                     answers.append(answer);
                 else
-                    answers.append(answer+ ", ");
+                    answers.append(answer+ ",\n");
 
             }
             tvAnswer.setText(answers.toString());
-            tvNo.setText(position + ") ");
+            tvNo.setText(position + ". ");
         }
     }
 }
