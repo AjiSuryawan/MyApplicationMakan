@@ -1,6 +1,7 @@
 package com.example.user1.myapplication.QuestionSection;
 
 import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -23,18 +24,28 @@ public class QuestionActivity extends AppCompatActivity {
     private Bundle extras;
     private CustomViewPager viewPager;
     private ArrayList<QuestionResponse> questions = new ArrayList<>();
-    private Button previousBtn;
-    private Button nextBtn;
+    private Button previousBtn, nextBtn;
     private QuestionAdapter adapter;
     private AlertDialog.Builder builder;
     private String category;
+<<<<<<< HEAD
     String period;
+=======
+    private Typeface font;
+>>>>>>> 33a77afe90a05c81f09025f2891f74466abae986
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
+
         viewPager = findViewById(R.id.viewpager);
+        nextBtn = findViewById(R.id.next_btn);
+        previousBtn = findViewById(R.id.previous_btn);
+        font = Typeface.createFromAsset(getAssets(), "fonts/MontserratRegular.ttf");
+
+        nextBtn.setTypeface(font);
+        previousBtn.setTypeface(font);
 
         extras = getIntent().getExtras();
         if (extras != null) {
@@ -44,11 +55,9 @@ public class QuestionActivity extends AppCompatActivity {
             initQuestions(questions);
         }
 
-        previousBtn = findViewById(R.id.previous_btn);
         previousBtn.setVisibility(View.GONE);
         previousBtn.setOnClickListener(v -> viewPager.setCurrentItem(viewPager.getCurrentItem() - 1));
 
-        nextBtn = findViewById(R.id.next_btn);
         nextBtn.setOnClickListener(v -> {
             //finish
             if (viewPager.getCurrentItem() == questions.size()) {

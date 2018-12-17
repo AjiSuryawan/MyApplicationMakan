@@ -1,6 +1,7 @@
 package com.example.user1.myapplication.AnswerHeadersSection;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -39,6 +40,9 @@ public class AnswerHeadersAdapter extends RecyclerView.Adapter<AnswerHeadersAdap
 
     @Override
     public void onBindViewHolder(@NonNull AHViewHolder ahViewHolder, int i) {
+        Typeface font = Typeface.createFromAsset(context.getAssets(), "fonts/MontserratRegular.ttf");
+
+        ahViewHolder.tvIdUser.setTypeface(font);
         ahViewHolder.setText(objectSurveys.get(i));
     }
 
