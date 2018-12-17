@@ -1,5 +1,6 @@
 package com.example.user1.myapplication.QuestionSection;
 
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -56,20 +57,28 @@ public class QuestionActivity extends AppCompatActivity {
             //finish
             if (viewPager.getCurrentItem() == questions.size()) {
                 //dialog
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
-                } else {
-                    builder = new AlertDialog.Builder(this);
-                }
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                DatabaseProvider dbProvider = DatabaseProvider.getInstance();
+                                dbProvider.insert(category, questions);
+                                finish();
+                                //Yes button clicked
+                                break;
 
-                builder.setTitle("Simpan Data")
-                        .setMessage("Apakah Anda Yakin untuk menyimpan data anda ? ")
-                        .setPositiveButton("Ya", (dialog, which) -> {
-                            DatabaseProvider dbProvider = DatabaseProvider.getInstance();
-                            dbProvider.insert(category, questions);
-                            finish();
-                        }).setNegativeButton("Tidak", (dialog, which) -> dialog.cancel()).
-                        show();
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(QuestionActivity.this);
+                builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
+                //
             }
             //to preview
             else if (viewPager.getCurrentItem() == questions.size() - 1) {
