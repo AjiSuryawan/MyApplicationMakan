@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputType;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 import com.example.user1.myapplication.Model.QuestionResponse;
 import com.example.user1.myapplication.QuestionSection.QuestionActivity;
 import com.example.user1.myapplication.R;
+import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import java.util.ArrayList;
 
@@ -26,6 +29,7 @@ public class NextActivity extends AppCompatActivity {
     private String category;
     private ArrayList<QuestionResponse> questions = new ArrayList<>();
     String period;
+    String[] SPINNERLIST = {"1", "2", "3"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,46 +42,37 @@ public class NextActivity extends AppCompatActivity {
             questions = extras.getParcelableArrayList("extra_questions");
         }
 
-        btnstart=(Button)findViewById(R.id.btnstart);
-        btnstart.setOnClickListener(new View.OnClickListener() {
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, SPINNERLIST);
+        MaterialBetterSpinner materialDesignSpinner = (MaterialBetterSpinner)
+                findViewById(R.id.android_material_design_spinner);
+        materialDesignSpinner.setAdapter(arrayAdapter);
+        materialDesignSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                //dialog period
-                AlertDialog.Builder alert = new AlertDialog.Builder(NextActivity.this);
-                final EditText edittext = new EditText(NextActivity.this);
-                edittext.setInputType(InputType.TYPE_CLASS_NUMBER);
-                alert.setMessage("Please input period time");
-                alert.setTitle("Input period");
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                period=SPINNERLIST[position].toString();
+            }
 
-                alert.setView(edittext);
-
-                alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        period = edittext.getText().toString();
-                        if (Integer.parseInt(period)<1 || Integer.parseInt(period)>3){
-                            Toast.makeText(getApplicationContext(),"no data",Toast.LENGTH_SHORT).show();
-                        }else {
-                            Intent intent = new Intent(NextActivity.this,QuestionActivity.class);
-                            intent.putExtra("period",period);
-                            intent.putExtra("extra_category_mg", category);
-                            intent.putParcelableArrayListExtra("extra_questions", questions);
-                            startActivity(intent);
-                            finish();
-                        }
-                    }
-                });
-
-                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        // what ever you want to do with No option.
-                    }
-                });
-
-                alert.show();
-                //
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
+        btnstart=(Button)findViewById(R.id.btngo);
+        btnstart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NextActivity.this,QuestionActivity.class);
+                intent.putExtra("period",period);
+                intent.putExtra("extra_category_mg", category);
+                intent.putParcelableArrayListExtra("extra_questions", questions);
+                startActivity(intent);
+                finish();
+
+            }
+        });
+
+
 
         tv = (TextView) findViewById(R.id.tv);
 
