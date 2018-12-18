@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.example.user1.myapplication.Database.DatabaseProvider;
 import com.example.user1.myapplication.Model.MainGroupResponse;
@@ -17,7 +18,7 @@ import com.example.user1.myapplication.onItemClickListener;
 import java.util.ArrayList;
 
 public class AnswerHeadersActivity extends AppCompatActivity implements onItemClickListener {
-
+    public static final int REQUEST_CODE = 1;
     private static final String TAG = AnswerHeadersActivity.class.getSimpleName();
     private RecyclerView recyclerView;
     private String category;
@@ -54,8 +55,23 @@ public class AnswerHeadersActivity extends AppCompatActivity implements onItemCl
         intent.putExtra("extra_maingroup", mainGroupResponse);
         intent.putExtra("extra_objectsurvey", objectSurveys.get(position));
         intent.putParcelableArrayListExtra("extra_questions", getQuestions(objectSurveys.get(position)));
-        startActivity(intent);
+        //startActivity(intent);
+        startActivityForResult(intent , REQUEST_CODE);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        // check if the request code is same as what is passed  here it is 2
+        if(requestCode==REQUEST_CODE)
+        {
+            Toast.makeText(getApplicationContext(),"makanan",Toast.LENGTH_SHORT).show();
+            objectSurveys.addAll(db.fetchAllObjectSurvey(category));
+            adapter.notifyDataSetChanged();
+        }
+    }
+
 
     @Override
     protected void onDestroy() {

@@ -28,6 +28,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.example.user1.myapplication.AnswerHeadersSection.AnswerHeadersActivity.REQUEST_CODE;
 
 public class SurveyHelper {
 
@@ -187,9 +188,12 @@ public class SurveyHelper {
                             Toast.makeText(sActivity, "Success", Toast.LENGTH_SHORT).show();
                             db = DatabaseProvider.getInstance();
                             db.update(objectSurvey);
-                            Intent intent = new Intent(sActivity, ShowDataActivity.class);
+                            /*Intent intent = new Intent(sActivity, ShowDataActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            sActivity.startActivity(intent);
+                            sActivity.startActivity(intent);*/
+                            Intent i=new Intent();
+                            sActivity.setResult(REQUEST_CODE,i);
+                            sActivity.finish();
                         } else {
                             Toast.makeText(sActivity, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         }
