@@ -52,7 +52,6 @@ public class DatabaseProvider {
                 error -> Log.e(TAG, "onError: " + error.getMessage() ));
     }
 
-
     public RealmResults<ObjectSurvey> fetchAllObjectSurvey(String category) {
         return realm.where(ObjectSurvey.class).equalTo("categoryMainGroup", category).findAll();
     }
