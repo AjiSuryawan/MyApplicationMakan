@@ -18,13 +18,15 @@ import com.example.user1.myapplication.ShowDataSection.ShowDataActivity;
 import com.example.user1.myapplication.onItemClickListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainGroupActivity extends AppCompatActivity implements onItemClickListener {
 
     private static final String TAG = DatabaseProvider.class.getSimpleName();
 
     public ArrayList<MainGroupResponse> mainGroups = new ArrayList<>();
-    public MainGroupAdapter adapter = new MainGroupAdapter(this, mainGroups);
+    public ArrayList<Integer> image;
+    public MainGroupAdapter adapter;
     private SharedPreferences preferences;
     private RecyclerView recyclerView;
     private DatabaseProvider db;
@@ -37,6 +39,10 @@ public class MainGroupActivity extends AppCompatActivity implements onItemClickL
         recyclerView = findViewById(R.id.recycler_view);
 
         db = DatabaseProvider.getInstance();
+
+        image = new ArrayList<>();
+        image.addAll(Arrays.asList(R.drawable.block, R.drawable.family, R.drawable.toys, R.drawable.block, R.drawable.family, R.drawable.toys));
+        adapter = new MainGroupAdapter(this, mainGroups, image);
 
         mainGroups.addAll(db.fetchAllMainGroup());
 
