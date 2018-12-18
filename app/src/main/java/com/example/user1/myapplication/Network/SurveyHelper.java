@@ -76,8 +76,7 @@ public class SurveyHelper {
                         Toast.makeText(sActivity, "success login", Toast.LENGTH_SHORT).show();
                         Log.e("success", "onResponse: " + response.body().getEmail());
 
-                        MainGroupActivity m = new MainGroupActivity();
-                        getMainGroups(password, m.adapter);
+                        getMainGroups(password);
 
                     } catch (Exception e) {
                         Toast.makeText(sActivity, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -96,7 +95,7 @@ public class SurveyHelper {
         }
     }
 
-    public void getMainGroups(String password, MainGroupAdapter adapter) {
+    public void getMainGroups(String password) {
         try {
             JSONObject body = new JSONObject();
             body.put("password", password);
@@ -108,7 +107,6 @@ public class SurveyHelper {
                     try {
                         db = DatabaseProvider.getInstance();
                         db.insert(response.body());
-                        adapter.notifyDataSetChanged();
                         Toast.makeText(sActivity, "success maingroup", Toast.LENGTH_SHORT).show();
                         getAllQuestions(password);
                     } catch (Exception e) {
