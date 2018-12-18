@@ -67,6 +67,7 @@ public class AnswerHeadersActivity extends AppCompatActivity implements onItemCl
         if(requestCode==REQUEST_CODE)
         {
             Toast.makeText(getApplicationContext(),"makanan",Toast.LENGTH_SHORT).show();
+            objectSurveys = new ArrayList<>();
             objectSurveys.addAll(db.fetchAllObjectSurvey(category));
             adapter.notifyDataSetChanged();
         }
