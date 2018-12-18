@@ -14,6 +14,7 @@ import com.example.user1.myapplication.Model.MainGroupResponse;
 import com.example.user1.myapplication.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class QuestionHeaderAdapter extends RecyclerView.Adapter<QuestionHeaderAdapter.MyViewHolder> {
 
@@ -55,9 +56,7 @@ public class QuestionHeaderAdapter extends RecyclerView.Adapter<QuestionHeaderAd
 
     public ArrayList<String> getAnswers() {
         ArrayList<String> answers = new ArrayList<>();
-        for (String answer : this.answers) {
-            answers.add(answer);
-        }
+        answers.addAll(Arrays.asList(this.answers));
         return answers;
     }
 

@@ -1,24 +1,14 @@
 package com.example.user1.myapplication.ShowDataSection;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 
 import com.example.user1.myapplication.AnswerHeadersSection.AnswerHeadersActivity;
-import com.example.user1.myapplication.AnswerHeadersSection.AnswerHeadersAdapter;
-import com.example.user1.myapplication.AnswerHeadersSection.DetailAnswerHeadersActivity;
 import com.example.user1.myapplication.Database.DatabaseProvider;
-import com.example.user1.myapplication.Database.ObjectSurvey;
-import com.example.user1.myapplication.MainGroupSection.MainGroupAdapter;
 import com.example.user1.myapplication.Model.MainGroupResponse;
-import com.example.user1.myapplication.Network.SurveyHelper;
 import com.example.user1.myapplication.R;
 import com.example.user1.myapplication.onItemClickListener;
 
@@ -44,11 +34,9 @@ public class ShowDataActivity extends AppCompatActivity implements onItemClickLi
 
         recyclerView = findViewById(R.id.recycler_view);
         mgResponses = new ArrayList<>();
-        adapter = new ShowDataAdapter(this, mgResponses);
-        objectSurveys = new ArrayList<>();
         image = new ArrayList<>();
         image.addAll(Arrays.asList(R.drawable.block, R.drawable.family, R.drawable.toys, R.drawable.block, R.drawable.family, R.drawable.toys));
-        adapter = new ShowDataAdapter(this, objectSurveys, image);
+        adapter = new ShowDataAdapter(this, mgResponses, image);
         db = DatabaseProvider.getInstance();
 
         mgResponses.addAll(db.fetchAllMainGroup());
