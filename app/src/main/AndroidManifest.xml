@@ -42,6 +42,7 @@
 
         </activity>
         <activity android:name=".QuestionHeader.QuestionHeaderActivity"/>
+        <activity android:name=".QuestionHeader.NextActivity"/>
     </application>
 
 </manifest>

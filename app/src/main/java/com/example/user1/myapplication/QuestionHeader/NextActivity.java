@@ -28,6 +28,7 @@ public class NextActivity extends AppCompatActivity {
     private Bundle extras;
     private String category;
     private ArrayList<QuestionResponse> questions = new ArrayList<>();
+    private ArrayList<String> answers = new ArrayList<>();
     String period;
     String[] SPINNERLIST = {"1", "2", "3"};
 
@@ -40,6 +41,7 @@ public class NextActivity extends AppCompatActivity {
         if (extras != null) {
             category = extras.getString("extra_category_mg");
             questions = extras.getParcelableArrayList("extra_questions");
+            answers = extras.getStringArrayList("extra_answers");
         }
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
@@ -62,13 +64,12 @@ public class NextActivity extends AppCompatActivity {
         btnstart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(NextActivity.this,QuestionActivity.class);
+                Intent intent=new Intent(getApplicationContext(),QuestionActivity.class);
                 intent.putExtra("period",period);
                 intent.putExtra("extra_category_mg", category);
                 intent.putParcelableArrayListExtra("extra_questions", questions);
+                intent.putExtra("extra_answers", answers);
                 startActivity(intent);
-                finish();
-
             }
         });
 
