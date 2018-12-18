@@ -11,7 +11,6 @@ import android.view.MenuItem;
 
 import com.example.user1.myapplication.AnswerHeadersSection.AnswerHeadersActivity;
 import com.example.user1.myapplication.Database.DatabaseProvider;
-import com.example.user1.myapplication.MainGroupSection.MainGroupAdapter;
 import com.example.user1.myapplication.Model.MainGroupResponse;
 import com.example.user1.myapplication.Network.SurveyHelper;
 import com.example.user1.myapplication.R;
@@ -22,7 +21,7 @@ import java.util.ArrayList;
 public class ShowDataActivity extends AppCompatActivity implements onItemClickListener {
 
     private RecyclerView recyclerView;
-    private ArrayList<MainGroupResponse> objectSurveys;
+    private ArrayList<MainGroupResponse> mgResponses;
     private ShowDataAdapter adapter;
     private DatabaseProvider db;
 
@@ -36,11 +35,11 @@ public class ShowDataActivity extends AppCompatActivity implements onItemClickLi
 
 
         recyclerView = findViewById(R.id.recycler_view);
-        objectSurveys = new ArrayList<>();
-        adapter = new ShowDataAdapter(this, objectSurveys);
+        mgResponses = new ArrayList<>();
+        adapter = new ShowDataAdapter(this, mgResponses);
         db = DatabaseProvider.getInstance();
 
-        objectSurveys.addAll(db.fetchAllMainGroup());
+        mgResponses.addAll(db.fetchAllMainGroup());
         adapter.setListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
@@ -50,27 +49,16 @@ public class ShowDataActivity extends AppCompatActivity implements onItemClickLi
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu2, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.send:
-                SurveyHelper helper = SurveyHelper.getInstance(this);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    protected void onDestroy() {
+        super.onDestroy();
+        db.close();
     }
 
     @Override
     public void onItemClick(int position) {
         Intent intent = new Intent(this, AnswerHeadersActivity.class);
         intent.putExtra("extra_category_mg", "mg" + (position + 1));
+        intent.putExtra("extra_maingroup", mgResponses.get(position));
         startActivity(intent);
     }
 }

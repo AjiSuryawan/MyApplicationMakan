@@ -26,10 +26,6 @@ public interface SurveyService {
     Call<ArrayList<MainGroupResponse>> getMainGroups (@Body String requestBody);
 
     @Headers("Content-Type: text/html")
-    @POST("mobileapi/questions")
-    Call<ArrayList<QuestionResponse>> getQuestions (@Body String requestBody);
-
-    @Headers("Content-Type: text/html")
     @POST("mobileapi/allquestions")
     Call<ArrayList<AllQuestionResponse>> getAllQuestions (@Body String requestBody);
 

@@ -4,13 +4,12 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.user1.myapplication.Database.ObjectSurvey;
+import com.example.user1.myapplication.Model.ObjectSurvey;
 import com.example.user1.myapplication.R;
 import com.example.user1.myapplication.onItemClickListener;
 
@@ -52,17 +51,22 @@ public class AnswerHeadersAdapter extends RecyclerView.Adapter<AnswerHeadersAdap
     }
 
     class AHViewHolder extends RecyclerView.ViewHolder {
+
         private TextView tvIdUser;
+        private TextView tvStatus;
+
         public AHViewHolder(@NonNull View itemView) {
             super(itemView);
             tvIdUser = itemView.findViewById(R.id.tv_id);
-
+            tvStatus = itemView.findViewById(R.id.txtstatus);
             itemView.setOnClickListener( view -> listener.onItemClick(getAdapterPosition()));
 
         }
 
         public void setText(ObjectSurvey objectSurvey){
-            tvIdUser.setText(objectSurvey.getId());
+            tvIdUser.setText(objectSurvey.getAnswerHeader().get(1));
+            if(!objectSurvey.isStatus()) tvStatus.setText("not synchronized");
+            else tvStatus.setText("synchronized");
         }
     }
 }

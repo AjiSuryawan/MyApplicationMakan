@@ -15,16 +15,20 @@ import com.example.user1.myapplication.onItemClickListener;
 
 import java.util.ArrayList;
 
+import io.realm.RealmList;
+import io.realm.RealmObject;
+
 import static android.support.constraint.Constraints.TAG;
 
 public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.MyViewHolder> {
 
-    private ArrayList<QuestionResponse> questionsModel;
+    private ArrayList<QuestionResponse> questionsModel = new ArrayList<>();
     private Context context;
     private onItemClickListener listener;
 
     public PreviewAdapter(ArrayList<QuestionResponse> questionsModel, Context context) {
-        this.questionsModel = questionsModel;
+        this.questionsModel.clear();
+        this.questionsModel.addAll(questionsModel);
         this.context = context;
     }
 
@@ -79,7 +83,6 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.MyViewHo
                     answers.append(answer);
                 else
                     answers.append(answer+ ",\n");
-
             }
             tvAnswer.setText(answers.toString());
             tvNo.setText(position + ". ");

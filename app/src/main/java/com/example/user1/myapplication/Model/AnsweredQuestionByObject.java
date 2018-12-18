@@ -1,4 +1,4 @@
-package com.example.user1.myapplication.Database;
+package com.example.user1.myapplication.Model;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;

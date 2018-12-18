@@ -1,6 +1,5 @@
 package com.example.user1.myapplication.Model;
 
-import com.example.user1.myapplication.Database.ObjectSurvey;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

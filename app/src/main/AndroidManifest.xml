@@ -41,8 +41,7 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".QuestionHeader.QuestionHeader"/>
-        <activity android:name=".QuestionHeader.NextActivity"/>
+        <activity android:name=".QuestionHeader.QuestionHeaderActivity"/>
     </application>
 
 </manifest>

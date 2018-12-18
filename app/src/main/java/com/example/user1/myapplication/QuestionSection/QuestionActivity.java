@@ -1,17 +1,18 @@
 package com.example.user1.myapplication.QuestionSection;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.user1.myapplication.Database.DatabaseProvider;
+import com.example.user1.myapplication.MainGroupSection.MainGroupActivity;
+import com.example.user1.myapplication.Model.MainGroupResponse;
 import com.example.user1.myapplication.Model.QuestionResponse;
 import com.example.user1.myapplication.R;
 import com.example.user1.myapplication.Utility.CustomViewPager;
@@ -21,18 +22,17 @@ import java.util.ArrayList;
 public class QuestionActivity extends AppCompatActivity {
 
     private static final String TAG = QuestionActivity.class.getSimpleName();
+    String period;
     private Bundle extras;
     private CustomViewPager viewPager;
     private ArrayList<QuestionResponse> questions = new ArrayList<>();
     private Button previousBtn, nextBtn;
     private QuestionAdapter adapter;
     private AlertDialog.Builder builder;
+    private ArrayList<String> answers = new ArrayList<>();
     private String category;
-
-    String period;
-
     private Typeface font;
-
+    private DatabaseProvider dbProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +47,14 @@ public class QuestionActivity extends AppCompatActivity {
         nextBtn.setTypeface(font);
         previousBtn.setTypeface(font);
 
+        dbProvider = DatabaseProvider.getInstance();
+
         extras = getIntent().getExtras();
         if (extras != null) {
             period = extras.getString("period");
             category = extras.getString("extra_category_mg");
             questions = extras.getParcelableArrayList("extra_questions");
+            answers = extras.getStringArrayList("extra_answers");
             initQuestions(questions);
         }
 
@@ -62,35 +65,28 @@ public class QuestionActivity extends AppCompatActivity {
             //finish
             if (viewPager.getCurrentItem() == questions.size()) {
                 //dialog
-                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
-                            case DialogInterface.BUTTON_POSITIVE:
-                                DatabaseProvider dbProvider = DatabaseProvider.getInstance();
-                                dbProvider.insert(category, questions);
-                                finish();
-                                //Yes button clicked
-                                break;
-
-                            case DialogInterface.BUTTON_NEGATIVE:
-                                //No button clicked
-                                break;
-                        }
+                DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
+                    switch (which) {
+                        case DialogInterface.BUTTON_POSITIVE:
+                            dbProvider.insert(category, questions, answers);
+                            Intent intent = new Intent(this, MainGroupActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            break;
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            break;
                     }
                 };
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(QuestionActivity.this);
                 builder.setMessage("Are you sure want to save data ?").setPositiveButton("Yes", dialogClickListener)
                         .setNegativeButton("No", dialogClickListener).show();
-                //
             }
             //to preview
             else if (viewPager.getCurrentItem() == questions.size() - 1) {
                 int position = viewPager.getCurrentItem();
                 QuestionFragment previewFragment = (QuestionFragment) adapter.getItem(questions.size());
                 QuestionFragment fragment = (QuestionFragment) adapter.getItem(position);
-                if(questions.get(viewPager.getCurrentItem()).getTipe().equalsIgnoreCase("ma")){
+                if (questions.get(viewPager.getCurrentItem()).getTipe().equalsIgnoreCase("ma")) {
                     questions.get(position).setJawabanUser(fragment.getAnswers());
                 } else {
                     questions.get(position).setJawabanUser(fragment.getAnswer());
@@ -167,5 +163,11 @@ public class QuestionActivity extends AppCompatActivity {
 
     public void changeToDesiredQuestion(int position) {
         viewPager.setCurrentItem(position);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dbProvider.close();
     }
 }
