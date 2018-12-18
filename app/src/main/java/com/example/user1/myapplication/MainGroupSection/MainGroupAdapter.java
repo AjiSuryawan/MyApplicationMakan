@@ -21,12 +21,12 @@ public class MainGroupAdapter extends RecyclerView.Adapter<MainGroupAdapter.MGVi
     private Context context;
     private ArrayList<MainGroupResponse> mainGroups;
     private onItemClickListener listener;
-    private ArrayList<Integer> image;
 
-    public MainGroupAdapter(Context context, ArrayList<MainGroupResponse> mainGroups, ArrayList<Integer> image) {
+
+    public MainGroupAdapter(Context context, ArrayList<MainGroupResponse> mainGroups) {
         this.context = context;
         this.mainGroups = mainGroups;
-        this.image = image;
+
     }
 
     public void setListener(onItemClickListener listener){
@@ -47,7 +47,7 @@ public class MainGroupAdapter extends RecyclerView.Adapter<MainGroupAdapter.MGVi
         MainGroupResponse mainGroup = mainGroups.get(i);
         mgViewHolder.tvMainGroupTitle.setTypeface(font);
         mgViewHolder.setText(mainGroup);
-        mgViewHolder.iconisasi.setImageResource(image.get(i));
+        mgViewHolder.iconisasi.setImageResource(R.drawable.family);
     }
 
     @Override

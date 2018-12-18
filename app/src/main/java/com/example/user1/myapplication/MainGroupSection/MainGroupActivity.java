@@ -25,7 +25,7 @@ public class MainGroupActivity extends AppCompatActivity implements onItemClickL
     private static final String TAG = DatabaseProvider.class.getSimpleName();
 
     public ArrayList<MainGroupResponse> mainGroups = new ArrayList<>();
-    public ArrayList<Integer> image;
+
     public MainGroupAdapter adapter;
     private SharedPreferences preferences;
     private RecyclerView recyclerView;
@@ -40,9 +40,7 @@ public class MainGroupActivity extends AppCompatActivity implements onItemClickL
 
         db = DatabaseProvider.getInstance();
 
-        image = new ArrayList<>();
-        image.addAll(Arrays.asList(R.drawable.block, R.drawable.family, R.drawable.toys, R.drawable.block, R.drawable.family, R.drawable.toys));
-        adapter = new MainGroupAdapter(this, mainGroups, image);
+        adapter = new MainGroupAdapter(this, mainGroups);
 
         mainGroups.addAll(db.fetchAllMainGroup());
 

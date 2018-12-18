@@ -22,12 +22,11 @@ public class ShowDataAdapter extends RecyclerView.Adapter<ShowDataAdapter.MGView
     private Context context;
     private ArrayList<MainGroupResponse> mainGroups;
     private onItemClickListener listener;
-    private ArrayList<Integer> image;
 
-    public ShowDataAdapter(Context context, ArrayList<MainGroupResponse> mainGroups, ArrayList<Integer> image) {
+
+    public ShowDataAdapter(Context context, ArrayList<MainGroupResponse> mainGroups) {
         this.context = context;
         this.mainGroups = mainGroups;
-        this.image = image;
     }
 
     public void setListener(onItemClickListener listener){
@@ -48,7 +47,7 @@ public class ShowDataAdapter extends RecyclerView.Adapter<ShowDataAdapter.MGView
         MainGroupResponse mainGroup = mainGroups.get(i);
         mgViewHolder.tvMainGroupTitle.setTypeface(font);
         mgViewHolder.setText(mainGroup);
-        mgViewHolder.iconiasi.setImageResource(image.get(i));
+        mgViewHolder.iconiasi.setImageResource(R.drawable.block);
     }
 
     @Override

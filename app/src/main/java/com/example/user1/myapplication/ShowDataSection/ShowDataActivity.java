@@ -21,7 +21,7 @@ public class ShowDataActivity extends AppCompatActivity implements onItemClickLi
     private ArrayList<MainGroupResponse> mgResponses;
     private ShowDataAdapter adapter;
     private DatabaseProvider db;
-    private ArrayList<Integer> image;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +34,7 @@ public class ShowDataActivity extends AppCompatActivity implements onItemClickLi
 
         recyclerView = findViewById(R.id.recycler_view);
         mgResponses = new ArrayList<>();
-        image = new ArrayList<>();
-        image.addAll(Arrays.asList(R.drawable.block, R.drawable.family, R.drawable.toys, R.drawable.block, R.drawable.family, R.drawable.toys));
-        adapter = new ShowDataAdapter(this, mgResponses, image);
+        adapter = new ShowDataAdapter(this, mgResponses);
         db = DatabaseProvider.getInstance();
 
         mgResponses.addAll(db.fetchAllMainGroup());
