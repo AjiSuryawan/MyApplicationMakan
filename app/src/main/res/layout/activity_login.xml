@@ -1,37 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".LoginSection.LoginActivity">
 
-    <EditText
-        android:hint="username"
-        android:text="marsel"
-        android:layout_width="match_parent"
-        android:id="@+id/txtusername"
-        android:layout_height="wrap_content" />
-    <EditText
+    <android.support.v7.widget.CardView
+        android:elevation="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="userpassword"
-        android:text="marsel"
-        android:id="@+id/et_userpassword"/>
-    <EditText
-        android:inputType="textPassword"
-        android:hint="password"
-        android:text="unicef12345"
-        android:layout_width="match_parent"
-        android:id="@+id/txtpassword"
-        android:layout_height="wrap_content" />
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp"
+        android:padding="50dp">
 
-    <Button
-        android:id="@+id/btnlogin"
-        android:text="login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/txtusername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="username"
+                android:text="marsel" />
+
+            <EditText
+                android:id="@+id/et_userpassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="userpassword"
+                android:text="marsel" />
+
+            <EditText
+                android:id="@+id/txtpassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="password"
+                android:inputType="textPassword"
+                android:text="unicef12345" />
+
+            <Button
+                android:id="@+id/btnlogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="login" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>
