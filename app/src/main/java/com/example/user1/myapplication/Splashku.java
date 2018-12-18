@@ -43,6 +43,10 @@ public class Splashku extends Activity {
         title.setAlpha(0);
         title.animate().translationY(0).alpha(1).setDuration(800).setStartDelay(1000).setInterpolator(new BounceInterpolator()).start();
 
+        desc.setAlpha(0);
+        desc.setTypeface(montSerratReg);
+        desc.animate().alpha(1).setDuration(800).setStartDelay(1200).start();
+
         new Handler().postDelayed(() -> {
             Intent i = new Intent(Splashku.this.getApplicationContext(), ControlClass.class);
             startActivity(i);

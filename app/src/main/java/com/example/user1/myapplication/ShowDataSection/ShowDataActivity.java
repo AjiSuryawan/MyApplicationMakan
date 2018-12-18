@@ -20,6 +20,7 @@ import com.example.user1.myapplication.R;
 import com.example.user1.myapplication.onItemClickListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ShowDataActivity extends AppCompatActivity implements onItemClickListener {
 
@@ -27,6 +28,7 @@ public class ShowDataActivity extends AppCompatActivity implements onItemClickLi
     private ArrayList<MainGroupResponse> objectSurveys;
     private ShowDataAdapter adapter;
     private DatabaseProvider db;
+    private ArrayList<Integer> image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +41,9 @@ public class ShowDataActivity extends AppCompatActivity implements onItemClickLi
 
         recyclerView = findViewById(R.id.recycler_view);
         objectSurveys = new ArrayList<>();
-        adapter = new ShowDataAdapter(this, objectSurveys);
+        image = new ArrayList<>();
+        image.addAll(Arrays.asList(R.drawable.block, R.drawable.family, R.drawable.toys, R.drawable.block, R.drawable.family, R.drawable.toys));
+        adapter = new ShowDataAdapter(this, objectSurveys, image);
         db = DatabaseProvider.getInstance();
 
         objectSurveys.addAll(db.fetchAllMainGroup());
@@ -47,7 +51,6 @@ public class ShowDataActivity extends AppCompatActivity implements onItemClickLi
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-
 
     }
 
