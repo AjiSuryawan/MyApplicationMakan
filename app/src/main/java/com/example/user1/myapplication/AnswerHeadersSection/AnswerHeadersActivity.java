@@ -1,17 +1,24 @@
 package com.example.user1.myapplication.AnswerHeadersSection;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.user1.myapplication.Database.DatabaseProvider;
+import com.example.user1.myapplication.MainGroupSection.MainGroupActivity;
 import com.example.user1.myapplication.Model.MainGroupResponse;
 import com.example.user1.myapplication.Model.ObjectSurvey;
 import com.example.user1.myapplication.Model.QuestionResponse;
+import com.example.user1.myapplication.QuestionSection.QuestionActivity;
 import com.example.user1.myapplication.R;
 import com.example.user1.myapplication.onItemClickListener;
 
@@ -26,6 +33,62 @@ public class AnswerHeadersActivity extends AppCompatActivity implements onItemCl
     private AnswerHeadersAdapter adapter;
     private MainGroupResponse mainGroupResponse;
     private DatabaseProvider db;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu2, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.deleteAll:
+                //
+                DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
+                    switch (which) {
+                        case DialogInterface.BUTTON_POSITIVE:
+                            if(db.hapusdata(category)){
+                                objectSurveys = new ArrayList<>();
+                                objectSurveys.addAll(db.fetchAllObjectSurvey(category));
+                                adapter = new AnswerHeadersAdapter(this, objectSurveys);
+                                recyclerView.setAdapter(adapter);
+                            }
+                            break;
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            break;
+                    }
+                };
+                AlertDialog.Builder builder = new AlertDialog.Builder(AnswerHeadersActivity.this);
+                builder.setMessage("Are you sure want to clear all data").setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
+                //
+                break;
+            case R.id.deletesinkron:
+
+                DialogInterface.OnClickListener dialogClickListener2 = (dialog, which) -> {
+                    switch (which) {
+                        case DialogInterface.BUTTON_POSITIVE:
+                            if(db.hapusdataudahsinrkon(category)){
+                                objectSurveys = new ArrayList<>();
+                                objectSurveys.addAll(db.fetchAllObjectSurvey(category));
+                                adapter = new AnswerHeadersAdapter(this, objectSurveys);
+                                recyclerView.setAdapter(adapter);
+                            }
+                            break;
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            break;
+                    }
+                };
+                AlertDialog.Builder builder2 = new AlertDialog.Builder(AnswerHeadersActivity.this);
+                builder2.setMessage("Delete synchronized data").setPositiveButton("Yes", dialogClickListener2)
+                        .setNegativeButton("No", dialogClickListener2).show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -20,7 +20,6 @@ public class DatabaseProvider {
     private static final String TAG = DatabaseProvider.class.getSimpleName();
     private static DatabaseProvider instance;
     private static Realm realm;
-
     private DatabaseProvider() {
     }
 
@@ -68,6 +67,28 @@ public class DatabaseProvider {
 
     public RealmResults<ObjectSurvey> fetchAllObjectSurvey(String category) {
         return realm.where(ObjectSurvey.class).equalTo("categoryMainGroup", category).findAll();
+    }
+
+    public boolean hapusdata(String category){
+        RealmResults<ObjectSurvey> makan=realm.where(ObjectSurvey.class)
+                .equalTo("categoryMainGroup", category)
+                .findAll();
+        realm.beginTransaction();
+        makan.deleteAllFromRealm();
+        realm.commitTransaction();
+        return true;
+    }
+
+    public boolean hapusdataudahsinrkon(String category){
+        RealmResults<ObjectSurvey> makan=realm.where(ObjectSurvey.class)
+                .equalTo("categoryMainGroup", category)
+                .and()
+                .equalTo("status", true)
+                .findAll();
+        realm.beginTransaction();
+        makan.deleteAllFromRealm();
+        realm.commitTransaction();
+        return true;
     }
 
     public RealmResults<MainGroupResponse> fetchAllMainGroup() {
