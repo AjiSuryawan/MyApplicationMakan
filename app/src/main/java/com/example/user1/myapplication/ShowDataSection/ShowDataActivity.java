@@ -1,21 +1,14 @@
 package com.example.user1.myapplication.ShowDataSection;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.example.user1.myapplication.AnswerHeadersSection.AnswerHeadersActivity;
-import com.example.user1.myapplication.AnswerHeadersSection.AnswerHeadersAdapter;
-import com.example.user1.myapplication.AnswerHeadersSection.DetailAnswerHeadersActivity;
 import com.example.user1.myapplication.Database.DatabaseProvider;
-import com.example.user1.myapplication.Database.ObjectSurvey;
-import com.example.user1.myapplication.MainGroupSection.MainGroupAdapter;
 import com.example.user1.myapplication.Model.MainGroupResponse;
-import com.example.user1.myapplication.Model.QuestionResponse;
 import com.example.user1.myapplication.R;
 import com.example.user1.myapplication.onItemClickListener;
 
@@ -25,7 +18,7 @@ import java.util.Arrays;
 public class ShowDataActivity extends AppCompatActivity implements onItemClickListener {
 
     private RecyclerView recyclerView;
-    private ArrayList<MainGroupResponse> objectSurveys;
+    private ArrayList<MainGroupResponse> mgResponses;
     private ShowDataAdapter adapter;
     private DatabaseProvider db;
     private ArrayList<Integer> image;
@@ -40,13 +33,13 @@ public class ShowDataActivity extends AppCompatActivity implements onItemClickLi
 
 
         recyclerView = findViewById(R.id.recycler_view);
-        objectSurveys = new ArrayList<>();
+        mgResponses = new ArrayList<>();
         image = new ArrayList<>();
         image.addAll(Arrays.asList(R.drawable.block, R.drawable.family, R.drawable.toys, R.drawable.block, R.drawable.family, R.drawable.toys));
-        adapter = new ShowDataAdapter(this, objectSurveys, image);
+        adapter = new ShowDataAdapter(this, mgResponses, image);
         db = DatabaseProvider.getInstance();
 
-        objectSurveys.addAll(db.fetchAllMainGroup());
+        mgResponses.addAll(db.fetchAllMainGroup());
         adapter.setListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
@@ -55,9 +48,16 @@ public class ShowDataActivity extends AppCompatActivity implements onItemClickLi
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        db.close();
+    }
+
+    @Override
     public void onItemClick(int position) {
         Intent intent = new Intent(this, AnswerHeadersActivity.class);
         intent.putExtra("extra_category_mg", "mg" + (position + 1));
+        intent.putExtra("extra_maingroup", mgResponses.get(position));
         startActivity(intent);
     }
 }

@@ -8,6 +8,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
+import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
@@ -39,16 +40,6 @@ public class QuestionResponse extends RealmObject implements Parcelable {
 
     public QuestionResponse() {
     }
-
-//    public QuestionResponse(String id, String pertanyaan, String tipe, String domainId, String domain, String notes, ArrayList<String> jawabanAwal) {
-//        this.id = id;
-//        this.pertanyaan = pertanyaan;
-//        this.tipe = tipe;
-//        this.domainId = domainId;
-//        this.domain = domain;
-//        this.notes = notes;
-//        this.jawabanAwal = jawabanAwal;
-//    }
 
     protected QuestionResponse(Parcel in) {
         id = in.readString();
@@ -125,7 +116,19 @@ public class QuestionResponse extends RealmObject implements Parcelable {
         return jawabanUser;
     }
 
-
+    public String getJawabanUserAsString(){
+        if(this.jawabanUser == null)
+            jawabanUser = new RealmList<>();
+        StringBuilder answers = new StringBuilder();
+        for (int i = 0; i < getJawabanUser().size(); i++) {
+            String answer = getJawabanUser().get(i);
+            if (i == getJawabanUser().size() - 1 )
+                answers.append(answer);
+            else
+                answers.append(answer+ ", ");
+        }
+        return answers.toString();
+    }
 
     @Override
     public int describeContents() {

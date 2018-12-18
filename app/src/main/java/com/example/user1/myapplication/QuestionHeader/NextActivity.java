@@ -76,11 +76,11 @@ public class NextActivity extends AppCompatActivity {
 
         tv = (TextView) findViewById(R.id.tv);
 
-        for (int i = 0; i < CustomAdapter.editModelArrayList.size(); i++){
-
-            tv.setText(tv.getText() + " " + CustomAdapter.editModelArrayList.get(i).getEditTextValue() +System.getProperty("line.separator"));
-
-        }
+//        for (int i = 0; i < CustomAdapter.editModelArrayList.size(); i++){
+//
+//            tv.setText(tv.getText() + " " + CustomAdapter.editModelArrayList.get(i).getEditTextValue() +System.getProperty("line.separator"));
+//
+//        }
 
 
     }

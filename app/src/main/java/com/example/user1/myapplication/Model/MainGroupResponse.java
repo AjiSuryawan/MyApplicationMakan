@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -22,14 +23,16 @@ public class MainGroupResponse extends RealmObject implements Parcelable {
             return new MainGroupResponse[size];
         }
     };
-    
-    @PrimaryKey
+
     @SerializedName("id")
     @Expose
     private String id;
     @SerializedName("description")
     @Expose
     private String description;
+    @SerializedName("answerHeaderFields")
+    @Expose
+    private RealmList<String> answerHeaderFields = new RealmList<>();
 
     public MainGroupResponse() {
     }
@@ -37,6 +40,7 @@ public class MainGroupResponse extends RealmObject implements Parcelable {
     protected MainGroupResponse(Parcel in) {
         this.id = in.readString();
         this.description = in.readString();
+        this.answerHeaderFields.addAll(in.createStringArrayList());
     }
 
     public String getId() {
@@ -55,6 +59,10 @@ public class MainGroupResponse extends RealmObject implements Parcelable {
         this.description = description;
     }
 
+    public RealmList<String> getAnswerHeaderFields() {
+        return answerHeaderFields;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -64,5 +72,6 @@ public class MainGroupResponse extends RealmObject implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.id);
         dest.writeString(this.description);
+        dest.writeStringList(this.answerHeaderFields);
     }
 }

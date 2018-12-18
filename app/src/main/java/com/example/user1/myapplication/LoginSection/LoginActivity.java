@@ -37,7 +37,6 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
-
     private static final String TAG = DatabaseProvider.class.getSimpleName();
 
     EditText etInputUsername;
@@ -47,8 +46,6 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private SurveyHelper helper;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,5 +72,11 @@ public class LoginActivity extends AppCompatActivity {
                 helper.loginService(username, userPassword, password);
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        helper.closeSource();
     }
 }

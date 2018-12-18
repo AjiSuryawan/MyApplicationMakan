@@ -4,8 +4,8 @@
 
     <item
         app:showAsAction="always"
-        android:id="@+id/sinkron"
-        android:title="sinkron" />
+        android:id="@+id/send"
+        android:title="send" />
 
     <item
         app:showAsAction="never"

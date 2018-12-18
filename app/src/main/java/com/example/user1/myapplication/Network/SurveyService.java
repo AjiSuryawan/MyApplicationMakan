@@ -4,6 +4,7 @@ import com.example.user1.myapplication.Model.AllQuestionResponse;
 import com.example.user1.myapplication.Model.LoginResponse;
 import com.example.user1.myapplication.Model.MainGroupResponse;
 import com.example.user1.myapplication.Model.QuestionResponse;
+import com.example.user1.myapplication.Model.SendAnswersRequest;
 
 import org.json.JSONObject;
 
@@ -25,11 +26,11 @@ public interface SurveyService {
     Call<ArrayList<MainGroupResponse>> getMainGroups (@Body String requestBody);
 
     @Headers("Content-Type: text/html")
-    @POST("mobileapi/questions")
-    Call<ArrayList<QuestionResponse>> getQuestions (@Body String requestBody);
-
-    @Headers("Content-Type: text/html")
     @POST("mobileapi/allquestions")
     Call<ArrayList<AllQuestionResponse>> getAllQuestions (@Body String requestBody);
+
+    @Headers("Content-Type: text/html")
+    @POST("mobileapi/add_answer")
+    Call<SendAnswersRequest> sendAnswers(@Body SendAnswersRequest requestBody);
 }
 

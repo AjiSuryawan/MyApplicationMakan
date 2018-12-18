@@ -12,13 +12,16 @@ import com.example.user1.myapplication.MainGroupSection.MainGroupAdapter;
 import com.example.user1.myapplication.Model.AllQuestionResponse;
 import com.example.user1.myapplication.Model.LoginResponse;
 import com.example.user1.myapplication.Model.MainGroupResponse;
-import com.google.gson.Gson;
+import com.example.user1.myapplication.Model.ObjectSurvey;
+import com.example.user1.myapplication.Model.QuestionResponse;
+import com.example.user1.myapplication.Model.SendAnswersRequest;
+import com.example.user1.myapplication.ShowDataSection.ShowDataActivity;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,6 +36,7 @@ public class SurveyHelper {
     private static Activity sActivity;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+    private static DatabaseProvider db;
 
     private SurveyHelper() {
     }
@@ -41,6 +45,7 @@ public class SurveyHelper {
         sActivity = activity;
 
         if (instance == null) instance = new SurveyHelper();
+        db = DatabaseProvider.getInstance();
         return instance;
     }
 
@@ -76,7 +81,6 @@ public class SurveyHelper {
 
                     } catch (Exception e) {
                         Toast.makeText(sActivity, e.getMessage(), Toast.LENGTH_SHORT).show();
-                        Log.d("1234567", "login: " + e.getMessage());
                     }
                 }
 
@@ -102,7 +106,7 @@ public class SurveyHelper {
                 @Override
                 public void onResponse(Call<ArrayList<MainGroupResponse>> call, Response<ArrayList<MainGroupResponse>> response) {
                     try {
-                        DatabaseProvider db = DatabaseProvider.getInstance();
+                        db = DatabaseProvider.getInstance();
                         db.insert(response.body());
                         adapter.notifyDataSetChanged();
                         Toast.makeText(sActivity, "success maingroup", Toast.LENGTH_SHORT).show();
@@ -116,12 +120,10 @@ public class SurveyHelper {
                 @Override
                 public void onFailure(Call<ArrayList<MainGroupResponse>> call, Throwable t) {
                     Toast.makeText(sActivity, t.getMessage(), Toast.LENGTH_LONG).show();
-                    Log.d("1234567", "onFailure: " + t.getMessage());
                 }
             });
         } catch (JSONException e) {
             Toast.makeText(sActivity, e.getMessage(), Toast.LENGTH_LONG).show();
-            Log.d("1234567", "exception main: " + e.getMessage());
         }
     }
 
@@ -136,22 +138,80 @@ public class SurveyHelper {
                 @Override
                 public void onResponse(Call<ArrayList<AllQuestionResponse>> call, Response<ArrayList<AllQuestionResponse>> response) {
                     try {
-                        DatabaseProvider db = DatabaseProvider.getInstance();
+                        db = DatabaseProvider.getInstance();
                         db.insert(response.body());
                         sActivity.startActivity(new Intent(sActivity, MainGroupActivity.class));
                         sActivity.finish();
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         Log.e(TAG, "onResponse: " + e.getMessage());
                     }
                 }
 
                 @Override
                 public void onFailure(Call<ArrayList<AllQuestionResponse>> call, Throwable t) {
-                    Log.e(TAG, "onFailure: " + t.getMessage() );
+                    Log.e(TAG, "onFailure: " + t.getMessage());
                 }
             });
         } catch (JSONException e) {
             Log.e(TAG, "getAllQuestions: " + e.getMessage());
         }
+    }
+
+    public void sendAnswer(MainGroupResponse mgResponse, ObjectSurvey objectSurvey, ArrayList<QuestionResponse> questionsModel) {
+        if (!objectSurvey.isStatus()) {
+            HashMap<String, String> answerHeaderData = new HashMap<>();
+            for (int i = 0; i < mgResponse.getAnswerHeaderFields().size(); i++) {
+                String field = mgResponse.getAnswerHeaderFields().get(i);
+                String answer = objectSurvey.getAnswerHeader().get(i);
+                answerHeaderData.put(field, answer);
+            }
+            answerHeaderData.put("jabatan", "Kepala Desa");
+            answerHeaderData.put("user_id", "1");
+            answerHeaderData.put("period", "1");
+
+            ArrayList<HashMap<String, String>> answerLinesData = new ArrayList<>();
+
+            for (int i = 0; i < questionsModel.size(); i++) {
+                String questionId = questionsModel.get(i).getId();
+                String answer = questionsModel.get(i).getJawabanUserAsString();
+                HashMap<String, String> map = new HashMap<>();
+                map.put("question_id", questionId);
+                map.put("answer", answer);
+                answerLinesData.add(map);
+            }
+            SurveyService service = SurveyClient.getRetrofit().create(SurveyService.class);
+            Call<SendAnswersRequest> call = service.sendAnswers(new SendAnswersRequest(answerHeaderData, answerLinesData, "unicef12345"));
+            call.enqueue(new Callback<SendAnswersRequest>() {
+                @Override
+                public void onResponse(Call<SendAnswersRequest> call, Response<SendAnswersRequest> response) {
+                    try {
+                        if (response.body().getMessage().equals("")) {
+                            Toast.makeText(sActivity, "Success", Toast.LENGTH_SHORT).show();
+                            db = DatabaseProvider.getInstance();
+                            db.update(objectSurvey);
+                            Intent intent = new Intent(sActivity, ShowDataActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            sActivity.startActivity(intent);
+                        } else {
+                            Toast.makeText(sActivity, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e) {
+                        Toast.makeText(sActivity, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<SendAnswersRequest> call, Throwable t) {
+                    Toast.makeText(sActivity, t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        else {
+            Toast.makeText(sActivity, "This header is already syncronized", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void closeSource(){
+        db.close();
     }
 }
