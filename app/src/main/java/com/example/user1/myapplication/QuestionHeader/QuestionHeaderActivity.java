@@ -50,9 +50,10 @@ public class QuestionHeaderActivity extends AppCompatActivity {
         startBtn.setOnClickListener(v -> {
             if (questionHeaderAdapter.isAllFieldAnswered()) {
                 //start question activity
-                //Intent intent = new Intent(this, QuestionActivity.class);
-                Intent intent = new Intent(this, NextActivity.class);
+                Intent intent = new Intent(this, QuestionActivity.class);
+                //Intent intent = new Intent(this, NextActivity.class);
                 ArrayList<QuestionResponse> questionResponses = new ArrayList<>();
+                //here get question by period
                 questionResponses.addAll(db.fetchAllQuestions().get(position).getMainGroup(position));
                 intent.putExtra("extra_category_mg", "mg" + (position + 1));
                 intent.putParcelableArrayListExtra("extra_questions", questionResponses);

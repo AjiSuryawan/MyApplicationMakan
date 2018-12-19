@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,6 +16,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.user1.myapplication.Database.DatabaseProvider;
+import com.example.user1.myapplication.Model.MainGroupResponse;
 import com.example.user1.myapplication.Model.QuestionResponse;
 import com.example.user1.myapplication.QuestionSection.QuestionActivity;
 import com.example.user1.myapplication.R;
@@ -26,22 +29,21 @@ public class NextActivity extends AppCompatActivity {
     Button btnstart;
     private TextView tv;
     private Bundle extras;
-    private String category;
-    private ArrayList<QuestionResponse> questions = new ArrayList<>();
-    private ArrayList<String> answers = new ArrayList<>();
     String period;
     String[] SPINNERLIST = {"1", "2", "3"};
+    private DatabaseProvider db;
+    private int position = 0;
+    private MainGroupResponse mgResponses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_next);
-
+        db = DatabaseProvider.getInstance();
         extras = getIntent().getExtras();
         if (extras != null) {
-            category = extras.getString("extra_category_mg");
-            questions = extras.getParcelableArrayList("extra_questions");
-            answers = extras.getStringArrayList("extra_answers");
+            mgResponses = extras.getParcelable("extra_maingroup");
+            position = extras.getInt("extra_position");
         }
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
@@ -64,12 +66,9 @@ public class NextActivity extends AppCompatActivity {
         btnstart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),QuestionActivity.class);
-                intent.putExtra("period",period);
-                intent.putExtra("extra_category_mg", category);
-                intent.putParcelableArrayListExtra("extra_questions", questions);
-                intent.putExtra("extra_answers", answers);
-                startActivity(intent);
+                //kalau yang dipilih satu, langsung aja, tapi kalau 2 dan 3 yang belum pernah diklik,
+                //harus nge get API dulu
+
             }
         });
 

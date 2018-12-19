@@ -39,6 +39,8 @@ public class DatabaseProvider {
                 QuestionResponse answeredQuestion = realm.createObject(QuestionResponse.class);
                 answeredQuestion.setId(questionModel.getId());
                 answeredQuestion.setPertanyaan(questionModel.getPertanyaan());
+                answeredQuestion.setPeriod(questionModel.getPeriod());
+                Log.d("period", "insert: "+questionModel.getPeriod());
                 answeredQuestion.setJawabanUser(questionModel.getJawabanUser());
                 Log.e(TAG, "getJawabanUser: " + answeredQuestion.getJawabanUser());
                 objectSurvey.addAnsweredQuestion(answeredQuestion);
@@ -97,6 +99,14 @@ public class DatabaseProvider {
 
     public RealmResults<AllQuestionResponse> fetchAllQuestions() {
         return realm.where(AllQuestionResponse.class).findAll();
+        //where period
+    }
+
+    public RealmResults<AllQuestionResponse> fetchAllQuestionsbyperiod(String period) {
+        return realm.where(AllQuestionResponse.class)
+                .equalTo("period", period)
+                .findAll();
+        //where period
     }
 
     public void close(){

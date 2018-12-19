@@ -12,6 +12,7 @@ import android.view.MenuItem;
 
 import com.example.user1.myapplication.Database.DatabaseProvider;
 import com.example.user1.myapplication.Model.MainGroupResponse;
+import com.example.user1.myapplication.QuestionHeader.NextActivity;
 import com.example.user1.myapplication.QuestionHeader.QuestionHeaderActivity;
 import com.example.user1.myapplication.R;
 import com.example.user1.myapplication.ShowDataSection.ShowDataActivity;
@@ -76,10 +77,13 @@ public class MainGroupActivity extends AppCompatActivity implements onItemClickL
 
     @Override
     public void onItemClick(int position) {
-        Intent intent = new Intent(this, QuestionHeaderActivity.class);
+
+        //Intent intent = new Intent(this, QuestionHeaderActivity.class);
+        Intent intent = new Intent(this, NextActivity.class);
         intent.putExtra("extra_maingroup", mainGroups.get(position));
         intent.putExtra("extra_position", position);
         startActivity(intent);
+
     }
 
     @Override

@@ -33,6 +33,11 @@ public class QuestionResponse extends RealmObject implements Parcelable {
     @SerializedName("notes")
     @Expose
     private String notes;
+    //
+    @SerializedName("period")
+    @Expose
+    private String period;
+    //
     @SerializedName("jawaban")
     @Expose
     private RealmList<String> jawabanAwal;
@@ -48,6 +53,7 @@ public class QuestionResponse extends RealmObject implements Parcelable {
         domainId = in.readString();
         domain = in.readString();
         notes = in.readString();
+        period = in.readString();
         jawabanAwal = new RealmList<>();
         jawabanAwal.addAll(in.createStringArrayList());
         jawabanUser = new RealmList<>();
@@ -143,7 +149,16 @@ public class QuestionResponse extends RealmObject implements Parcelable {
         dest.writeString(domainId);
         dest.writeString(domain);
         dest.writeString(notes);
+        dest.writeString(period);
         dest.writeStringList(jawabanAwal);
         dest.writeStringList(this.jawabanUser);
+    }
+
+    public String getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(String period) {
+        this.period = period;
     }
 }
