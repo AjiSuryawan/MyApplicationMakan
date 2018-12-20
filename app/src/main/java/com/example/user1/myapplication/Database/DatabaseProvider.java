@@ -2,7 +2,6 @@ package com.example.user1.myapplication.Database;
 
 import android.util.Log;
 
-import com.example.user1.myapplication.Model.AllQuestionResponse;
 import com.example.user1.myapplication.Model.MainGroupResponse;
 import com.example.user1.myapplication.Model.ObjectSurvey;
 import com.example.user1.myapplication.Model.QuestionResponse;
@@ -12,7 +11,6 @@ import java.util.List;
 import java.util.UUID;
 
 import io.realm.Realm;
-import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
 
@@ -61,7 +59,7 @@ public class DatabaseProvider {
         realm.executeTransactionAsync(realm -> {
             ObjectSurvey obj = realm.where(ObjectSurvey.class)
                     .equalTo("id", objectSurvey.getId()).findFirst();
-            objectSurvey.setStatus(true);
+            obj.setStatus(true);
         }, () -> {
             Log.e(TAG, "update: success");
         }, error -> {
@@ -101,7 +99,7 @@ public class DatabaseProvider {
 
     public RealmResults<QuestionResponse> fetchAllQuestions(String mgId, String period) {
         return realm.where(QuestionResponse.class)
-                .equalTo("mgid", mgId)
+                .equalTo("mgId", mgId)
                 .equalTo("period", period)
                 .findAll();
     }

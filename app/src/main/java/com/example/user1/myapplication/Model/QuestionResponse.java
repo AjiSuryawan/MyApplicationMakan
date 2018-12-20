@@ -15,6 +15,9 @@ import io.realm.annotations.Ignore;
 
 public class QuestionResponse extends RealmObject implements Parcelable {
 
+    @SerializedName("mgid")
+    @Expose
+    private String mgId;
     @SerializedName("id")
     @Expose
     private String id;
@@ -33,11 +36,9 @@ public class QuestionResponse extends RealmObject implements Parcelable {
     @SerializedName("notes")
     @Expose
     private String notes;
-    //
     @SerializedName("period")
     @Expose
     private String period;
-    //
     @SerializedName("jawaban")
     @Expose
     private RealmList<String> jawabanAwal;
@@ -47,6 +48,7 @@ public class QuestionResponse extends RealmObject implements Parcelable {
     }
 
     protected QuestionResponse(Parcel in) {
+        mgId = in.readString();
         id = in.readString();
         pertanyaan = in.readString();
         tipe = in.readString();
@@ -71,6 +73,10 @@ public class QuestionResponse extends RealmObject implements Parcelable {
             return new QuestionResponse[size];
         }
     };
+
+    public String getMgId() {
+        return mgId;
+    }
 
     public String getId() {
         return id;
@@ -143,6 +149,7 @@ public class QuestionResponse extends RealmObject implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mgId);
         dest.writeString(id);
         dest.writeString(pertanyaan);
         dest.writeString(tipe);

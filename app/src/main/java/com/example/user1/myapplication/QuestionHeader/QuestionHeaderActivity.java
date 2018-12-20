@@ -55,7 +55,10 @@ public class QuestionHeaderActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, QuestionActivity.class);
                 ArrayList<QuestionResponse> questionResponses = new ArrayList<>();
                 //getQuestionsForQuestionActivity
+                Log.e(TAG, "onCreate: " + mgResponses.getId() );
+                Log.e(TAG, "onCreate: " + period );
                 questionResponses.addAll(db.fetchAllQuestions(mgResponses.getId(), period));
+                Log.e(TAG, "onCreate: " + questionResponses.size());
                 intent.putExtra("extra_category_mg", "mg" + (position + 1));
                 intent.putParcelableArrayListExtra("extra_questions", questionResponses);
                 intent.putExtra("extra_answers", questionHeaderAdapter.getAnswers());

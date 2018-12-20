@@ -3,20 +3,16 @@ package com.example.user1.myapplication.Network;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Parcelable;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.user1.myapplication.Database.DatabaseProvider;
 import com.example.user1.myapplication.MainGroupSection.MainGroupActivity;
-import com.example.user1.myapplication.MainGroupSection.MainGroupAdapter;
-import com.example.user1.myapplication.Model.AllQuestionResponse;
 import com.example.user1.myapplication.Model.LoginResponse;
 import com.example.user1.myapplication.Model.MainGroupResponse;
 import com.example.user1.myapplication.Model.ObjectSurvey;
 import com.example.user1.myapplication.Model.QuestionResponse;
 import com.example.user1.myapplication.Model.SendAnswersRequest;
-import com.example.user1.myapplication.ShowDataSection.ShowDataActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -127,40 +123,11 @@ public class SurveyHelper {
         }
     }
 
-//    public void getAllQuestions(String password) {
-//        try {
-//            JSONObject body = new JSONObject();
-//            body.put("period", 1);
-//            body.put("password", password);
-//            SurveyService service = SurveyClient.getRetrofit().create(SurveyService.class);
-//            Call<ArrayList<AllQuestionResponse>> getAllQuestions = service.getAllQuestions(body.toString());
-//            getAllQuestions.enqueue(new Callback<ArrayList<AllQuestionResponse>>() {
-//                @Override
-//                public void onResponse(Call<ArrayList<AllQuestionResponse>> call, Response<ArrayList<AllQuestionResponse>> response) {
-//                    try {
-//                        db = DatabaseProvider.getInstance();
-//                        db.insert(response.body());
-//                        sActivity.startActivity(new Intent(sActivity, MainGroupActivity.class));
-//                        sActivity.finish();
-//                    } catch (Exception e) {
-//                        Log.e(TAG, "onResponse: " + e.getMessage());
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<ArrayList<AllQuestionResponse>> call, Throwable t) {
-//                    Log.e(TAG, "onFailure: " + t.getMessage());
-//                }
-//            });
-//        } catch (JSONException e) {
-//            Log.e(TAG, "getAllQuestions: " + e.getMessage());
-//        }
-//    }
-
     public void getAllQuestions(String password){
         try {
             JSONObject body = new JSONObject();
             body.put("password", password);
+            body.put("period", 1);
             SurveyService service = SurveyClient.getRetrofit().create(SurveyService.class);
             service.getAllQuestions(body.toString()).enqueue(new Callback<ArrayList<QuestionResponse>>() {
                 @Override

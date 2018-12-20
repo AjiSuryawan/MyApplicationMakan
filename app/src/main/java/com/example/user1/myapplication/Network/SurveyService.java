@@ -1,19 +1,14 @@
 package com.example.user1.myapplication.Network;
 
-import com.example.user1.myapplication.Model.AllQuestionResponse;
 import com.example.user1.myapplication.Model.LoginResponse;
 import com.example.user1.myapplication.Model.MainGroupResponse;
 import com.example.user1.myapplication.Model.QuestionResponse;
 import com.example.user1.myapplication.Model.SendAnswersRequest;
 
-import org.json.JSONObject;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
