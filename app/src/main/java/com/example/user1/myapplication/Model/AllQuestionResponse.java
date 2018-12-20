@@ -10,22 +10,22 @@ public class AllQuestionResponse extends RealmObject {
 
     @SerializedName("MG01")
     @Expose
-    private RealmList<QuestionResponse> mainGroup01;
+    private RealmList<QuestionResponse> MG01;
     @SerializedName("MG02")
     @Expose
-    private RealmList<QuestionResponse> mainGroup02;
+    private RealmList<QuestionResponse> MG02;
     @SerializedName("MG03")
     @Expose
-    private RealmList<QuestionResponse> mainGroup03;
+    private RealmList<QuestionResponse> MG03;
     @SerializedName("MG04")
     @Expose
-    private RealmList<QuestionResponse> mainGroup04;
+    private RealmList<QuestionResponse> MG04;
     @SerializedName("MG05")
     @Expose
-    private RealmList<QuestionResponse> mainGroup05;
+    private RealmList<QuestionResponse> MG05;
     @SerializedName("MG06")
     @Expose
-    private RealmList<QuestionResponse> mainGroup06;
+    private RealmList<QuestionResponse> MG06;
 
     public AllQuestionResponse() {
     }
@@ -33,20 +33,19 @@ public class AllQuestionResponse extends RealmObject {
     public RealmList<QuestionResponse> getMainGroup(int position) {
         switch (position) {
             case 0:
-                return mainGroup01;
+                return MG01;
             case 1:
-                return mainGroup02;
+                return MG02;
             case 2:
-                return mainGroup03;
+                return MG03;
             case 3:
-                return mainGroup04;
+                return MG04;
             case 4:
-                return mainGroup05;
+                return MG05;
             case 5:
-                return mainGroup06;
+                return MG06;
             default:
                 return null;
         }
     }
-
 }

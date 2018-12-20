@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
 
@@ -71,7 +72,7 @@ public class DatabaseProvider {
         return realm.where(ObjectSurvey.class).equalTo("categoryMainGroup", category).findAll();
     }
 
-    public boolean hapusdata(String category){
+    public boolean delete(String category){
         RealmResults<ObjectSurvey> makan=realm.where(ObjectSurvey.class)
                 .equalTo("categoryMainGroup", category)
                 .findAll();
@@ -81,7 +82,7 @@ public class DatabaseProvider {
         return true;
     }
 
-    public boolean hapusdataudahsinrkon(String category){
+    public boolean deleteSyncronizedData(String category){
         RealmResults<ObjectSurvey> makan=realm.where(ObjectSurvey.class)
                 .equalTo("categoryMainGroup", category)
                 .and()
@@ -97,16 +98,11 @@ public class DatabaseProvider {
         return realm.where(MainGroupResponse.class).findAll();
     }
 
-    public RealmResults<AllQuestionResponse> fetchAllQuestions() {
-        return realm.where(AllQuestionResponse.class).findAll();
-        //where period
-    }
-
-    public RealmResults<AllQuestionResponse> fetchAllQuestionsbyperiod(String period) {
-        return realm.where(AllQuestionResponse.class)
+    public RealmResults<QuestionResponse> fetchAllQuestions(String mgId, String period) {
+        return realm.where(QuestionResponse.class)
+                .equalTo("mgid", mgId)
                 .equalTo("period", period)
                 .findAll();
-        //where period
     }
 
     public void close(){

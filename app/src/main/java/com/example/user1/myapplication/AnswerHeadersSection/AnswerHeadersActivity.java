@@ -14,11 +14,9 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.user1.myapplication.Database.DatabaseProvider;
-import com.example.user1.myapplication.MainGroupSection.MainGroupActivity;
 import com.example.user1.myapplication.Model.MainGroupResponse;
 import com.example.user1.myapplication.Model.ObjectSurvey;
 import com.example.user1.myapplication.Model.QuestionResponse;
-import com.example.user1.myapplication.QuestionSection.QuestionActivity;
 import com.example.user1.myapplication.R;
 import com.example.user1.myapplication.onItemClickListener;
 
@@ -50,7 +48,7 @@ public class AnswerHeadersActivity extends AppCompatActivity implements onItemCl
                 DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
                     switch (which) {
                         case DialogInterface.BUTTON_POSITIVE:
-                            if(db.hapusdata(category)){
+                            if(db.delete(category)){
                                 objectSurveys = new ArrayList<>();
                                 objectSurveys.addAll(db.fetchAllObjectSurvey(category));
                                 adapter = new AnswerHeadersAdapter(this, objectSurveys);
@@ -71,7 +69,7 @@ public class AnswerHeadersActivity extends AppCompatActivity implements onItemCl
                 DialogInterface.OnClickListener dialogClickListener2 = (dialog, which) -> {
                     switch (which) {
                         case DialogInterface.BUTTON_POSITIVE:
-                            if(db.hapusdataudahsinrkon(category)){
+                            if(db.deleteSyncronizedData(category)){
                                 objectSurveys = new ArrayList<>();
                                 objectSurveys.addAll(db.fetchAllObjectSurvey(category));
                                 adapter = new AnswerHeadersAdapter(this, objectSurveys);

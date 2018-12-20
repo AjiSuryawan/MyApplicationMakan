@@ -3,6 +3,7 @@ package com.example.user1.myapplication.Network;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Parcelable;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -126,18 +127,45 @@ public class SurveyHelper {
         }
     }
 
-    public void getAllQuestions(String password) {
+//    public void getAllQuestions(String password) {
+//        try {
+//            JSONObject body = new JSONObject();
+//            body.put("period", 1);
+//            body.put("password", password);
+//            SurveyService service = SurveyClient.getRetrofit().create(SurveyService.class);
+//            Call<ArrayList<AllQuestionResponse>> getAllQuestions = service.getAllQuestions(body.toString());
+//            getAllQuestions.enqueue(new Callback<ArrayList<AllQuestionResponse>>() {
+//                @Override
+//                public void onResponse(Call<ArrayList<AllQuestionResponse>> call, Response<ArrayList<AllQuestionResponse>> response) {
+//                    try {
+//                        db = DatabaseProvider.getInstance();
+//                        db.insert(response.body());
+//                        sActivity.startActivity(new Intent(sActivity, MainGroupActivity.class));
+//                        sActivity.finish();
+//                    } catch (Exception e) {
+//                        Log.e(TAG, "onResponse: " + e.getMessage());
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<ArrayList<AllQuestionResponse>> call, Throwable t) {
+//                    Log.e(TAG, "onFailure: " + t.getMessage());
+//                }
+//            });
+//        } catch (JSONException e) {
+//            Log.e(TAG, "getAllQuestions: " + e.getMessage());
+//        }
+//    }
+
+    public void getAllQuestions(String password){
         try {
             JSONObject body = new JSONObject();
-            body.put("period", 1);
             body.put("password", password);
             SurveyService service = SurveyClient.getRetrofit().create(SurveyService.class);
-            Call<ArrayList<AllQuestionResponse>> getAllQuestions = service.getAllQuestions(body.toString());
-            getAllQuestions.enqueue(new Callback<ArrayList<AllQuestionResponse>>() {
+            service.getAllQuestions(body.toString()).enqueue(new Callback<ArrayList<QuestionResponse>>() {
                 @Override
-                public void onResponse(Call<ArrayList<AllQuestionResponse>> call, Response<ArrayList<AllQuestionResponse>> response) {
-                    try {
-                        db = DatabaseProvider.getInstance();
+                public void onResponse(Call<ArrayList<QuestionResponse>> call, Response<ArrayList<QuestionResponse>> response) {
+                    try{
                         db.insert(response.body());
                         sActivity.startActivity(new Intent(sActivity, MainGroupActivity.class));
                         sActivity.finish();
@@ -147,15 +175,14 @@ public class SurveyHelper {
                 }
 
                 @Override
-                public void onFailure(Call<ArrayList<AllQuestionResponse>> call, Throwable t) {
-                    Log.e(TAG, "onFailure: " + t.getMessage());
+                public void onFailure(Call<ArrayList<QuestionResponse>> call, Throwable t) {
+                    Log.e(TAG, "onFailure: " + t.getMessage() );
                 }
             });
-        } catch (JSONException e) {
-            Log.e(TAG, "getAllQuestions: " + e.getMessage());
+        } catch (JSONException e){
+            Log.e(TAG, "getAllQuestions: " + e.getMessage() );
         }
     }
-
     public void sendAnswer(MainGroupResponse mgResponse, ObjectSurvey objectSurvey, ArrayList<QuestionResponse> questionsModel) {
         if (!objectSurvey.isStatus()) {
             HashMap<String, String> answerHeaderData = new HashMap<>();
@@ -191,8 +218,8 @@ public class SurveyHelper {
                             /*Intent intent = new Intent(sActivity, ShowDataActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             sActivity.startActivity(intent);*/
-                            Intent i=new Intent();
-                            sActivity.setResult(REQUEST_CODE,i);
+                            Intent i = new Intent();
+                            sActivity.setResult(REQUEST_CODE, i);
                             sActivity.finish();
                         } else {
                             Toast.makeText(sActivity, response.body().getMessage(), Toast.LENGTH_SHORT).show();

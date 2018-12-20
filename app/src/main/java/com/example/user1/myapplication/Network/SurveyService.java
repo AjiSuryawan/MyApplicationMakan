@@ -8,10 +8,12 @@ import com.example.user1.myapplication.Model.SendAnswersRequest;
 
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
@@ -25,9 +27,13 @@ public interface SurveyService {
     @POST("mobileapi/maingroups")
     Call<ArrayList<MainGroupResponse>> getMainGroups (@Body String requestBody);
 
+//    @Headers("Content-Type: text/html")
+//    @POST("mobileapi/allquestions")
+//    Call<ArrayList<AllQuestionResponse>> getAllQuestions (@Body String requestBody);
+
     @Headers("Content-Type: text/html")
     @POST("mobileapi/allquestions")
-    Call<ArrayList<AllQuestionResponse>> getAllQuestions (@Body String requestBody);
+    Call<ArrayList<QuestionResponse>> getAllQuestions (@Body String requestBody);
 
     @Headers("Content-Type: text/html")
     @POST("mobileapi/add_answer")

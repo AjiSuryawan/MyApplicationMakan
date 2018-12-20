@@ -27,6 +27,7 @@ public class QuestionHeaderActivity extends AppCompatActivity {
     private int position = 0;
     private Button startBtn;
     private DatabaseProvider db;
+    private String period = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +37,7 @@ public class QuestionHeaderActivity extends AppCompatActivity {
         if (extras != null) {
             mgResponses = extras.getParcelable("extra_maingroup");
             position = extras.getInt("extra_position");
+            period = extras.getString("extra_period");
         }
 
         db = DatabaseProvider.getInstance();
@@ -51,10 +53,9 @@ public class QuestionHeaderActivity extends AppCompatActivity {
             if (questionHeaderAdapter.isAllFieldAnswered()) {
                 //start question activity
                 Intent intent = new Intent(this, QuestionActivity.class);
-                //Intent intent = new Intent(this, NextActivity.class);
                 ArrayList<QuestionResponse> questionResponses = new ArrayList<>();
-                //here get question by period
-                questionResponses.addAll(db.fetchAllQuestions().get(position).getMainGroup(position));
+                //getQuestionsForQuestionActivity
+                questionResponses.addAll(db.fetchAllQuestions(mgResponses.getId(), period));
                 intent.putExtra("extra_category_mg", "mg" + (position + 1));
                 intent.putParcelableArrayListExtra("extra_questions", questionResponses);
                 intent.putExtra("extra_answers", questionHeaderAdapter.getAnswers());
