@@ -77,7 +77,6 @@ public class MainGroupActivity extends AppCompatActivity implements onItemClickL
 
     @Override
     public void onItemClick(int position) {
-
         //Intent intent = new Intent(this, QuestionHeaderActivity.class);
         Intent intent = new Intent(this, NextActivity.class);
         intent.putExtra("extra_maingroup", mainGroups.get(position));

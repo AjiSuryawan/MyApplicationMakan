@@ -59,8 +59,9 @@ public class DatabaseProvider {
 
     public void update(ObjectSurvey objectSurvey) {
         realm.executeTransactionAsync(realm -> {
+            ObjectSurvey obj = realm.where(ObjectSurvey.class)
+                    .equalTo("id", objectSurvey.getId()).findFirst();
             objectSurvey.setStatus(true);
-            realm.insertOrUpdate(objectSurvey);
         }, () -> {
             Log.e(TAG, "update: success");
         }, error -> {
