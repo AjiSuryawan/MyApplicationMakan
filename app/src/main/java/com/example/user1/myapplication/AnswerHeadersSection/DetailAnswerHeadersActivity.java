@@ -1,6 +1,8 @@
 package com.example.user1.myapplication.AnswerHeadersSection;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -28,12 +30,15 @@ public class DetailAnswerHeadersActivity extends AppCompatActivity {
     private ObjectSurvey objectSurvey = null;
     private ArrayList<QuestionResponse> questionResponses = new ArrayList<>();
     private SurveyHelper helper;
+    private SharedPreferences sharedPreferences;
+    String password="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.preview);
-
+        sharedPreferences = getSharedPreferences("pref_user", Context.MODE_PRIVATE);
+        password=sharedPreferences.getString("user_password","");
         extras = getIntent().getExtras();
         if (extras != null) {
             objectSurvey = extras.getParcelable("extra_objectsurvey");
@@ -63,7 +68,7 @@ public class DetailAnswerHeadersActivity extends AppCompatActivity {
                 DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
                     switch (which){
                         case DialogInterface.BUTTON_POSITIVE:
-                            helper.sendAnswer(mainGroupResponse, objectSurvey, questionResponses);
+                            helper.sendAnswer(mainGroupResponse, objectSurvey, questionResponses,password);
                             break;
 
                         case DialogInterface.BUTTON_NEGATIVE:

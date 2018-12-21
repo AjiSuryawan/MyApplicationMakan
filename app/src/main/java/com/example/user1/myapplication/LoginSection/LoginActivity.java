@@ -42,18 +42,12 @@ public class LoginActivity extends AppCompatActivity {
     EditText etInputUsername;
     EditText etInputUserpassword;
     EditText etInputPassword;
-
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
     private SurveyHelper helper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        sharedPreferences = getSharedPreferences("pref_user", MODE_PRIVATE);
-        editor = sharedPreferences.edit();
         helper = SurveyHelper.getInstance(this);
 
         etInputUsername = findViewById(R.id.txtusername);

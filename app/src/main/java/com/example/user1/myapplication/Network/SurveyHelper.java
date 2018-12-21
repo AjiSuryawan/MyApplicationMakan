@@ -73,6 +73,7 @@ public class SurveyHelper {
                         editor.apply();
                         Toast.makeText(sActivity, "success login", Toast.LENGTH_SHORT).show();
                         Log.e("success", "onResponse: " + response.body().getEmail());
+                        //save password
 
                         getMainGroups(password);
 
@@ -150,7 +151,7 @@ public class SurveyHelper {
             Log.e(TAG, "getAllQuestions: " + e.getMessage() );
         }
     }
-    public void sendAnswer(MainGroupResponse mgResponse, ObjectSurvey objectSurvey, ArrayList<QuestionResponse> questionsModel) {
+    public void sendAnswer(MainGroupResponse mgResponse, ObjectSurvey objectSurvey, ArrayList<QuestionResponse> questionsModel , String password) {
         if (!objectSurvey.isStatus()) {
             HashMap<String, String> answerHeaderData = new HashMap<>();
             for (int i = 0; i < mgResponse.getAnswerHeaderFields().size(); i++) {
@@ -173,7 +174,7 @@ public class SurveyHelper {
                 answerLinesData.add(map);
             }
             SurveyService service = SurveyClient.getRetrofit().create(SurveyService.class);
-            Call<SendAnswersRequest> call = service.sendAnswers(new SendAnswersRequest(answerHeaderData, answerLinesData, "unicef12345"));
+            Call<SendAnswersRequest> call = service.sendAnswers(new SendAnswersRequest(answerHeaderData, answerLinesData, password));
             call.enqueue(new Callback<SendAnswersRequest>() {
                 @Override
                 public void onResponse(Call<SendAnswersRequest> call, Response<SendAnswersRequest> response) {
