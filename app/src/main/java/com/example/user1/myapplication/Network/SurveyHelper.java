@@ -29,12 +29,14 @@ import static com.example.user1.myapplication.AnswerHeadersSection.AnswerHeaders
 
 public class SurveyHelper {
 
+    boolean makanan=false;
     private static final String TAG = SurveyHelper.class.getSimpleName();
     private static SurveyHelper instance;
     private static Activity sActivity;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private static DatabaseProvider db;
+
 
     private SurveyHelper() {
     }
@@ -107,7 +109,7 @@ public class SurveyHelper {
                         db = DatabaseProvider.getInstance();
                         db.insert(response.body());
                         Toast.makeText(sActivity, "success maingroup", Toast.LENGTH_SHORT).show();
-                        getAllQuestions(password);
+                        getAllQuestions(password,"1");
                     } catch (Exception e) {
                         Toast.makeText(sActivity, e.getMessage(), Toast.LENGTH_LONG).show();
                         Log.d("1234567", "onResponse: " + e.getMessage());
@@ -124,11 +126,11 @@ public class SurveyHelper {
         }
     }
 
-    public void getAllQuestions(String password){
+    public void getAllQuestions(String password , String period){
         try {
             JSONObject body = new JSONObject();
             body.put("password", password);
-            body.put("period", 1);
+            body.put("period", period);
             SurveyService service = SurveyClient.getRetrofit().create(SurveyService.class);
             service.getAllQuestions(body.toString()).enqueue(new Callback<ArrayList<QuestionResponse>>() {
                 @Override
@@ -151,6 +153,36 @@ public class SurveyHelper {
             Log.e(TAG, "getAllQuestions: " + e.getMessage() );
         }
     }
+
+    public boolean getAllQuestions23(String password , String period){
+        try {
+            JSONObject body = new JSONObject();
+            body.put("password", password);
+            body.put("period", period);
+            SurveyService service = SurveyClient.getRetrofit().create(SurveyService.class);
+            service.getAllQuestions(body.toString()).enqueue(new Callback<ArrayList<QuestionResponse>>() {
+                @Override
+                public void onResponse(Call<ArrayList<QuestionResponse>> call, Response<ArrayList<QuestionResponse>> response) {
+                    try{
+                        db.insert(response.body());
+                        makanan=true;
+                    } catch (Exception e) {
+                        Log.e(TAG, "onResponse: " + e.getMessage());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ArrayList<QuestionResponse>> call, Throwable t) {
+                    Log.e(TAG, "onFailure: " + t.getMessage() );
+                }
+            });
+        } catch (JSONException e){
+            Log.e(TAG, "getAllQuestions: " + e.getMessage() );
+        }
+        return makanan;
+    }
+
+
     public void sendAnswer(MainGroupResponse mgResponse, ObjectSurvey objectSurvey, ArrayList<QuestionResponse> questionsModel , String password) {
         if (!objectSurvey.isStatus()) {
             HashMap<String, String> answerHeaderData = new HashMap<>();
