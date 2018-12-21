@@ -39,7 +39,7 @@ public class DatabaseProvider {
                 answeredQuestion.setId(questionModel.getId());
                 answeredQuestion.setPertanyaan(questionModel.getPertanyaan());
                 answeredQuestion.setPeriod(questionModel.getPeriod());
-                Log.d("period", "insert: "+questionModel.getPeriod());
+                Log.d("periodku", "insert: "+questionModel.getPeriod());
                 answeredQuestion.setJawabanUser(questionModel.getJawabanUser());
                 Log.e(TAG, "getJawabanUser: " + answeredQuestion.getJawabanUser());
                 objectSurvey.addAnsweredQuestion(answeredQuestion);

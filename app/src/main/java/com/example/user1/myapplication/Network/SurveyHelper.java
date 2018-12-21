@@ -39,6 +39,7 @@ public class SurveyHelper {
 
 
     private SurveyHelper() {
+        sharedPreferences = sActivity.getSharedPreferences("pref_user", MODE_PRIVATE);
     }
 
     public static SurveyHelper getInstance(Activity activity) {
@@ -51,7 +52,6 @@ public class SurveyHelper {
 
     public void loginService(String username, String userPassword, String password) {
         try {
-            sharedPreferences = sActivity.getSharedPreferences("pref_user", MODE_PRIVATE);
             editor = sharedPreferences.edit();
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("username", username);
@@ -197,9 +197,12 @@ public class SurveyHelper {
                 String answer = objectSurvey.getAnswerHeader().get(i);
                 answerHeaderData.put(field, answer);
             }
-            answerHeaderData.put("jabatan", "Kepala Desa");
-            answerHeaderData.put("user_id", "1");
-            answerHeaderData.put("period", "1");
+            Log.d("kiriman", "sendAnswer: "+sharedPreferences.getString("user_id",""));
+            Log.d("kiriman", "sendAnswer: "+questionsModel.get(0).getPeriod());
+
+            answerHeaderData.put("jabatan", "Kepala Desa"); //ini dari mana ya
+            answerHeaderData.put("user_id", "1"); //ada di pref
+            answerHeaderData.put("period", "1"); // ada di realm
 
             ArrayList<HashMap<String, String>> answerLinesData = new ArrayList<>();
 
