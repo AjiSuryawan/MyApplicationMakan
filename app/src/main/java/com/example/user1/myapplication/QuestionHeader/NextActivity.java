@@ -64,8 +64,7 @@ public class NextActivity extends AppCompatActivity {
                 intent.putExtra("extra_position", position);
                 startActivity(intent);
             } else {
-                Toast.makeText(getApplicationContext(), "data belum ada", Toast.LENGTH_SHORT).show();
-                if (helper.getAllQuestions23(password,period)){
+                if (helper.getAllQuestions23(password,period , mgResponses.getId())){
                     Intent intent = new Intent(NextActivity.this, QuestionHeaderActivity.class);
                     Log.e(TAG, "Period: " + period);
                     intent.putExtra("extra_period", period);
