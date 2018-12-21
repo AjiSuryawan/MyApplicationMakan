@@ -197,12 +197,9 @@ public class SurveyHelper {
                 String answer = objectSurvey.getAnswerHeader().get(i);
                 answerHeaderData.put(field, answer);
             }
-            Log.d("kiriman", "sendAnswer: "+sharedPreferences.getString("user_id",""));
-            Log.d("kiriman", "sendAnswer: "+questionsModel.get(0).getPeriod());
 
-            answerHeaderData.put("jabatan", "Kepala Desa"); //ini dari mana ya
-            answerHeaderData.put("user_id", "1"); //ada di pref
-            answerHeaderData.put("period", "1"); // ada di realm
+            answerHeaderData.put("user_id", sharedPreferences.getString("user_id","")); //ada di pref
+            answerHeaderData.put("period", questionsModel.get(0).getPeriod()); // ada di realm
 
             ArrayList<HashMap<String, String>> answerLinesData = new ArrayList<>();
 
