@@ -155,7 +155,9 @@ public class SurveyHelper {
     }
 
     public boolean getAllQuestions23(String password , String period , String mgid){
+        Log.d("lala4", "onCreate: " + makanan);
         try {
+            Log.d("lala5", "onCreate: "+ makanan);
             JSONObject body = new JSONObject();
             body.put("password", password);
             body.put("period", period);
@@ -164,11 +166,12 @@ public class SurveyHelper {
                 @Override
                 public void onResponse(Call<ArrayList<QuestionResponse>> call, Response<ArrayList<QuestionResponse>> response) {
                     try{
+                        Log.d("lala6", "onCreate: "+ makanan);
                         db.insert(response.body());
-                        if (db.fetchAllQuestions(mgid, period).size() > 0){
-                            makanan=true;
-                        }
+                        makanan=true;
+
                     } catch (Exception e) {
+                        Log.d("lala7", "onCreate: "+ makanan);
                         makanan=false;
                         Log.e(TAG, "onResponse: " + e.getMessage());
                     }
@@ -176,15 +179,17 @@ public class SurveyHelper {
 
                 @Override
                 public void onFailure(Call<ArrayList<QuestionResponse>> call, Throwable t) {
+                    Log.d("lala8", "onCreate: "+ makanan);
                     makanan=false;
                     Log.e(TAG, "onFailure: " + t.getMessage() );
                 }
             });
         } catch (JSONException e){
+            Log.d("lala9", "onCreate: "+ makanan);
             makanan=false;
             Log.e(TAG, "getAllQuestions: " + e.getMessage() );
         }
-        Log.d("makanan", "onResponse: "+makanan);
+        Log.d("lala10", "onCreate: "+ makanan);
         return makanan;
     }
 

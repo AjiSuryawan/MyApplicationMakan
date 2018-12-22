@@ -64,7 +64,9 @@ public class NextActivity extends AppCompatActivity {
                 intent.putExtra("extra_position", position);
                 startActivity(intent);
             } else {
+                Log.d("lala1", "onCreate: ");
                 if (helper.getAllQuestions23(password,period , mgResponses.getId())){
+                    Log.d("lala2", "onCreate: ");
                     Intent intent = new Intent(NextActivity.this, QuestionHeaderActivity.class);
                     Log.e(TAG, "Period: " + period);
                     intent.putExtra("extra_period", period);
@@ -72,7 +74,7 @@ public class NextActivity extends AppCompatActivity {
                     intent.putExtra("extra_position", position);
                     startActivity(intent);
                 }else {
-                    Toast.makeText(getApplicationContext(), "ambil data error", Toast.LENGTH_SHORT).show();
+                    Log.d("lala3", "onCreate: ");
                 }
             }
         });
