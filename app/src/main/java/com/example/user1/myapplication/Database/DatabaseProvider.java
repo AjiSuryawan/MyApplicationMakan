@@ -93,6 +93,14 @@ public class DatabaseProvider {
         return true;
     }
 
+    public boolean deleteAllQuestionsByPeriod(String period){
+        RealmResults<QuestionResponse> results = realm.where(QuestionResponse.class).equalTo("period", period).findAll();
+        realm.beginTransaction();
+        results.deleteAllFromRealm();
+        realm.commitTransaction();
+        return true;
+    }
+
     public RealmResults<MainGroupResponse> fetchAllMainGroup() {
         return realm.where(MainGroupResponse.class).findAll();
     }

@@ -106,10 +106,11 @@ public class SurveyHelper {
                 @Override
                 public void onResponse(Call<ArrayList<MainGroupResponse>> call, Response<ArrayList<MainGroupResponse>> response) {
                     try {
+                        Toast.makeText(sActivity, "Success", Toast.LENGTH_SHORT).show();
                         db = DatabaseProvider.getInstance();
                         db.insert(response.body());
                         Toast.makeText(sActivity, "success maingroup", Toast.LENGTH_SHORT).show();
-                        getAllQuestions(password,"1");
+                        getAllQuestions(password,"1", false);
                     } catch (Exception e) {
                         Toast.makeText(sActivity, e.getMessage(), Toast.LENGTH_LONG).show();
                         Log.d("1234567", "onResponse: " + e.getMessage());
@@ -126,8 +127,9 @@ public class SurveyHelper {
         }
     }
 
-    public void getAllQuestions(String password , String period){
+    public void getAllQuestions(String password , String period, boolean isUpdate){
         try {
+            Toast.makeText(sActivity, "fetching questions", Toast.LENGTH_SHORT).show();
             JSONObject body = new JSONObject();
             body.put("password", password);
             body.put("period", period);
@@ -136,6 +138,8 @@ public class SurveyHelper {
                 @Override
                 public void onResponse(Call<ArrayList<QuestionResponse>> call, Response<ArrayList<QuestionResponse>> response) {
                     try{
+                        Toast.makeText(sActivity, "success", Toast.LENGTH_SHORT).show();
+                        if(isUpdate) db.deleteAllQuestionsByPeriod(period);
                         db.insert(response.body());
                         sActivity.startActivity(new Intent(sActivity, MainGroupActivity.class));
                         sActivity.finish();
@@ -192,7 +196,6 @@ public class SurveyHelper {
         Log.d("lala10", "onCreate: "+ makanan);
         return makanan;
     }
-
 
     public void sendAnswer(MainGroupResponse mgResponse, ObjectSurvey objectSurvey, ArrayList<QuestionResponse> questionsModel , String password) {
         if (!objectSurvey.isStatus()) {
