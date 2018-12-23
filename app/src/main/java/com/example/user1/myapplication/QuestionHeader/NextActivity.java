@@ -74,7 +74,7 @@ public class NextActivity extends AppCompatActivity {
                     intent.putExtra("extra_position", position);
                     startActivity(intent);
                 }else {
-                    Log.d("lala3", "onCreate: "+helper.getAllQuestions23(password,period , mgResponses.getId()));
+                    Log.d("lala3", "onCreate: ");
                 }
             }
         });
