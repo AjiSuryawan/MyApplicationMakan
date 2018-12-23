@@ -112,6 +112,10 @@ public class DatabaseProvider {
                 .findAll();
     }
 
+    public boolean isQuestionsEmpty(String period){
+        long count = realm.where(QuestionResponse.class).equalTo("period", period).count();
+        return count <= 0;
+    }
     public void close(){
         realm.close();
     }

@@ -13,6 +13,8 @@ import com.example.user1.myapplication.Model.MainGroupResponse;
 import com.example.user1.myapplication.Model.ObjectSurvey;
 import com.example.user1.myapplication.Model.QuestionResponse;
 import com.example.user1.myapplication.Model.SendAnswersRequest;
+import com.example.user1.myapplication.QuestionHeader.NextActivity;
+import com.example.user1.myapplication.QuestionHeader.QuestionHeaderActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -158,10 +160,9 @@ public class SurveyHelper {
         }
     }
 
-    public boolean getAllQuestions23(String password , String period , String mgid){
-        Log.d("lala4", "onCreate: " + makanan);
+    public void getAllQuestions(String password , String period, MainGroupResponse mgResponses, int position){
         try {
-            Log.d("lala5", "onCreate: "+ makanan);
+            Toast.makeText(sActivity, "fetching questions", Toast.LENGTH_SHORT).show();
             JSONObject body = new JSONObject();
             body.put("password", password);
             body.put("period", period);
@@ -170,31 +171,27 @@ public class SurveyHelper {
                 @Override
                 public void onResponse(Call<ArrayList<QuestionResponse>> call, Response<ArrayList<QuestionResponse>> response) {
                     try{
-                        Log.d("lala6", "onCreate: "+ makanan);
+                        Toast.makeText(sActivity, "success", Toast.LENGTH_SHORT).show();
                         db.insert(response.body());
-                        makanan=true;
-
+                        Intent intent = new Intent(sActivity, QuestionHeaderActivity.class);
+                        Log.e(TAG, "Period: " + period);
+                        intent.putExtra("extra_period", period);
+                        intent.putExtra("extra_maingroup", mgResponses);
+                        intent.putExtra("extra_position", position);
+                        sActivity.startActivity(intent);
                     } catch (Exception e) {
-                        Log.d("lala7", "onCreate: "+ makanan);
-                        makanan=false;
-                        Log.e(TAG, "onResponse: " + e.getMessage());
+                        Toast.makeText(sActivity, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<ArrayList<QuestionResponse>> call, Throwable t) {
-                    Log.d("lala8", "onCreate: "+ makanan);
-                    makanan=false;
-                    Log.e(TAG, "onFailure: " + t.getMessage() );
+                    Toast.makeText(sActivity, t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (JSONException e){
-            Log.d("lala9", "onCreate: "+ makanan);
-            makanan=false;
             Log.e(TAG, "getAllQuestions: " + e.getMessage() );
         }
-        Log.d("lala10", "onCreate: "+ makanan);
-        return makanan;
     }
 
     public void sendAnswer(MainGroupResponse mgResponse, ObjectSurvey objectSurvey, ArrayList<QuestionResponse> questionsModel , String password) {

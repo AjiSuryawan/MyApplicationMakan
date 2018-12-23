@@ -55,7 +55,10 @@ public class NextActivity extends AppCompatActivity {
         spinner.setOnItemClickListener((parent, view, position, id) -> period = parent.getItemAtPosition(position).toString());
         btnstart = (Button) findViewById(R.id.btngo);
         btnstart.setOnClickListener(v -> {
-            if (db.fetchAllQuestions(mgResponses.getId(), period).size() > 0) {
+            if (db.isQuestionsEmpty(period)) {
+                Toast.makeText(getApplicationContext(), "fetching question " + period, Toast.LENGTH_SHORT).show();
+                helper.getAllQuestions(password, period, mgResponses, position);
+            } else {
                 Toast.makeText(getApplicationContext(), "data sudah ada", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(NextActivity.this, QuestionHeaderActivity.class);
                 Log.e(TAG, "Period: " + period);
@@ -63,19 +66,6 @@ public class NextActivity extends AppCompatActivity {
                 intent.putExtra("extra_maingroup", mgResponses);
                 intent.putExtra("extra_position", position);
                 startActivity(intent);
-            } else {
-                Log.d("lala1", "onCreate: ");
-                if (helper.getAllQuestions23(password,period , mgResponses.getId())){
-                    Log.d("lala2", "onCreate: ");
-                    Intent intent = new Intent(NextActivity.this, QuestionHeaderActivity.class);
-                    Log.e(TAG, "Period: " + period);
-                    intent.putExtra("extra_period", period);
-                    intent.putExtra("extra_maingroup", mgResponses);
-                    intent.putExtra("extra_position", position);
-                    startActivity(intent);
-                }else {
-                    Log.d("lala3", "onCreate: ");
-                }
             }
         });
 
