@@ -166,10 +166,9 @@ public class SurveyHelper {
                 @Override
                 public void onResponse(Call<ArrayList<QuestionResponse>> call, Response<ArrayList<QuestionResponse>> response) {
                     try{
-                        Log.d("lala6", "onCreate: "+ makanan);
                         db.insert(response.body());
                         makanan=true;
-
+                        Log.d("lala6", "onCreate: "+ makanan);
                     } catch (Exception e) {
                         Log.d("lala7", "onCreate: "+ makanan);
                         makanan=false;

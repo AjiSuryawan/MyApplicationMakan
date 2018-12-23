@@ -15,7 +15,7 @@ import io.realm.RealmObject;
 import io.realm.RealmResults;
 
 public class DatabaseProvider {
-
+    boolean tanda;
     private static final String TAG = DatabaseProvider.class.getSimpleName();
     private static DatabaseProvider instance;
     private static Realm realm;
@@ -54,6 +54,8 @@ public class DatabaseProvider {
                 () -> Log.e(TAG, "onSuccess: success"),
                 error -> Log.e(TAG, "onError: " + error.getMessage()));
     }
+
+
 
     public void update(ObjectSurvey objectSurvey) {
         realm.executeTransactionAsync(realm -> {
