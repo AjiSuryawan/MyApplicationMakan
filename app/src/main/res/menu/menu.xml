@@ -6,6 +6,6 @@
         android:title="Lihat Data Yang Tersimpan"
         app:showAsAction="never"/>
     <item android:id="@+id/action_update_data"
-        android:title="Perbarui Data Online"
+        android:title="Perbarui Data"
         app:showAsAction="never"/>
 </menu>

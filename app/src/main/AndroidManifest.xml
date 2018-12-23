@@ -14,9 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ControlClass">
-
-        </activity>
+        <activity android:name=".ControlClass"></activity>
         <activity
             android:name=".QuestionSection.QuestionActivity"
             android:launchMode="singleTask" />
@@ -31,18 +29,16 @@
         <activity
             android:name=".ShowDataSection.ShowDataActivity"
             android:parentActivityName=".MainGroupSection.MainGroupActivity" />
-        <activity
-            android:name=".Splashku">
-
+        <activity android:name=".Splashku">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-        <activity android:name=".QuestionHeader.QuestionHeaderActivity"/>
-        <activity android:name=".QuestionHeader.NextActivity"/>
+        <activity android:name=".QuestionHeader.QuestionHeaderActivity" />
+        <activity android:name=".QuestionHeader.NextActivity" />
+        <activity android:name=".PerbaruiActivity"></activity>
     </application>
 
 </manifest>

@@ -12,6 +12,7 @@ import android.view.MenuItem;
 
 import com.example.user1.myapplication.Database.DatabaseProvider;
 import com.example.user1.myapplication.Model.MainGroupResponse;
+import com.example.user1.myapplication.PerbaruiActivity;
 import com.example.user1.myapplication.QuestionHeader.NextActivity;
 import com.example.user1.myapplication.QuestionHeader.QuestionHeaderActivity;
 import com.example.user1.myapplication.R;
@@ -67,8 +68,10 @@ public class MainGroupActivity extends AppCompatActivity implements onItemClickL
             case R.id.showData:
                 Intent intent = new Intent(this, ShowDataActivity.class);
                 startActivity(intent);
+                return true;
             case R.id.action_update_data:
-//                getMainGroups(password);
+                Intent updateIntent = new Intent(this, PerbaruiActivity.class);
+                startActivity(updateIntent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

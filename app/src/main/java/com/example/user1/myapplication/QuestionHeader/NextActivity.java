@@ -41,7 +41,7 @@ public class NextActivity extends AppCompatActivity {
         extras = getIntent().getExtras();
 
         sharedPreferences = getSharedPreferences("pref_user", Context.MODE_PRIVATE);
-        password=sharedPreferences.getString("user_password","");
+        password = sharedPreferences.getString("user_password","");
 
         if (extras != null) {
             mgResponses = extras.getParcelable("extra_maingroup");
