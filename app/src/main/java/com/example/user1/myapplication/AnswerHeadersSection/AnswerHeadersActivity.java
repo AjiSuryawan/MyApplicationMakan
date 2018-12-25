@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -101,6 +102,7 @@ public class AnswerHeadersActivity extends AppCompatActivity implements onItemCl
         }
         db = DatabaseProvider.getInstance();
         objectSurveys.addAll(db.fetchAllObjectSurvey(category));
+        Log.d("lebarnya", "onCreate: "+objectSurveys.size());
         adapter = new AnswerHeadersAdapter(this, objectSurveys);
         adapter.setListener(this);
         recyclerView = findViewById(R.id.recycler_view);
@@ -116,6 +118,7 @@ public class AnswerHeadersActivity extends AppCompatActivity implements onItemCl
         intent.putExtra("extra_maingroup", mainGroupResponse);
         intent.putExtra("extra_objectsurvey", objectSurveys.get(position));
         intent.putParcelableArrayListExtra("extra_questions", getQuestions(objectSurveys.get(position)));
+        Log.d("lebarnya", "onCreate: "+getQuestions(objectSurveys.get(position)).size());
         //startActivity(intent);
         startActivityForResult(intent , REQUEST_CODE);
     }

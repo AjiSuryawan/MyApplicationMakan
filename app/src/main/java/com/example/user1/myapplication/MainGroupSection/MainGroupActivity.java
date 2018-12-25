@@ -1,5 +1,8 @@
 package com.example.user1.myapplication.MainGroupSection;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,17 +13,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.example.user1.myapplication.ControlClass;
 import com.example.user1.myapplication.Database.DatabaseProvider;
 import com.example.user1.myapplication.Model.MainGroupResponse;
 import com.example.user1.myapplication.PerbaruiActivity;
 import com.example.user1.myapplication.QuestionHeader.NextActivity;
-import com.example.user1.myapplication.QuestionHeader.QuestionHeaderActivity;
 import com.example.user1.myapplication.R;
 import com.example.user1.myapplication.ShowDataSection.ShowDataActivity;
 import com.example.user1.myapplication.onItemClickListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class MainGroupActivity extends AppCompatActivity implements onItemClickListener {
 
@@ -32,6 +34,20 @@ public class MainGroupActivity extends AppCompatActivity implements onItemClickL
     private SharedPreferences preferences;
     private RecyclerView recyclerView;
     private DatabaseProvider db;
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Really Exit?")
+                .setMessage("Are you sure you want to exit?")
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        finish();
+                    }
+                }).create().show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +88,17 @@ public class MainGroupActivity extends AppCompatActivity implements onItemClickL
             case R.id.action_update_data:
                 Intent updateIntent = new Intent(this, PerbaruiActivity.class);
                 startActivity(updateIntent);
+                return true;
+            case R.id.logout:
+                new AlertDialog.Builder(this)
+                        .setTitle("Really Logout?")
+                        .setMessage("Are you sure you want to Logout?")
+                        .setNegativeButton(android.R.string.no, null)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface arg0, int arg1) {
+
+                            }
+                        }).create().show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
