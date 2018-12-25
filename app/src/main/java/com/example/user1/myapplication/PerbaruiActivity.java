@@ -25,10 +25,16 @@ public class PerbaruiActivity extends AppCompatActivity {
     private SurveyHelper surveyHelper;
 
     @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perbarui);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         spinner = findViewById(R.id.android_material_design_spinner);
         updateBtn = findViewById(R.id.updateBtn);
         updateBtn.setEnabled(false);
@@ -48,6 +54,7 @@ public class PerbaruiActivity extends AppCompatActivity {
         });
         surveyHelper = SurveyHelper.getInstance(this);
         updateBtn.setOnClickListener(v -> {
+            updateBtn.setEnabled(false);
             surveyHelper.getAllQuestions(password, period, true);
         });
     }
