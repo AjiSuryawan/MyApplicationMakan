@@ -226,6 +226,7 @@ public class SurveyHelper {
             for (int i = 0; i < mgResponse.getAnswerHeaderFields().size(); i++) {
                 String field = mgResponse.getAnswerHeaderFields().get(i);
                 String answer = objectSurvey.getAnswerHeader().get(i);
+                Log.d("loloku", "sendAnswer: "+field+" , "+answer);
                 answerHeaderData.put(field, answer);
             }
 
