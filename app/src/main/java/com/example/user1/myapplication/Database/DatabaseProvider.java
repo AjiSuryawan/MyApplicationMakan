@@ -30,6 +30,7 @@ public class DatabaseProvider {
     }
 
     public void insert(String category, ArrayList<QuestionResponse> questionModels, ArrayList<String> answers) {
+        Log.d("lolo6", "insert: "+questionModels.size());
         realm.executeTransactionAsync(realm -> {
             ObjectSurvey objectSurvey = realm.createObject(ObjectSurvey.class, UUID.randomUUID().toString());
             objectSurvey.setAnswerHeader(answers);
@@ -39,13 +40,13 @@ public class DatabaseProvider {
                 answeredQuestion.setId(questionModel.getId());
                 answeredQuestion.setPertanyaan(questionModel.getPertanyaan());
                 answeredQuestion.setPeriod(questionModel.getPeriod());
-                Log.d("periodku", "insert: "+questionModel.getPeriod());
+                Log.d("lolo1", "insert: "+questionModel.getPeriod());
                 answeredQuestion.setJawabanUser(questionModel.getJawabanUser());
-                Log.e(TAG, "getJawabanUser: " + answeredQuestion.getJawabanUser());
+                Log.e("lolo2", "getJawabanUser: " + answeredQuestion.getJawabanUser());
                 objectSurvey.addAnsweredQuestion(answeredQuestion);
             }
             objectSurvey.setStatus(false);
-        }, () -> Log.e(TAG, "onSuccess: success"), error -> Log.e(TAG, "onError: " + error.getMessage()));
+        }, () -> Log.e("lolo3", "onSuccess: success"), error -> Log.e("lolo4", "onError: " + error.getMessage()));
     }
 
     public void insert(List<? extends RealmObject> response) {

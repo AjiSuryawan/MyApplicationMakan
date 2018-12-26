@@ -1,6 +1,7 @@
 package com.example.user1.myapplication.Network;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -30,7 +31,7 @@ import static android.content.Context.MODE_PRIVATE;
 import static com.example.user1.myapplication.AnswerHeadersSection.AnswerHeadersActivity.REQUEST_CODE;
 
 public class SurveyHelper {
-
+    ProgressDialog progress;
     boolean makanan=false;
     private static final String TAG = SurveyHelper.class.getSimpleName();
     private static SurveyHelper instance;
@@ -54,6 +55,11 @@ public class SurveyHelper {
 
     public void loginService(String username, String userPassword, String password) {
         try {
+            progress = new ProgressDialog(sActivity);
+            progress.setMessage("Loading...");
+            progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progress.show();
+
             editor = sharedPreferences.edit();
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("username", username);
@@ -75,11 +81,10 @@ public class SurveyHelper {
                         editor.putString("user_status", response.body().getStatus());
                         editor.putInt("pernah_login", 1);
                         editor.apply();
-                        Toast.makeText(sActivity, "success login", Toast.LENGTH_SHORT).show();
                         Log.e("success", "onResponse: " + response.body().getEmail());
                         //save password
 
-                        getMainGroups(password);
+                        getMainGroups(password,false);
 
                     } catch (Exception e) {
                         Toast.makeText(sActivity, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -98,7 +103,7 @@ public class SurveyHelper {
         }
     }
 
-    public void getMainGroups(String password) {
+    public void getMainGroups(String password,boolean isrefresh) {
         try {
             JSONObject body = new JSONObject();
             body.put("password", password);
@@ -108,11 +113,13 @@ public class SurveyHelper {
                 @Override
                 public void onResponse(Call<ArrayList<MainGroupResponse>> call, Response<ArrayList<MainGroupResponse>> response) {
                     try {
-                        Toast.makeText(sActivity, "Success", Toast.LENGTH_SHORT).show();
                         db = DatabaseProvider.getInstance();
                         db.insert(response.body());
-                        Toast.makeText(sActivity, "success maingroup", Toast.LENGTH_SHORT).show();
-                        getAllQuestions(password,"1", false);
+                        if (!isrefresh){
+                            getAllQuestions(password,"1", false);
+                        }else{
+                            sActivity.finish();
+                        }
                     } catch (Exception e) {
                         Toast.makeText(sActivity, e.getMessage(), Toast.LENGTH_LONG).show();
                         Log.d("1234567", "onResponse: " + e.getMessage());
@@ -131,7 +138,6 @@ public class SurveyHelper {
 
     public void getAllQuestions(String password , String period, boolean isUpdate){
         try {
-            Toast.makeText(sActivity, "fetching questions", Toast.LENGTH_SHORT).show();
             JSONObject body = new JSONObject();
             body.put("password", password);
             body.put("period", period);
@@ -140,10 +146,10 @@ public class SurveyHelper {
                 @Override
                 public void onResponse(Call<ArrayList<QuestionResponse>> call, Response<ArrayList<QuestionResponse>> response) {
                     try{
-                        Toast.makeText(sActivity, "success", Toast.LENGTH_SHORT).show();
                         if(isUpdate) db.deleteAllQuestionsByPeriod(period);
                         db.insert(response.body());
                         sActivity.startActivity(new Intent(sActivity, MainGroupActivity.class));
+                        progress.dismiss();
                         sActivity.finish();
                     } catch (Exception e) {
                         Log.e(TAG, "onResponse: " + e.getMessage());
@@ -161,8 +167,11 @@ public class SurveyHelper {
     }
 
     public void getAllQuestions(String password , String period, MainGroupResponse mgResponses, int position){
+        progress = new ProgressDialog(sActivity);
+        progress.setMessage("Loading...");
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.show();
         try {
-            Toast.makeText(sActivity, "fetching questions", Toast.LENGTH_SHORT).show();
             JSONObject body = new JSONObject();
             body.put("password", password);
             body.put("period", period);
@@ -171,13 +180,13 @@ public class SurveyHelper {
                 @Override
                 public void onResponse(Call<ArrayList<QuestionResponse>> call, Response<ArrayList<QuestionResponse>> response) {
                     try{
-                        Toast.makeText(sActivity, "success", Toast.LENGTH_SHORT).show();
                         db.insert(response.body());
                         Intent intent = new Intent(sActivity, QuestionHeaderActivity.class);
                         Log.e(TAG, "Period: " + period);
                         intent.putExtra("extra_period", period);
                         intent.putExtra("extra_maingroup", mgResponses);
                         intent.putExtra("extra_position", position);
+                        progress.dismiss();
                         sActivity.startActivity(intent);
                     } catch (Exception e) {
                         Toast.makeText(sActivity, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -195,6 +204,10 @@ public class SurveyHelper {
     }
 
     public void sendAnswer(MainGroupResponse mgResponse, ObjectSurvey objectSurvey, ArrayList<QuestionResponse> questionsModel , String password) {
+        progress = new ProgressDialog(sActivity);
+        progress.setMessage("Loading...");
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.show();
         if (!objectSurvey.isStatus()) {
             HashMap<String, String> answerHeaderData = new HashMap<>();
             for (int i = 0; i < mgResponse.getAnswerHeaderFields().size(); i++) {
@@ -223,7 +236,6 @@ public class SurveyHelper {
                 public void onResponse(Call<SendAnswersRequest> call, Response<SendAnswersRequest> response) {
                     try {
                         if (response.body().getMessage().equals("")) {
-                            Toast.makeText(sActivity, "Success", Toast.LENGTH_SHORT).show();
                             db = DatabaseProvider.getInstance();
                             db.update(objectSurvey);
                             /*Intent intent = new Intent(sActivity, ShowDataActivity.class);
@@ -231,6 +243,7 @@ public class SurveyHelper {
                             sActivity.startActivity(intent);*/
                             Intent i = new Intent();
                             sActivity.setResult(REQUEST_CODE, i);
+                            progress.dismiss();
                             sActivity.finish();
                         } else {
                             Toast.makeText(sActivity, response.body().getMessage(), Toast.LENGTH_SHORT).show();

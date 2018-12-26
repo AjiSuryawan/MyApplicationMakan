@@ -7,12 +7,12 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.user1.myapplication.Database.DatabaseProvider;
 import com.example.user1.myapplication.MainGroupSection.MainGroupActivity;
-import com.example.user1.myapplication.Model.MainGroupResponse;
 import com.example.user1.myapplication.Model.QuestionResponse;
 import com.example.user1.myapplication.R;
 import com.example.user1.myapplication.Utility.CustomViewPager;
@@ -26,6 +26,7 @@ public class QuestionActivity extends AppCompatActivity {
     private Bundle extras;
     private CustomViewPager viewPager;
     private ArrayList<QuestionResponse> questions = new ArrayList<>();
+
     private Button previousBtn, nextBtn;
     private QuestionAdapter adapter;
     private AlertDialog.Builder builder;
@@ -69,6 +70,7 @@ public class QuestionActivity extends AppCompatActivity {
                     switch (which) {
                         case DialogInterface.BUTTON_POSITIVE:
                             dbProvider.insert(category, questions, answers);
+
                             Intent intent = new Intent(this, MainGroupActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
@@ -88,8 +90,10 @@ public class QuestionActivity extends AppCompatActivity {
                 QuestionFragment fragment = (QuestionFragment) adapter.getItem(position);
                 if (questions.get(viewPager.getCurrentItem()).getTipe().equalsIgnoreCase("ma")) {
                     questions.get(position).setJawabanUser(fragment.getAnswers());
+
                 } else {
                     questions.get(position).setJawabanUser(fragment.getAnswer());
+
                 }
                 previewFragment.notifyDataSetChanged();
                 viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
@@ -98,15 +102,21 @@ public class QuestionActivity extends AppCompatActivity {
             else if (questions.get(viewPager.getCurrentItem()).getTipe().equalsIgnoreCase("ma")) {
                 final int position = viewPager.getCurrentItem();
                 QuestionFragment fragment = (QuestionFragment) adapter.getItem(position);
+
                 final QuestionResponse questionModel = questions.get(position);
                 questionModel.setJawabanUser(fragment.getAnswers());
+
+
+
                 viewPager.setCurrentItem(position + 1);
             } else {
                 final int position = viewPager.getCurrentItem();
                 QuestionFragment fragment = (QuestionFragment) adapter.getItem(position);
                 final QuestionResponse questionModel = questions.get(position);
+
                 final String answer = fragment.getAnswer();
                 questionModel.setJawabanUser(answer);
+
                 viewPager.setCurrentItem(position + 1);
             }
         });

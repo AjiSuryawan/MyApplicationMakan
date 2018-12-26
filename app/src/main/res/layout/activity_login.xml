@@ -43,10 +43,14 @@
                 android:text="unicef12345" />
 
             <Button
+                android:layout_margin="10dp"
+                android:textColor="#FFFFFF"
+                android:background="#3F51B5"
+                android:text="Login"
                 android:id="@+id/btnlogin"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="login" />
+                android:layout_height="wrap_content" />
+
 
         </LinearLayout>
 

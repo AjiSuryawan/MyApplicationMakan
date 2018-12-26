@@ -23,13 +23,22 @@ public class PerbaruiActivity extends AppCompatActivity {
     private String period = "";
     private String password;
     private SurveyHelper surveyHelper;
+    Button btnrefreshheader;
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perbarui);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         spinner = findViewById(R.id.android_material_design_spinner);
+
+
         updateBtn = findViewById(R.id.updateBtn);
         updateBtn.setEnabled(false);
 
@@ -48,7 +57,16 @@ public class PerbaruiActivity extends AppCompatActivity {
         });
         surveyHelper = SurveyHelper.getInstance(this);
         updateBtn.setOnClickListener(v -> {
+            updateBtn.setEnabled(false);
             surveyHelper.getAllQuestions(password, period, true);
+        });
+
+        btnrefreshheader = (Button) findViewById(R.id.btnupdateHeader);
+        btnrefreshheader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                surveyHelper.getMainGroups(password,true);
+            }
         });
     }
 

@@ -19,6 +19,12 @@ import java.util.ArrayList;
 
 public class QuestionHeaderActivity extends AppCompatActivity {
 
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
+    }
+
     private static final String TAG = DatabaseProvider.class.getSimpleName();
     private RecyclerView recyclerView;
     private QuestionHeaderAdapter questionHeaderAdapter;
@@ -32,7 +38,7 @@ public class QuestionHeaderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questionheader);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         extras = getIntent().getExtras();
         if (extras != null) {
             mgResponses = extras.getParcelable("extra_maingroup");
