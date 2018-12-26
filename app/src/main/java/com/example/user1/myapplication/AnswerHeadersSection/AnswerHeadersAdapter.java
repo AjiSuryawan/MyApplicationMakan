@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.user1.myapplication.Model.ObjectSurvey;
+import com.example.user1.myapplication.Model.ObjectSurvey2;
 import com.example.user1.myapplication.R;
 import com.example.user1.myapplication.onItemClickListener;
 
@@ -18,10 +19,10 @@ import java.util.ArrayList;
 public class AnswerHeadersAdapter extends RecyclerView.Adapter<AnswerHeadersAdapter.AHViewHolder> {
 
     private Context context;
-    private ArrayList<ObjectSurvey> objectSurveys;
+    private ArrayList<ObjectSurvey2> objectSurveys;
     private onItemClickListener listener;
 
-    public AnswerHeadersAdapter(Context context, ArrayList<ObjectSurvey> objectSurveys) {
+    public AnswerHeadersAdapter(Context context, ArrayList<ObjectSurvey2> objectSurveys) {
         this.context = context;
         this.objectSurveys = objectSurveys;
     }
@@ -63,7 +64,7 @@ public class AnswerHeadersAdapter extends RecyclerView.Adapter<AnswerHeadersAdap
 
         }
 
-        public void setText(ObjectSurvey objectSurvey){
+        public void setText(ObjectSurvey2 objectSurvey){
             tvIdUser.setText(objectSurvey.getAnswerHeader().get(1));
             if(!objectSurvey.isStatus()) tvStatus.setText("not synchronized");
             else tvStatus.setText("synchronized");
