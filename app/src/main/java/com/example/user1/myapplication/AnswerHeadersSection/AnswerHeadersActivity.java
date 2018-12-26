@@ -17,9 +17,7 @@ import android.widget.Toast;
 import com.example.user1.myapplication.Database.DatabaseProvider;
 import com.example.user1.myapplication.Model.MainGroupResponse;
 import com.example.user1.myapplication.Model.ObjectSurvey;
-import com.example.user1.myapplication.Model.ObjectSurvey2;
 import com.example.user1.myapplication.Model.QuestionResponse;
-import com.example.user1.myapplication.Model.QuestionResponse2;
 import com.example.user1.myapplication.R;
 import com.example.user1.myapplication.onItemClickListener;
 
@@ -30,7 +28,7 @@ public class AnswerHeadersActivity extends AppCompatActivity implements onItemCl
     private static final String TAG = AnswerHeadersActivity.class.getSimpleName();
     private RecyclerView recyclerView;
     private String category;
-    private ArrayList<ObjectSurvey2> objectSurveys = new ArrayList<>();
+    private ArrayList<ObjectSurvey> objectSurveys = new ArrayList<>();
     private AnswerHeadersAdapter adapter;
     private MainGroupResponse mainGroupResponse;
     private DatabaseProvider db;
@@ -146,8 +144,8 @@ public class AnswerHeadersActivity extends AppCompatActivity implements onItemCl
         db.close();
     }
 
-    private ArrayList<QuestionResponse2> getQuestions(ObjectSurvey2 objectSurvey) {
-        ArrayList<QuestionResponse2> questionModels = new ArrayList<>();
+    private ArrayList<QuestionResponse> getQuestions(ObjectSurvey objectSurvey) {
+        ArrayList<QuestionResponse> questionModels = new ArrayList<>();
         questionModels.addAll(objectSurvey.getAnsweredQuestions());
         return questionModels;
     }

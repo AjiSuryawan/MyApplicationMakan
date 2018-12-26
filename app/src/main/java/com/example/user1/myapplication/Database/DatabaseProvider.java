@@ -4,9 +4,7 @@ import android.util.Log;
 
 import com.example.user1.myapplication.Model.MainGroupResponse;
 import com.example.user1.myapplication.Model.ObjectSurvey;
-import com.example.user1.myapplication.Model.ObjectSurvey2;
 import com.example.user1.myapplication.Model.QuestionResponse;
-import com.example.user1.myapplication.Model.QuestionResponse2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +29,14 @@ public class DatabaseProvider {
         return instance;
     }
 
-    public void insert(String category, ArrayList<QuestionResponse2> questionModels, ArrayList<String> answers) {
+    public void insert(String category, ArrayList<QuestionResponse> questionModels, ArrayList<String> answers) {
         Log.d("lolo6", "insert: "+questionModels.size());
         realm.executeTransactionAsync(realm -> {
-            ObjectSurvey2 objectSurvey = realm.createObject(ObjectSurvey2.class, UUID.randomUUID().toString());
+            ObjectSurvey objectSurvey = realm.createObject(ObjectSurvey.class, UUID.randomUUID().toString());
             objectSurvey.setAnswerHeader(answers);
             objectSurvey.setCategoryMainGroup(category);
-            for (QuestionResponse2 questionModel : questionModels) {
-                QuestionResponse2 answeredQuestion = realm.createObject(QuestionResponse2.class);
+            for (QuestionResponse questionModel : questionModels) {
+                QuestionResponse answeredQuestion = realm.createObject(QuestionResponse.class);
                 answeredQuestion.setId(questionModel.getId());
                 answeredQuestion.setPertanyaan(questionModel.getPertanyaan());
                 answeredQuestion.setPeriod(questionModel.getPeriod());
@@ -72,8 +70,8 @@ public class DatabaseProvider {
         });
     }
 
-    public RealmResults<ObjectSurvey2> fetchAllObjectSurvey(String category) {
-        return realm.where(ObjectSurvey2.class).equalTo("categoryMainGroup", category).findAll();
+    public RealmResults<ObjectSurvey> fetchAllObjectSurvey(String category) {
+        return realm.where(ObjectSurvey.class).equalTo("categoryMainGroup", category).findAll();
     }
 
     public boolean delete(String category){

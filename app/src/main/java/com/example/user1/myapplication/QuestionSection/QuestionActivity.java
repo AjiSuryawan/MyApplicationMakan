@@ -13,9 +13,7 @@ import android.widget.Button;
 
 import com.example.user1.myapplication.Database.DatabaseProvider;
 import com.example.user1.myapplication.MainGroupSection.MainGroupActivity;
-import com.example.user1.myapplication.Model.MainGroupResponse;
 import com.example.user1.myapplication.Model.QuestionResponse;
-import com.example.user1.myapplication.Model.QuestionResponse2;
 import com.example.user1.myapplication.R;
 import com.example.user1.myapplication.Utility.CustomViewPager;
 
@@ -28,7 +26,7 @@ public class QuestionActivity extends AppCompatActivity {
     private Bundle extras;
     private CustomViewPager viewPager;
     private ArrayList<QuestionResponse> questions = new ArrayList<>();
-    private ArrayList<QuestionResponse2> questions2 = new ArrayList<>();
+
     private Button previousBtn, nextBtn;
     private QuestionAdapter adapter;
     private AlertDialog.Builder builder;
@@ -57,8 +55,6 @@ public class QuestionActivity extends AppCompatActivity {
             period = extras.getString("period");
             category = extras.getString("extra_category_mg");
             questions = extras.getParcelableArrayList("extra_questions");
-            questions2 = extras.getParcelableArrayList("extra_questions");
-            Log.d("lolo5", "onCreate: "+questions2.size());
             answers = extras.getStringArrayList("extra_answers");
             initQuestions(questions);
         }
@@ -73,7 +69,7 @@ public class QuestionActivity extends AppCompatActivity {
                 DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
                     switch (which) {
                         case DialogInterface.BUTTON_POSITIVE:
-                            dbProvider.insert(category, questions2, answers);
+                            dbProvider.insert(category, questions, answers);
 
                             Intent intent = new Intent(this, MainGroupActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -94,10 +90,10 @@ public class QuestionActivity extends AppCompatActivity {
                 QuestionFragment fragment = (QuestionFragment) adapter.getItem(position);
                 if (questions.get(viewPager.getCurrentItem()).getTipe().equalsIgnoreCase("ma")) {
                     questions.get(position).setJawabanUser(fragment.getAnswers());
-                    //questions2.get(position).setJawabanUser(fragment.getAnswers());
+
                 } else {
                     questions.get(position).setJawabanUser(fragment.getAnswer());
-                    //questions2.get(position).setJawabanUser(fragment.getAnswer());
+
                 }
                 previewFragment.notifyDataSetChanged();
                 viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
@@ -110,18 +106,17 @@ public class QuestionActivity extends AppCompatActivity {
                 final QuestionResponse questionModel = questions.get(position);
                 questionModel.setJawabanUser(fragment.getAnswers());
 
-                //final QuestionResponse2 questionModel2 = questions2.get(position);
-                //questionModel2.setJawabanUser(fragment.getAnswers());
+
 
                 viewPager.setCurrentItem(position + 1);
             } else {
                 final int position = viewPager.getCurrentItem();
                 QuestionFragment fragment = (QuestionFragment) adapter.getItem(position);
                 final QuestionResponse questionModel = questions.get(position);
-                //final QuestionResponse2 questionModel2 = questions2.get(position);
+
                 final String answer = fragment.getAnswer();
                 questionModel.setJawabanUser(answer);
-                //questionModel2.setJawabanUser(answer);
+
                 viewPager.setCurrentItem(position + 1);
             }
         });
