@@ -37,6 +37,7 @@ public class DetailAnswerHeadersActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.preview);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         sharedPreferences = getSharedPreferences("pref_user", Context.MODE_PRIVATE);
         password=sharedPreferences.getString("user_password","");
         extras = getIntent().getExtras();

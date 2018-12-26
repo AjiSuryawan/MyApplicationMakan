@@ -53,8 +53,7 @@ public class AnswerHeadersActivity extends AppCompatActivity implements onItemCl
                         case DialogInterface.BUTTON_POSITIVE:
                             if(db.delete(category)){
                                 objectSurveys = new ArrayList<>();
-                                objectSurveys.addAll(db.fetchAllObjectSurvey(category));
-                                adapter = new AnswerHeadersAdapter(this, objectSurveys,mainGroupResponse);
+                                adapter = new AnswerHeadersAdapter(AnswerHeadersActivity.this, objectSurveys,mainGroupResponse);
                                 recyclerView.setAdapter(adapter);
                                 if (objectSurveys.size()==0 ||objectSurveys.isEmpty()){
                                     ln.setVisibility(View.VISIBLE);
@@ -82,8 +81,9 @@ public class AnswerHeadersActivity extends AppCompatActivity implements onItemCl
                             if(db.deleteSyncronizedData(category)){
                                 objectSurveys = new ArrayList<>();
                                 objectSurveys.addAll(db.fetchAllObjectSurvey(category));
-                                adapter = new AnswerHeadersAdapter(this, objectSurveys,mainGroupResponse);
+                                adapter = new AnswerHeadersAdapter(AnswerHeadersActivity.this, objectSurveys,mainGroupResponse);
                                 recyclerView.setAdapter(adapter);
+                                adapter.setListener(this);
                                 if (objectSurveys.size()==0 ||objectSurveys.isEmpty()){
                                     ln.setVisibility(View.VISIBLE);
                                     recyclerView.setVisibility(View.GONE);
@@ -119,7 +119,7 @@ public class AnswerHeadersActivity extends AppCompatActivity implements onItemCl
         db = DatabaseProvider.getInstance();
         objectSurveys.addAll(db.fetchAllObjectSurvey(category));
         Log.d("lebarnya", "onCreate: "+objectSurveys.size());
-        adapter = new AnswerHeadersAdapter(this, objectSurveys,mainGroupResponse);
+        adapter = new AnswerHeadersAdapter(AnswerHeadersActivity.this, objectSurveys,mainGroupResponse);
         adapter.setListener(this);
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
