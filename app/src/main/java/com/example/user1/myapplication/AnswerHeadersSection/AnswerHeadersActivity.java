@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.user1.myapplication.Database.DatabaseProvider;
@@ -32,7 +34,7 @@ public class AnswerHeadersActivity extends AppCompatActivity implements onItemCl
     private AnswerHeadersAdapter adapter;
     private MainGroupResponse mainGroupResponse;
     private DatabaseProvider db;
-
+    LinearLayout ln;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -54,6 +56,13 @@ public class AnswerHeadersActivity extends AppCompatActivity implements onItemCl
                                 objectSurveys.addAll(db.fetchAllObjectSurvey(category));
                                 adapter = new AnswerHeadersAdapter(this, objectSurveys);
                                 recyclerView.setAdapter(adapter);
+                                if (objectSurveys.size()==0 ||objectSurveys.isEmpty()){
+                                    ln.setVisibility(View.VISIBLE);
+                                    recyclerView.setVisibility(View.GONE);
+                                }else {
+                                    ln.setVisibility(View.GONE);
+                                    recyclerView.setVisibility(View.VISIBLE);
+                                }
                             }
                             break;
                         case DialogInterface.BUTTON_NEGATIVE:
@@ -75,6 +84,13 @@ public class AnswerHeadersActivity extends AppCompatActivity implements onItemCl
                                 objectSurveys.addAll(db.fetchAllObjectSurvey(category));
                                 adapter = new AnswerHeadersAdapter(this, objectSurveys);
                                 recyclerView.setAdapter(adapter);
+                                if (objectSurveys.size()==0 ||objectSurveys.isEmpty()){
+                                    ln.setVisibility(View.VISIBLE);
+                                    recyclerView.setVisibility(View.GONE);
+                                }else {
+                                    ln.setVisibility(View.GONE);
+                                    recyclerView.setVisibility(View.VISIBLE);
+                                }
                             }
                             break;
                         case DialogInterface.BUTTON_NEGATIVE:
@@ -110,6 +126,15 @@ public class AnswerHeadersActivity extends AppCompatActivity implements onItemCl
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
+        ln=(LinearLayout)findViewById(R.id.lnkosong);
+        if (objectSurveys.size()==0 ||objectSurveys.isEmpty()){
+            ln.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }else {
+            ln.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+
     }
 
     @Override
@@ -133,6 +158,13 @@ public class AnswerHeadersActivity extends AppCompatActivity implements onItemCl
             objectSurveys = new ArrayList<>();
             objectSurveys.addAll(db.fetchAllObjectSurvey(category));
             adapter.notifyDataSetChanged();
+            if (objectSurveys.size()==0 ||objectSurveys.isEmpty()){
+                ln.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+            }else {
+                ln.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+            }
         }
     }
 
