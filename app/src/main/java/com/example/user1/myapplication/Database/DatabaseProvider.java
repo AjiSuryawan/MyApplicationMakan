@@ -96,7 +96,10 @@ public class DatabaseProvider {
     }
 
     public boolean deleteAllQuestionsByPeriod(String period){
-        RealmResults<QuestionResponse> results = realm.where(QuestionResponse.class).equalTo("period", period).findAll();
+        RealmResults<QuestionResponse> results = realm.where(QuestionResponse.class)
+                .equalTo("period", period)
+                .isNotNull("mgId")
+                .findAll();
         realm.beginTransaction();
         results.deleteAllFromRealm();
         realm.commitTransaction();
