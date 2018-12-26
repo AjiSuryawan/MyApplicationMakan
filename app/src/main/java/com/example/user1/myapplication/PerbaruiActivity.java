@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.user1.myapplication.Network.SurveyHelper;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
@@ -57,14 +58,18 @@ public class PerbaruiActivity extends AppCompatActivity {
         });
         surveyHelper = SurveyHelper.getInstance(this);
         updateBtn.setOnClickListener(v -> {
-            updateBtn.setEnabled(false);
-            surveyHelper.getAllQuestions(password, period, true);
+            if (period.equalsIgnoreCase("") || period==""){
+                Toast.makeText(getApplicationContext(),"pilih period",Toast.LENGTH_SHORT).show();
+            }else {
+                surveyHelper.getAllQuestions(password, period, true);
+            }
         });
 
         btnrefreshheader = (Button) findViewById(R.id.btnupdateHeader);
         btnrefreshheader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 surveyHelper.getMainGroups(password,true);
             }
         });

@@ -104,6 +104,12 @@ public class SurveyHelper {
     }
 
     public void getMainGroups(String password,boolean isrefresh) {
+        if (isrefresh){
+            progress = new ProgressDialog(sActivity);
+            progress.setMessage("Loading...");
+            progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progress.show();
+        }
         try {
             JSONObject body = new JSONObject();
             body.put("password", password);
@@ -119,6 +125,7 @@ public class SurveyHelper {
                             getAllQuestions(password,"1", false);
                         }else{
                             sActivity.finish();
+                            progress.dismiss();
                         }
                     } catch (Exception e) {
                         Toast.makeText(sActivity, e.getMessage(), Toast.LENGTH_LONG).show();
@@ -137,6 +144,12 @@ public class SurveyHelper {
     }
 
     public void getAllQuestions(String password , String period, boolean isUpdate){
+        if (isUpdate){
+            progress = new ProgressDialog(sActivity);
+            progress.setMessage("Loading...");
+            progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progress.show();
+        }
         try {
             JSONObject body = new JSONObject();
             body.put("password", password);
@@ -260,6 +273,7 @@ public class SurveyHelper {
             });
         }
         else {
+            progress.dismiss();
             Toast.makeText(sActivity, "This header is already syncronized", Toast.LENGTH_SHORT).show();
         }
     }

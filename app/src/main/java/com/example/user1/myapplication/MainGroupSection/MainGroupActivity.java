@@ -96,7 +96,10 @@ public class MainGroupActivity extends AppCompatActivity implements onItemClickL
                         .setNegativeButton(android.R.string.no, null)
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface arg0, int arg1) {
-
+                                SharedPreferences settings = getSharedPreferences("pref_user", Context.MODE_PRIVATE);
+                                settings.edit().clear().commit();
+                                startActivity(new Intent(getApplicationContext(),ControlClass.class));
+                                finish();
                             }
                         }).create().show();
                 return true;
