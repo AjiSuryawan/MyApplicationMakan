@@ -81,11 +81,10 @@ public class SurveyHelper {
                         editor.putString("user_status", response.body().getStatus());
                         editor.putInt("pernah_login", 1);
                         editor.apply();
-                        Toast.makeText(sActivity, "success login", Toast.LENGTH_SHORT).show();
                         Log.e("success", "onResponse: " + response.body().getEmail());
                         //save password
 
-                        getMainGroups(password);
+                        getMainGroups(password,false);
 
                     } catch (Exception e) {
                         Toast.makeText(sActivity, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -104,7 +103,7 @@ public class SurveyHelper {
         }
     }
 
-    public void getMainGroups(String password) {
+    public void getMainGroups(String password,boolean isrefresh) {
         try {
             JSONObject body = new JSONObject();
             body.put("password", password);
@@ -114,11 +113,13 @@ public class SurveyHelper {
                 @Override
                 public void onResponse(Call<ArrayList<MainGroupResponse>> call, Response<ArrayList<MainGroupResponse>> response) {
                     try {
-                        Toast.makeText(sActivity, "Success", Toast.LENGTH_SHORT).show();
                         db = DatabaseProvider.getInstance();
                         db.insert(response.body());
-                        Toast.makeText(sActivity, "success maingroup", Toast.LENGTH_SHORT).show();
-                        getAllQuestions(password,"1", false);
+                        if (!isrefresh){
+                            getAllQuestions(password,"1", false);
+                        }else{
+                            sActivity.finish();
+                        }
                     } catch (Exception e) {
                         Toast.makeText(sActivity, e.getMessage(), Toast.LENGTH_LONG).show();
                         Log.d("1234567", "onResponse: " + e.getMessage());
@@ -137,7 +138,6 @@ public class SurveyHelper {
 
     public void getAllQuestions(String password , String period, boolean isUpdate){
         try {
-            Toast.makeText(sActivity, "fetching questions", Toast.LENGTH_SHORT).show();
             JSONObject body = new JSONObject();
             body.put("password", password);
             body.put("period", period);
@@ -146,7 +146,6 @@ public class SurveyHelper {
                 @Override
                 public void onResponse(Call<ArrayList<QuestionResponse>> call, Response<ArrayList<QuestionResponse>> response) {
                     try{
-                        Toast.makeText(sActivity, "success", Toast.LENGTH_SHORT).show();
                         if(isUpdate) db.deleteAllQuestionsByPeriod(period);
                         db.insert(response.body());
                         sActivity.startActivity(new Intent(sActivity, MainGroupActivity.class));
@@ -173,7 +172,6 @@ public class SurveyHelper {
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.show();
         try {
-            Toast.makeText(sActivity, "fetching questions", Toast.LENGTH_SHORT).show();
             JSONObject body = new JSONObject();
             body.put("password", password);
             body.put("period", period);
@@ -182,7 +180,6 @@ public class SurveyHelper {
                 @Override
                 public void onResponse(Call<ArrayList<QuestionResponse>> call, Response<ArrayList<QuestionResponse>> response) {
                     try{
-                        Toast.makeText(sActivity, "success", Toast.LENGTH_SHORT).show();
                         db.insert(response.body());
                         Intent intent = new Intent(sActivity, QuestionHeaderActivity.class);
                         Log.e(TAG, "Period: " + period);
@@ -239,7 +236,6 @@ public class SurveyHelper {
                 public void onResponse(Call<SendAnswersRequest> call, Response<SendAnswersRequest> response) {
                     try {
                         if (response.body().getMessage().equals("")) {
-                            Toast.makeText(sActivity, "Success", Toast.LENGTH_SHORT).show();
                             db = DatabaseProvider.getInstance();
                             db.update(objectSurvey);
                             /*Intent intent = new Intent(sActivity, ShowDataActivity.class);
