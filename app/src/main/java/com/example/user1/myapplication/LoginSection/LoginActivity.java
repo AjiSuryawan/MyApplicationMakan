@@ -62,7 +62,6 @@ public class LoginActivity extends AppCompatActivity {
             if(username.isEmpty() || userPassword.isEmpty() || password.isEmpty()){
                 Toast.makeText(LoginActivity.this, "Form is empty", Toast.LENGTH_SHORT).show();
             } else {
-                btnlogin.setEnabled(false);
                 helper.loginService(username, userPassword, password);
             }
         });
