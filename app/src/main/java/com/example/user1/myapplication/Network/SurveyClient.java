@@ -14,7 +14,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class SurveyClient {
     private static Retrofit retrofit = null;
-    public static final String BASE_URL = "http://www.unicef-schoolprofiling.com/";
+    public static String BASE_URL = "";
     private static final HttpLoggingInterceptor logging = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
     private static OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
     public static Retrofit getRetrofit(){
