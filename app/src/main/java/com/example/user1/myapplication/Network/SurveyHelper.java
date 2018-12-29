@@ -83,9 +83,14 @@ public class SurveyHelper {
                         editor.apply();
                         Log.e("success", "onResponse: " + response.body().getEmail());
                         //save password
-
-                        getMainGroups(password,false);
-
+                        if (db.fetchAllMainGroup().size()==0 ||db.fetchAllMainGroup().isEmpty()
+                                ||db.fetchAllMainGroup()==null) {
+                            getMainGroups(password, false);
+                        }else{
+                            sActivity.startActivity(new Intent(sActivity, MainGroupActivity.class));
+                            sActivity.finish();
+                            progress.dismiss();
+                        }
                     } catch (Exception e) {
                         Toast.makeText(sActivity, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -61,6 +62,7 @@ public class MainGroupActivity extends AppCompatActivity implements onItemClickL
         adapter = new MainGroupAdapter(this, mainGroups);
 
         mainGroups.addAll(db.fetchAllMainGroup());
+        Log.d("grupku", "onCreate: "+mainGroups.size());
 
         adapter.setListener(this);
         recyclerView.setHasFixedSize(true);
