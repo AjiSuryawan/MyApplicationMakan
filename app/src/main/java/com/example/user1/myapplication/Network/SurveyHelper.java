@@ -73,23 +73,31 @@ public class SurveyHelper {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                     try {
-                        editor.putString("user_id", response.body().getId());
-                        editor.putString("user_username", response.body().getUsername());
-                        editor.putString("user_name", response.body().getName());
-                        editor.putString("user_password", password);
-                        editor.putString("user_email", response.body().getEmail());
-                        editor.putString("user_status", response.body().getStatus());
-                        editor.putInt("pernah_login", 1);
-                        editor.apply();
-                        Log.e("success", "onResponse: " + response.body().getEmail());
-                        //save password
-                        if (db.fetchAllMainGroup().size()==0 ||db.fetchAllMainGroup().isEmpty()
-                                ||db.fetchAllMainGroup()==null) {
-                            getMainGroups(password, false);
-                        }else{
-                            sActivity.startActivity(new Intent(sActivity, MainGroupActivity.class));
-                            sActivity.finish();
+
+                        if (response.body().getId()==null){
                             progress.dismiss();
+                            Toast.makeText(sActivity, "login gagal", Toast.LENGTH_SHORT).show();
+                        }else {
+                            editor.putString("user_id", response.body().getId());
+                            editor.putString("user_username", response.body().getUsername());
+                            editor.putString("user_name", response.body().getName());
+                            editor.putString("user_password", password);
+                            editor.putString("user_email", response.body().getEmail());
+                            editor.putString("user_status", response.body().getStatus());
+                            editor.putInt("pernah_login", 1);
+                            editor.apply();
+                            Log.e("success", "onResponse: " + response.body().getEmail());
+                            //save password
+                            if (db.fetchAllMainGroup().size()==0 ||db.fetchAllMainGroup().isEmpty()
+                                    ||db.fetchAllMainGroup()==null) {
+                                Log.d("getmaingroup", "onResponse: "+response.body().getId());
+                                getMainGroups(password, false);
+                            }else{
+                                sActivity.startActivity(new Intent(sActivity, MainGroupActivity.class));
+                                sActivity.finish();
+                                progress.dismiss();
+                            }
+
                         }
                     } catch (Exception e) {
                         Toast.makeText(sActivity, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -125,10 +133,12 @@ public class SurveyHelper {
                 public void onResponse(Call<ArrayList<MainGroupResponse>> call, Response<ArrayList<MainGroupResponse>> response) {
                     try {
                         db = DatabaseProvider.getInstance();
-                        db.insert(response.body());
                         if (!isrefresh){
+                            db.insert(response.body());
                             getAllQuestions(password,"1", false);
                         }else{
+                            db.deleteAllMainGroup();
+                            db.insert(response.body());
                             sActivity.finish();
                             progress.dismiss();
                         }

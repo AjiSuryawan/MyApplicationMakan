@@ -107,6 +107,14 @@ public class DatabaseProvider {
         return true;
     }
 
+    public boolean deleteAllMainGroup() {
+        RealmResults<MainGroupResponse> makan=realm.where(MainGroupResponse.class).findAll();
+        realm.beginTransaction();
+        makan.deleteAllFromRealm();
+        realm.commitTransaction();
+        return true;
+    }
+
     public RealmResults<MainGroupResponse> fetchAllMainGroup() {
         return realm.where(MainGroupResponse.class).findAll();
     }
