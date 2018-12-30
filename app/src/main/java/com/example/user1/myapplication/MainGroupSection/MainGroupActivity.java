@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import com.example.user1.myapplication.ControlClass;
 import com.example.user1.myapplication.Database.DatabaseProvider;
@@ -24,6 +26,8 @@ import com.example.user1.myapplication.ShowDataSection.ShowDataActivity;
 import com.example.user1.myapplication.onItemClickListener;
 
 import java.util.ArrayList;
+
+import static com.example.user1.myapplication.AnswerHeadersSection.AnswerHeadersActivity.REQUEST_CODE;
 
 public class MainGroupActivity extends AppCompatActivity implements onItemClickListener {
 
@@ -58,18 +62,34 @@ public class MainGroupActivity extends AppCompatActivity implements onItemClickL
         recyclerView = findViewById(R.id.recycler_view);
 
         db = DatabaseProvider.getInstance();
-
-        adapter = new MainGroupAdapter(this, mainGroups);
-
         mainGroups.addAll(db.fetchAllMainGroup());
+        adapter = new MainGroupAdapter(this, mainGroups);
         Log.d("grupku", "onCreate: "+mainGroups.size());
 
         adapter.setListener(this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        // check if the request code is same as what is passed  here it is 2
+        if(requestCode==REQUEST_CODE)
+        {
+            Toast.makeText(getApplicationContext(),"masuk sini", Toast.LENGTH_SHORT).show();
+            mainGroups.clear();
+            db = DatabaseProvider.getInstance();
+            mainGroups.addAll(db.fetchAllMainGroup());
+            adapter.notifyDataSetChanged();
+
+//            finish();
+//            Intent in=new Intent(getApplicationContext(),MainGroupActivity.class);
+//            startActivity(in);
+        }
     }
 
     @Override
@@ -89,7 +109,8 @@ public class MainGroupActivity extends AppCompatActivity implements onItemClickL
                 return true;
             case R.id.action_update_data:
                 Intent updateIntent = new Intent(this, PerbaruiActivity.class);
-                startActivity(updateIntent);
+                //startActivity(updateIntent);
+                startActivityForResult(updateIntent , REQUEST_CODE);
                 return true;
             case R.id.logout:
                 new AlertDialog.Builder(this)

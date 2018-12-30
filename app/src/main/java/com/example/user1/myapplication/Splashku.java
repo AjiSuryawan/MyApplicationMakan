@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.constraint.ConstraintLayout;
 import android.os.Bundle;
 import android.view.Window;
@@ -12,6 +13,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.OvershootInterpolator;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class Splashku extends Activity {
@@ -28,6 +30,9 @@ public class Splashku extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splashku);
+
+
+
 
         layout = findViewById(R.id.rootSplash);
         title = findViewById(R.id.title);
@@ -52,5 +57,6 @@ public class Splashku extends Activity {
             startActivity(i);
             finish();
         }, 1600);
+
     }
 }

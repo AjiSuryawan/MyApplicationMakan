@@ -132,11 +132,10 @@ public class LoginActivity extends AppCompatActivity {
                     root.mkdirs();
                 }
                 gpxfile = new File(root, fileName);
-                FileWriter writer = new FileWriter(gpxfile,true);
+                FileWriter writer = new FileWriter(gpxfile,false);
                 writer.append("http://www.unicef-schoolprofiling.com/");
                 writer.flush();
                 writer.close();
-                Toast.makeText(this, "Data has been written to Report File", Toast.LENGTH_SHORT).show();
             }
             catch(IOException e)
             {

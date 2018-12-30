@@ -139,8 +139,11 @@ public class SurveyHelper {
                         }else{
                             db.deleteAllMainGroup();
                             db.insert(response.body());
-                            sActivity.finish();
+                            //
+                            Intent i = new Intent();
+                            sActivity.setResult(REQUEST_CODE, i);
                             progress.dismiss();
+                            sActivity.finish();
                         }
                     } catch (Exception e) {
                         Toast.makeText(sActivity, e.getMessage(), Toast.LENGTH_LONG).show();
