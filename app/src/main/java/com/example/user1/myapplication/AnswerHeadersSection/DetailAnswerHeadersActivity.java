@@ -34,6 +34,12 @@ public class DetailAnswerHeadersActivity extends AppCompatActivity {
     String password="";
 
     @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.preview);
