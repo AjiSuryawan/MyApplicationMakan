@@ -84,7 +84,7 @@ public class PreviewAdapter extends RecyclerView.Adapter<PreviewAdapter.MyViewHo
                 else
                     answers.append(answer+ ",\n");
             }
-            tvAnswer.setText(answers.toString());
+            tvAnswer.setText("Jawaban: " + answers.toString());
             tvNo.setText(position + ". ");
         }
     }

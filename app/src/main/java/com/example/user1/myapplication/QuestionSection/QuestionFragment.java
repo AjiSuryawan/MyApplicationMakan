@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,7 +22,6 @@ import android.widget.TextView;
 
 import com.example.user1.myapplication.Model.QuestionResponse;
 import com.example.user1.myapplication.R;
-import com.example.user1.myapplication.onItemClickListener;
 
 import java.util.ArrayList;
 
@@ -38,6 +36,7 @@ public class QuestionFragment extends Fragment {
     private RadioButton[] radioButtons;
     private ViewGroup checkboxLayout;
     private CheckBox[] checkBoxes;
+    private EditText etNote;
     private String question = "";
     private int totalQuestion = 0;
     private int questNo = 0;
@@ -136,6 +135,7 @@ public class QuestionFragment extends Fragment {
         if(layout == R.layout.question_singleanswer){
             tvPageIndicator = view.findViewById(R.id.page_indicator);
             tvQuestion = view.findViewById(R.id.tv_question);
+            etNote = view.findViewById(R.id.et_note);
             tvQuestion.setText(question);
             tvPageIndicator.setText(questNo + "/" + totalQuestion);
             radioGroup = view.findViewById(R.id.radio_group);
@@ -152,6 +152,7 @@ public class QuestionFragment extends Fragment {
         if(layout == R.layout.question_multipleanswer){
             tvPageIndicator = view.findViewById(R.id.page_indicator);
             tvQuestion = view.findViewById(R.id.tv_question);
+            etNote = view.findViewById(R.id.et_note);
             tvQuestion.setText(question);
             tvPageIndicator.setText(questNo + "/" + totalQuestion);
             checkboxLayout = view.findViewById(R.id.checkbox_layout);
@@ -175,13 +176,17 @@ public class QuestionFragment extends Fragment {
             case R.layout.question_default:
                 return inputAnswer.getText().toString().isEmpty() ? "" : inputAnswer.getText().toString();
             case R.layout.question_singleanswer:
-                String answer = "";
+                StringBuilder answer = new StringBuilder();
                 for (RadioButton radioButton : radioButtons) {
                     if(radioButton.getId() == radioGroup.getCheckedRadioButtonId()){
-                        answer = radioButton.getText().toString();
+                        answer.append(radioButton.getText().toString());
                     }
                 }
-                return answer;
+                String note = "Note: " + etNote.getText().toString();
+                if(!etNote.getText().toString().isEmpty()){
+                    answer.append(", " + note);
+                }
+                return answer.toString();
                 default:
                     return "";
         }
@@ -194,6 +199,10 @@ public class QuestionFragment extends Fragment {
                 answers.add(checkbox.getText().toString());
                 Log.e("Answer", "CheckBox: " + checkbox.getText().toString() );
             }
+        }
+        String note = "\nNote: " + etNote.getText().toString();
+        if(!etNote.getText().toString().isEmpty()){
+            answers.add(note);
         }
         return answers;
     }

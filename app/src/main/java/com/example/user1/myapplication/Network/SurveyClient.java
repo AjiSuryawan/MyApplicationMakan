@@ -31,16 +31,4 @@ public class SurveyClient {
         }
         return retrofit;
     }
-    public static Retrofit getRetrofitWithoutConverter(){
-        if(retrofit == null){
-            if(BuildConfig.DEBUG){
-                okHttpClient = okHttpClient.addInterceptor(logging);
-            }
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .client(okHttpClient.build())
-                    .build();
-        }
-        return retrofit;
-    }
 }

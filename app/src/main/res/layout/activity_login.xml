@@ -25,14 +25,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="username"
-                android:text="marsel" />
+                android:text="gurupaud" />
 
             <EditText
                 android:id="@+id/et_userpassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="userpassword"
-                android:text="marsel" />
+                android:text="gurupaud" />
 
             <EditText
                 android:id="@+id/txtpassword"
